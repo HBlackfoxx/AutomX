@@ -31,7 +31,20 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+Verify compliance with AutomX Constitution (`.specify/memory/constitution.md`):
+
+- [ ] **Code Quality**: TypeScript strict mode enabled, ESLint/Prettier configured, max 250 lines/file
+- [ ] **Performance**: Lighthouse 95+ targets, Core Web Vitals thresholds, <100KB JS bundle
+- [ ] **Testing**: Unit tests for utilities, cross-browser testing plan, Lighthouse CI in pipeline
+- [ ] **UX Consistency**: Tailwind spacing, purple accent colors, mobile-first responsive (390/1440/1920px)
+- [ ] **SEO & Accessibility**: Semantic HTML5, WCAG 2.1 AA contrast, proper heading hierarchy
+- [ ] **i18n**: French primary/English secondary, externalized strings, locale-aware formatting
+- [ ] **Security**: GDPR compliance, client+server validation, no secrets in code
+- [ ] **Content**: Markdown schema validation, descriptive image filenames in `/public/images/`
+- [ ] **Workflow**: Feature branches, Conventional Commits, pre-commit hooks
+- [ ] **Deployment**: Automated on main push, preview deployments for PRs, Web Vitals monitoring
+- [ ] **Design Fidelity**: Pixel-perfect Figma implementation, exact breakpoints, 3D logo quality
+- [ ] **Violations Justified**: Any constitutional violations documented in Complexity Tracking section
 
 ## Project Structure
 

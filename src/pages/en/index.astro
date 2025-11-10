@@ -1,0 +1,43 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/home/Hero.astro';
+import ValuePropositions from '@components/home/ValuePropositions.astro';
+import ServicesOverview from '@components/home/ServicesOverview.astro';
+import FeaturedProjects from '@components/home/FeaturedProjects.astro';
+import FAQ from '@components/home/FAQ.astro';
+import FinalCTA from '@components/home/FinalCTA.astro';
+
+const lang = 'en';
+const title = 'AutomX - Business Process Automation Solutions';
+const description = 'Automate your business processes and unlock your company\'s potential with expert workflow optimization. Save time, reduce errors, and boost productivity.';
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  noindex={false}
+>
+  <!-- Hero Section -->
+  <Hero />
+
+  <!-- Value Propositions Section -->
+  <ValuePropositions />
+
+  <!-- Services Overview Section -->
+  <ServicesOverview />
+
+  <!-- Featured Projects Section -->
+  <FeaturedProjects />
+
+  <!-- FAQ Section -->
+  <FAQ />
+
+  <!-- Final CTA Section -->
+  <FinalCTA />
+
+  <!-- Initialize scroll animations -->
+  <script>
+    import '@scripts/scroll-animations.ts';
+  </script>
+</BaseLayout>

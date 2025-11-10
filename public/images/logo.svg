@@ -1,0 +1,18 @@
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle with gradient -->
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#A855F7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C084FC;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Icon: Stylized "A" with automation symbol -->
+  <circle cx="30" cy="30" r="24" fill="url(#logoGradient)"/>
+  <path d="M 22 38 L 30 20 L 38 38 M 26 32 L 34 32" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- AutomX Text -->
+  <text x="62" y="38" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#A855F7">
+    AutomX
+  </text>
+</svg>

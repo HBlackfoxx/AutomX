@@ -1,0 +1,72 @@
+---
+interface Props {
+  title: string;
+  items: string[];
+  color?: 'cyan' | 'purple' | 'green';
+}
+
+const { title, items, color = 'cyan' } = Astro.props;
+
+import { useTranslations } from '@i18n/utils';
+const lang = Astro.currentLocale || 'fr';
+const { t } = useTranslations(lang as 'fr' | 'en');
+
+const colorClasses = {
+  cyan: 'text-cyan-500',
+  purple: 'text-cyan-500',
+  green: 'text-cyan-500'
+};
+
+const checkColor = colorClasses[color];
+---
+
+<section class="py-16 md:py-20 bg-background">
+  <div class="container-custom">
+    <div class="max-w-3xl mx-auto">
+      <!-- Title -->
+      <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-foreground font-mono">
+        {title}
+      </h2>
+
+      <!-- Deliverables List -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {items.map((item, index) => (
+          <div
+            class="deliverable-item flex items-start gap-3 p-4 rounded-lg bg-background border border-border hover:border-cyan-500/50 transition-all duration-300"
+            style={`animation-delay: ${index * 100}ms`}
+          >
+            <!-- Check Icon -->
+            <div class="flex-shrink-0 mt-1">
+              <svg class={`w-5 h-5 ${checkColor}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+
+            <!-- Text -->
+            <p class="text-sm text-foreground font-medium">
+              {t(item)}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .deliverable-item {
+    opacity: 0;
+    animation: fadeInLeft 0.5s ease-out forwards;
+  }
+
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+</style>

@@ -1,0 +1,165 @@
+---
+interface Props {
+  title: string;
+  tagline: string;
+  subtitle: string;
+  ctaText: string;
+  ctaHref?: string;
+  color?: 'cyan' | 'purple' | 'green';
+}
+
+const {
+  title,
+  tagline,
+  subtitle,
+  ctaText,
+  ctaHref = '/contact',
+  color = 'cyan'
+} = Astro.props;
+
+const colorClasses = {
+  cyan: {
+    badge: 'from-cyan-500/20 to-cyan-500/5 border-cyan-500/30',
+    badgeText: 'text-cyan-500',
+    gradient: 'from-cyan-500/10 via-transparent to-transparent',
+    glow: 'cyan-glow-hover',
+    button: 'bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700'
+  },
+  purple: {
+    badge: 'from-cyan-500/20 to-cyan-500/5 border-cyan-500/30',
+    badgeText: 'text-cyan-500',
+    gradient: 'from-cyan-500/10 via-transparent to-transparent',
+    glow: 'cyan-glow-hover',
+    button: 'bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700'
+  },
+  green: {
+    badge: 'from-cyan-500/20 to-cyan-500/5 border-cyan-500/30',
+    badgeText: 'text-cyan-500',
+    gradient: 'from-cyan-500/10 via-transparent to-transparent',
+    glow: 'cyan-glow-hover',
+    button: 'bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700'
+  }
+};
+
+const colors = colorClasses[color];
+---
+
+<section class="relative py-20 md:py-32 overflow-hidden bg-background">
+  <!-- Animated Background -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-30`}></div>
+    <div class="cyber-grid"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="container-custom relative z-10">
+    <div class="max-w-4xl mx-auto text-center">
+      <!-- Tagline Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-sm border mb-6 animate-fade-in"
+           class={`bg-gradient-to-r ${colors.badge}`}>
+        <span class="pulse-dot" data-color={color}></span>
+        <span class={`text-xs font-mono uppercase tracking-widest ${colors.badgeText}`}>
+          {tagline}
+        </span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground font-mono animate-fade-in" style="animation-delay: 100ms">
+        {title}
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed animate-fade-in" style="animation-delay: 200ms">
+        {subtitle}
+      </p>
+
+      <!-- CTA Button -->
+      <div class="animate-fade-in" style="animation-delay: 300ms">
+        <a
+          href={ctaHref}
+          class={`inline-flex items-center gap-2 px-8 py-4 rounded-lg ${colors.button} text-white font-semibold font-mono transition-all duration-300 hover:scale-105 hover:shadow-xl ${colors.glow}`}
+        >
+          {ctaText}
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Decorative Elements -->
+  <div class="absolute top-0 left-0 w-64 h-64 bg-gradient-radial from-cyan-500/10 to-transparent rounded-full blur-3xl"></div>
+  <div class="absolute bottom-0 right-0 w-96 h-96 bg-gradient-radial from-cyan-500/10 to-transparent rounded-full blur-3xl"></div>
+</section>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: pulse-animation 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .pulse-dot[data-color="cyan"] {
+    background: #06b6d4;
+  }
+
+  .pulse-dot[data-color="purple"] {
+    background: #06b6d4;
+  }
+
+  .pulse-dot[data-color="green"] {
+    background: #06b6d4;
+  }
+
+  @keyframes pulse-animation {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .cyber-grid {
+    background-image:
+      linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: grid-animation 20s linear infinite;
+  }
+
+  @keyframes grid-animation {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 50px 50px;
+    }
+  }
+
+  .cyan-glow-hover {
+    transition: box-shadow 0.3s ease;
+  }
+
+  .cyan-glow-hover:hover {
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.5);
+  }
+</style>

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "time-saving",
+    "icon": "clock",
+    "titleKey": "valueProps.prop1_title",
+    "descKey": "valueProps.prop1_desc"
+  },
+  {
+    "id": "error-reduction",
+    "icon": "shield-check",
+    "titleKey": "valueProps.prop2_title",
+    "descKey": "valueProps.prop2_desc"
+  },
+  {
+    "id": "roi",
+    "icon": "trending-up",
+    "titleKey": "valueProps.prop3_title",
+    "descKey": "valueProps.prop3_desc"
+  },
+  {
+    "id": "integration",
+    "icon": "link",
+    "titleKey": "valueProps.prop4_title",
+    "descKey": "valueProps.prop4_desc"
+  },
+  {
+    "id": "support",
+    "icon": "headphones",
+    "titleKey": "valueProps.prop5_title",
+    "descKey": "valueProps.prop5_desc"
+  },
+  {
+    "id": "scalability",
+    "icon": "arrow-up-right",
+    "titleKey": "valueProps.prop6_title",
+    "descKey": "valueProps.prop6_desc"
+  }
+]

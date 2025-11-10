@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import ProjectWebDevLayout from '@layouts/ProjectWebDevLayout.astro';
+import ProjectDataLayout from '@layouts/ProjectDataLayout.astro';
+import ProjectAutomationLayout from '@layouts/ProjectAutomationLayout.astro';
+
+export const getStaticPaths = (async () => {
+  const projects = await getCollection('projects-en', ({ data }) => data.published === true);
+
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}) satisfies GetStaticPaths;
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+
+// Select layout based on category
+const LayoutComponent =
+  project.data.category === 'web-development' ? ProjectWebDevLayout :
+  project.data.category === 'data-analysis' ? ProjectDataLayout :
+  ProjectAutomationLayout;
+---
+
+<LayoutComponent frontmatter={project.data} lang="en">
+  <Content />
+</LayoutComponent>

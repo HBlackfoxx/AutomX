@@ -1,0 +1,467 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import WorkflowDiagram from '@components/projects/WorkflowDiagram.astro';
+
+const { frontmatter, lang = 'fr' } = Astro.props;
+
+const {
+  title,
+  description,
+  client,
+  technologies = [],
+  industry,
+  timeSaved,
+  roi,
+  workflows = [],
+  integrations = [],
+  benefits = [],
+  processSteps = []
+} = frontmatter;
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${title} - ${client} | AutomX`}
+  description={description}
+  noindex={false}
+>
+  <!-- Project Hero - Automation Impact -->
+  <section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-background border-b border-border/30">
+    <div class="cyber-grid"></div>
+    <div class="scan-lines"></div>
+
+    <div class="container-custom relative z-10 py-12 md:py-20">
+      <div class="max-w-7xl mx-auto">
+        <!-- Back Button -->
+        <a
+          href={lang === 'fr' ? '/projets' : '/en/projects'}
+          class="inline-flex items-center gap-2 text-sm font-mono text-muted-foreground hover:text-cyan-500 transition-colors mb-6 group fade-in-scroll"
+        >
+          <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+          {lang === 'en' ? 'Back to projects' : 'Retour aux projets'}
+        </a>
+
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <!-- Left: Project Info -->
+          <div>
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-500/30 backdrop-blur-sm mb-6 animate-fade-in-up">
+              <span class="pulse-dot bg-cyan-500"></span>
+              <span class="text-xs font-mono text-cyan-500 uppercase tracking-widest">{lang === 'en' ? 'Process Automation' : 'Automatisation'}</span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 animate-fade-in-up" style="animation-delay: 0.1s">
+              <span class="text-gradient-green">{title}</span>
+            </h1>
+
+            <!-- Meta Info -->
+            <div class="grid grid-cols-2 gap-4 mb-6 animate-fade-in-up" style="animation-delay: 0.2s">
+              <div class="p-4 rounded-lg border border-border/30 bg-background/50 backdrop-blur-sm">
+                <div class="text-xs font-mono text-muted-foreground mb-1 uppercase tracking-wider">{lang === 'en' ? 'Client' : 'Client'}</div>
+                <div class="font-mono text-cyan-500 font-bold">{client}</div>
+              </div>
+              <div class="p-4 rounded-lg border border-border/30 bg-background/50 backdrop-blur-sm">
+                <div class="text-xs font-mono text-muted-foreground mb-1 uppercase tracking-wider">{lang === 'en' ? 'Industry' : 'Secteur'}</div>
+                <div class="font-mono text-cyan-500 font-bold">{industry}</div>
+              </div>
+              {timeSaved && (
+                <div class="p-4 rounded-lg border border-cyan-500/30 bg-cyan-500/10 backdrop-blur-sm">
+                  <div class="text-xs font-mono text-muted-foreground mb-1 uppercase tracking-wider">{lang === 'en' ? 'Time Saved' : 'Temps Gagné'}</div>
+                  <div class="font-mono text-cyan-500 font-bold text-xl">{timeSaved}</div>
+                </div>
+              )}
+              {roi && (
+                <div class="p-4 rounded-lg border border-cyan-500/30 bg-cyan-500/10 backdrop-blur-sm">
+                  <div class="text-xs font-mono text-muted-foreground mb-1 uppercase tracking-wider">ROI</div>
+                  <div class="font-mono text-cyan-500 font-bold text-xl">{roi}</div>
+                </div>
+              )}
+            </div>
+
+            <!-- Description -->
+            <p class="text-lg text-muted-foreground mb-8 leading-relaxed animate-fade-in-up" style="animation-delay: 0.3s">
+              {description}
+            </p>
+
+            <!-- Tech Stack -->
+            {technologies && technologies.length > 0 && (
+              <div class="animate-fade-in-up" style="animation-delay: 0.4s">
+                <div class="text-xs font-mono text-muted-foreground mb-3 uppercase tracking-wider">{lang === 'en' ? 'Automation Stack' : 'Stack d\'Automatisation'}</div>
+                <div class="flex flex-wrap gap-2">
+                  {technologies.map((tech: string) => (
+                    <span class="px-3 py-1.5 text-xs font-mono bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-cyan-500 hover:bg-cyan-500/20 hover:scale-105 transition-all duration-300">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <!-- Right: Before/After Visualization -->
+          <div class="relative automation-hero fade-in-scroll" style="animation-delay: 0.2s">
+            <div class="before-after-container">
+              <!-- Before State -->
+              <div class="before-card">
+                <div class="flex items-center gap-2 mb-4">
+                  <div class="w-8 h-8 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                  </div>
+                  <span class="text-sm font-mono text-red-500 uppercase tracking-wider">{lang === 'en' ? 'Before' : 'Avant'}</span>
+                </div>
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                    <span>{lang === 'en' ? 'Manual processes' : 'Processus manuels'}</span>
+                  </div>
+                  <div class="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                    <span>{lang === 'en' ? 'Human errors' : 'Erreurs humaines'}</span>
+                  </div>
+                  <div class="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                    <span>{lang === 'en' ? 'Time-consuming' : 'Chronophage'}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Arrow Transformation -->
+              <div class="transform-arrow">
+                <svg class="w-12 h-12 text-cyan-500 animate-pulse-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+              </div>
+
+              <!-- After State -->
+              <div class="after-card">
+                <div class="flex items-center gap-2 mb-4">
+                  <div class="w-8 h-8 rounded-full bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                  </div>
+                  <span class="text-sm font-mono text-cyan-500 uppercase tracking-wider">{lang === 'en' ? 'After' : 'Après'}</span>
+                </div>
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2 text-sm text-foreground">
+                    <div class="w-2 h-2 rounded-full bg-cyan-500"></div>
+                    <span>{lang === 'en' ? 'Fully automated' : 'Entièrement automatisé'}</span>
+                  </div>
+                  <div class="flex items-center gap-2 text-sm text-foreground">
+                    <div class="w-2 h-2 rounded-full bg-cyan-500"></div>
+                    <span>{lang === 'en' ? '99.9% accuracy' : 'Précision 99,9%'}</span>
+                  </div>
+                  <div class="flex items-center gap-2 text-sm text-foreground">
+                    <div class="w-2 h-2 rounded-full bg-cyan-500"></div>
+                    <span>{lang === 'en' ? 'Instant execution' : 'Exécution instantanée'}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Decorative Elements -->
+            <div class="absolute -top-4 -right-4 w-24 h-24 bg-cyan-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-cyan-500/5 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1s"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Automated Workflows -->
+  {processSteps && processSteps.length > 0 && (
+    <section class="relative py-16 md:py-24 bg-background border-b border-border/30">
+      <div class="container-custom relative z-10">
+        <div class="max-w-5xl mx-auto">
+          <div class="text-center mb-12 fade-in-scroll">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 mb-4">
+              <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              <span class="text-xs font-mono text-cyan-500 uppercase tracking-widest">{lang === 'en' ? 'Automation Flow' : 'Flux d\'Automatisation'}</span>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">{lang === 'en' ? 'Automated Process' : 'Processus Automatisé'}</h2>
+            <p class="text-muted-foreground max-w-2xl mx-auto">
+              {lang === 'en'
+                ? 'End-to-end automation workflow designed for maximum efficiency'
+                : 'Flux d\'automatisation de bout en bout conçu pour une efficacité maximale'
+              }
+            </p>
+          </div>
+
+          <WorkflowDiagram steps={processSteps} variant="green" />
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Workflow Details -->
+  {workflows && workflows.length > 0 && (
+    <section class="relative py-16 md:py-24 bg-background">
+      <div class="cyber-grid-light"></div>
+
+      <div class="container-custom relative z-10">
+        <div class="max-w-7xl mx-auto">
+          <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center fade-in-scroll">{lang === 'en' ? 'Workflow Details' : 'Détails des Flux de Travail'}</h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {workflows.map((workflow: any, index: number) => (
+              <div
+                class="workflow-detail-card card-border-glow-hover card-hover-glow relative p-[1px] overflow-hidden rounded-xl fade-in-scroll"
+                style={`animation-delay: ${index * 0.1}s`}
+              >
+                <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-cyan-500/20 via-cyan-500/10 to-transparent"></div>
+                <div class="relative rounded-xl bg-background p-6">
+                  <div class="flex items-start gap-4 mb-4">
+                    <div class="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/30 flex-shrink-0">
+                      <span class="font-mono font-bold text-cyan-500">{index + 1}</span>
+                    </div>
+                    <div class="flex-1">
+                      <h3 class="font-bold text-lg mb-2 text-foreground">{workflow.name}</h3>
+                      <p class="text-sm text-muted-foreground leading-relaxed mb-3">{workflow.description}</p>
+                      <div class="flex flex-wrap items-center gap-3">
+                        {workflow.frequency && (
+                          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30">
+                            <svg class="w-3.5 h-3.5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-xs font-mono text-cyan-500">{workflow.frequency}</span>
+                          </div>
+                        )}
+                        {workflow.timeSaved && (
+                          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/50">
+                            <svg class="w-3.5 h-3.5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            <span class="text-xs font-mono text-cyan-500 font-bold">{workflow.timeSaved} saved</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Integrations Map -->
+  {integrations && integrations.length > 0 && (
+    <section class="relative py-16 md:py-24 bg-background border-y border-border/30">
+      <div class="container-custom relative z-10">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-12 fade-in-scroll">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">{lang === 'en' ? 'Connected Integrations' : 'Intégrations Connectées'}</h2>
+            <p class="text-muted-foreground">
+              {lang === 'en'
+                ? 'Seamlessly integrated with your existing tools'
+                : 'Intégré de manière transparente avec vos outils existants'
+              }
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6">
+            {integrations.map((integration: any, index: number) => (
+              <div
+                class="integration-card group relative p-6 rounded-xl border border-border/30 bg-background/50 backdrop-blur-sm text-center hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-all duration-300 fade-in-scroll"
+                style={`animation-delay: ${index * 0.05}s`}
+              >
+                <div class="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/30 mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <svg class="w-6 h-6 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                  </svg>
+                </div>
+                <h3 class="font-bold text-sm mb-1 text-foreground">{integration.name}</h3>
+                <p class="text-xs text-muted-foreground">{integration.type}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Business Benefits -->
+  {benefits && benefits.length > 0 && (
+    <section class="relative py-16 md:py-24 bg-background">
+      <div class="container-custom relative z-10">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-12 fade-in-scroll">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 mb-4">
+              <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+              </svg>
+              <span class="text-xs font-mono text-cyan-500 uppercase tracking-widest">{lang === 'en' ? 'Impact' : 'Impact'}</span>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold">{lang === 'en' ? 'Business Impact' : 'Impact Business'}</h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {benefits.map((benefit: any, index: number) => (
+              <div
+                class="benefit-card relative p-8 rounded-xl border border-cyan-500/30 bg-cyan-500/5 backdrop-blur-sm text-center group hover:border-cyan-500/50 hover:bg-cyan-500/10 transition-all duration-300 fade-in-scroll"
+                style={`animation-delay: ${index * 0.1}s`}
+              >
+                <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="relative z-10">
+                  <div class="benefit-value text-4xl md:text-5xl font-bold font-mono text-cyan-500 mb-3 group-hover:scale-110 transition-transform duration-300">
+                    {benefit.value}
+                  </div>
+                  <div class="text-sm text-muted-foreground font-mono uppercase tracking-wider mb-2">{benefit.label}</div>
+                  {benefit.description && (
+                    <p class="text-xs text-muted-foreground/80 mt-3">{benefit.description}</p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Content Slot (Markdown) -->
+  <section class="relative py-16 md:py-24 bg-background">
+    <div class="container-custom relative z-10">
+      <div class="max-w-4xl mx-auto prose prose-invert prose-green prose-lg">
+        <slot />
+      </div>
+    </div>
+  </section>
+
+  <script>
+    import '@scripts/scroll-animations.ts';
+  </script>
+
+  <style>
+    /* Text Gradient */
+    .text-gradient-green {
+      background: linear-gradient(
+        to right,
+        hsl(var(--foreground)),
+        #06b6d4,
+        hsl(var(--foreground))
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmerText 3s linear infinite;
+    }
+
+    @keyframes shimmerText {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    /* Before/After Cards */
+    .before-after-container {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .before-card,
+    .after-card {
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: hsl(var(--grey-20));
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .before-card {
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+
+    .after-card {
+      border-color: rgba(34, 197, 94, 0.3);
+      background: linear-gradient(135deg, hsl(var(--grey-20)), rgba(34, 197, 94, 0.05));
+    }
+
+    .before-card:hover,
+    .after-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .transform-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Animations */
+    @keyframes pulse-slow {
+      0%, 100% {
+        opacity: 0.4;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    .animate-pulse-slow {
+      animation: pulse-slow 3s ease-in-out infinite;
+    }
+
+    @keyframes fade-in-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in-up {
+      animation: fade-in-up 0.6s ease-out forwards;
+      opacity: 0;
+    }
+
+    /* Benefit Value Animation */
+    .benefit-value {
+      background: linear-gradient(
+        to right,
+        #06b6d4,
+        #10b981,
+        #06b6d4
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .before-after-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .transform-arrow {
+        transform: rotate(90deg);
+      }
+    }
+  </style>
+</BaseLayout>

@@ -1,0 +1,386 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import BrowserWindow from '@components/projects/BrowserWindow.astro';
+import MobilePhone from '@components/projects/MobilePhone.astro';
+
+const { frontmatter, lang = 'fr' } = Astro.props;
+
+const {
+  title,
+  description,
+  client,
+  date,
+  technologies = [],
+  liveUrl,
+  githubUrl,
+  featuredImage,
+  mobileImage,
+  results = [],
+  features = []
+} = frontmatter;
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${title} - ${client} | AutomX`}
+  description={description}
+  noindex={false}
+>
+  <!-- Project Hero with Device Previews -->
+  <section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-background border-b border-border/30">
+    <div class="cyber-grid"></div>
+    <div class="scan-lines"></div>
+
+    <div class="container-custom relative z-10 py-12 md:py-20">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <!-- Left: Project Info -->
+          <div class="fade-in-scroll">
+            <!-- Back Button -->
+            <a
+              href={lang === 'fr' ? '/projets' : '/en/projects'}
+              class="inline-flex items-center gap-2 text-sm font-mono text-muted-foreground hover:text-cyan-500 transition-colors mb-6 group"
+            >
+              <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+              {lang === 'en' ? 'Back to projects' : 'Retour aux projets'}
+            </a>
+
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-500/30 backdrop-blur-sm mb-6 animate-fade-in-up">
+              <span class="pulse-dot"></span>
+              <span class="text-xs font-mono text-cyan-500 uppercase tracking-widest">{lang === 'en' ? 'Web Development' : 'Développement Web'}</span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-shimmer animate-fade-in-up" style="animation-delay: 0.1s">
+              {title}
+            </h1>
+
+            <!-- Meta Info -->
+            <div class="flex flex-wrap gap-6 mb-6 font-mono text-sm animate-fade-in-up" style="animation-delay: 0.2s">
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <span class="text-muted-foreground">{lang === 'en' ? 'Client:' : 'Client :'}</span>
+                <span class="text-cyan-500">{client}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <span class="text-muted-foreground">{lang === 'en' ? 'Date:' : 'Date :'}</span>
+                <span class="text-cyan-500">{new Date(date).toLocaleDateString(lang === 'en' ? 'en-US' : 'fr-FR', { year: 'numeric', month: 'long' })}</span>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <p class="text-lg text-muted-foreground mb-8 leading-relaxed animate-fade-in-up" style="animation-delay: 0.3s">
+              {description}
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-wrap gap-4 animate-fade-in-up" style="animation-delay: 0.4s">
+              {liveUrl && (
+                <a
+                  href={liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="cyber-button-primary group relative px-6 py-3 font-mono font-bold uppercase tracking-wider text-sm inline-flex items-center gap-2"
+                >
+                  <span class="relative z-10 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                    </svg>
+                    {lang === 'en' ? 'View Live Site' : 'Voir le site'}
+                  </span>
+                  <div class="cyber-button-primary-bg"></div>
+                  <div class="cyber-button-primary-border"></div>
+                </a>
+              )}
+              {githubUrl && (
+                <a
+                  href={githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="cyber-button-secondary group relative px-6 py-3 font-mono font-bold uppercase tracking-wider text-sm border-2 border-border hover:border-cyan-500 inline-flex items-center gap-2"
+                >
+                  <span class="relative z-10 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    {lang === 'en' ? 'View Code' : 'Voir le code'}
+                  </span>
+                </a>
+              )}
+            </div>
+          </div>
+
+          <!-- Right: Device Previews -->
+          <div class="relative devices-hero fade-in-scroll" style="animation-delay: 0.2s">
+            <!-- Desktop Browser (Background) -->
+            <div class="browser-container">
+              <BrowserWindow
+                imageUrl={featuredImage || '/images/project-placeholder.jpg'}
+                imageAlt={title}
+                variant="cyan"
+              />
+            </div>
+
+            <!-- Mobile Phone (Overlaid) -->
+            <div class="mobile-container">
+              <MobilePhone
+                imageUrl={mobileImage || featuredImage || '/images/project-placeholder.jpg'}
+                imageAlt={`${title} - Mobile`}
+                variant="cyan"
+              />
+            </div>
+
+            <!-- Decorative Elements -->
+            <div class="absolute -top-4 -right-4 w-24 h-24 bg-cyan-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-cyan-500/5 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1s"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  {technologies && technologies.length > 0 && (
+    <section class="relative py-12 bg-background border-b border-border/30">
+      <div class="container-custom relative z-10">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex flex-wrap items-center justify-center gap-3">
+            <span class="text-sm font-mono text-muted-foreground uppercase tracking-wider">{lang === 'en' ? 'Tech Stack:' : 'Stack Technique :'}</span>
+            {technologies.map((tech: string) => (
+              <div class="tech-pill px-4 py-2 text-sm font-mono bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-cyan-500 hover:bg-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300 hover:scale-105">
+                {tech}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Results Metrics -->
+  {results && results.length > 0 && (
+    <section class="relative py-16 md:py-24 bg-background overflow-hidden">
+      <div class="cyber-grid-light"></div>
+
+      <div class="container-custom relative z-10">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-12 fade-in-scroll">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 mb-4">
+              <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              <span class="text-xs font-mono text-cyan-500 uppercase tracking-widest">{lang === 'en' ? 'Impact' : 'Impact'}</span>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold">{lang === 'en' ? 'Results Achieved' : 'Résultats Obtenus'}</h2>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {results.map((result: any, index: number) => (
+              <div
+                class="metric-card relative p-6 rounded-xl border border-border/30 bg-background/50 backdrop-blur-sm text-center group hover:border-cyan-500/50 transition-all duration-300 fade-in-scroll"
+                style={`animation-delay: ${index * 0.1}s`}
+              >
+                <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="relative z-10">
+                  <div class="counter-value text-4xl md:text-5xl font-bold font-mono text-cyan-500 mb-2" data-value={result.value}>
+                    {result.value}
+                  </div>
+                  <div class="text-sm text-muted-foreground font-mono uppercase tracking-wider">{result.metric}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Key Features -->
+  {features && features.length > 0 && (
+    <section class="relative py-16 md:py-24 bg-background border-y border-border/30">
+      <div class="container-custom relative z-10">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-12 fade-in-scroll">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">{lang === 'en' ? 'Key Features' : 'Fonctionnalités Clés'}</h2>
+            <p class="text-muted-foreground max-w-2xl mx-auto">
+              {lang === 'en'
+                ? 'Cutting-edge features designed to deliver exceptional user experience'
+                : 'Fonctionnalités de pointe conçues pour offrir une expérience utilisateur exceptionnelle'
+              }
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((feature: any, index: number) => (
+              <div
+                class="feature-card card-border-glow-hover card-hover-glow relative p-[1px] overflow-hidden rounded-xl fade-in-scroll"
+                style={`animation-delay: ${index * 0.1}s`}
+              >
+                <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-cyan-500/20 via-cyan-500/10 to-transparent"></div>
+                <div class="relative rounded-xl bg-background p-6 h-full">
+                  <div class="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/30 mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <svg class="w-6 h-6 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                  </div>
+                  <h3 class="font-bold text-lg mb-2 text-foreground">{feature.title}</h3>
+                  <p class="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Content Slot (Markdown) -->
+  <section class="relative py-16 md:py-24 bg-background">
+    <div class="container-custom relative z-10">
+      <div class="max-w-4xl mx-auto prose prose-invert prose-cyan prose-lg">
+        <slot />
+      </div>
+    </div>
+  </section>
+
+  <script>
+    import '@scripts/scroll-animations.ts';
+  </script>
+
+  <style>
+    /* Device Preview Layout */
+    .devices-hero {
+      position: relative;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .browser-container {
+      position: relative;
+      width: 100%;
+      z-index: 1;
+    }
+
+    .mobile-container {
+      position: absolute;
+      bottom: -2rem;
+      right: -2rem;
+      width: 11rem;
+      z-index: 2;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    /* Animations */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(-2deg);
+      }
+      50% {
+        transform: translateY(-10px) rotate(-2deg);
+      }
+    }
+
+    @keyframes pulse-slow {
+      0%, 100% {
+        opacity: 0.4;
+      }
+      50% {
+        opacity: 0.8;
+      }
+    }
+
+    .animate-pulse-slow {
+      animation: pulse-slow 4s ease-in-out infinite;
+    }
+
+    @keyframes fade-in-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in-up {
+      animation: fade-in-up 0.6s ease-out forwards;
+      opacity: 0;
+    }
+
+    /* Tech Pills */
+    .tech-pill {
+      cursor: default;
+    }
+
+    /* Metric Cards with counter animation */
+    .metric-card {
+      cursor: default;
+    }
+
+    .counter-value {
+      background: linear-gradient(
+        to right,
+        #0ea5e9,
+        #06b6d4,
+        #0ea5e9
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    /* Feature Cards */
+    .feature-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .devices-hero {
+        min-height: 350px;
+      }
+
+      .mobile-container {
+        width: 9rem;
+        right: -1rem;
+        bottom: -1.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .devices-hero {
+        min-height: 300px;
+      }
+
+      .mobile-container {
+        width: 7rem;
+        right: -0.5rem;
+        bottom: -1rem;
+      }
+    }
+  </style>
+</BaseLayout>

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "what-is-automation",
+    "questionKey": "faq.q1",
+    "answerKey": "faq.a1"
+  },
+  {
+    "id": "automation-tools",
+    "questionKey": "faq.q2",
+    "answerKey": "faq.a2"
+  },
+  {
+    "id": "implementation-time",
+    "questionKey": "faq.q3",
+    "answerKey": "faq.a3"
+  },
+  {
+    "id": "roi",
+    "questionKey": "faq.q4",
+    "answerKey": "faq.a4"
+  },
+  {
+    "id": "tool-compatibility",
+    "questionKey": "faq.q5",
+    "answerKey": "faq.a5"
+  },
+  {
+    "id": "workflow-reliability",
+    "questionKey": "faq.q6",
+    "answerKey": "faq.a6"
+  },
+  {
+    "id": "employee-replacement",
+    "questionKey": "faq.q7",
+    "answerKey": "faq.a7"
+  },
+  {
+    "id": "pricing",
+    "questionKey": "faq.q8",
+    "answerKey": "faq.a8"
+  },
+  {
+    "id": "self-modification",
+    "questionKey": "faq.q9",
+    "answerKey": "faq.a9"
+  },
+  {
+    "id": "getting-started",
+    "questionKey": "faq.q10",
+    "answerKey": "faq.a10"
+  }
+]

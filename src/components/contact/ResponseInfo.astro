@@ -1,0 +1,41 @@
+---
+import { useTranslations } from '@i18n/utils';
+import Card from '@components/ui/Card.astro';
+
+const lang = Astro.currentLocale || 'fr';
+const { t } = useTranslations(lang as 'fr' | 'en');
+---
+
+<Card variant="glass" class="fade-in-scroll">
+  <div class="p-6 flex items-start gap-4">
+    <!-- Icon -->
+    <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+      <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+    </div>
+
+    <!-- Content -->
+    <div class="flex-1">
+      <h3 class="text-lg font-semibold mb-2">
+        {t('contact.response_title')}
+      </h3>
+      <p class="text-sm text-muted-foreground leading-relaxed">
+        {t('contact.response_text')}
+      </p>
+    </div>
+  </div>
+</Card>
+
+<style>
+  .fade-in-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .fade-in-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>

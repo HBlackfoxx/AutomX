@@ -1,0 +1,41 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ContactHero from '@components/contact/ContactHero.astro';
+import ContactForm from '@components/contact/ContactForm.astro';
+import ContactInfo from '@components/contact/ContactInfo.astro';
+
+const lang = 'en';
+const title = 'Contact Us - AutomX | Let\'s Talk About Your Project';
+const description = 'Contact AutomX to discuss your automation project. Free 30-minute audit. Guaranteed response within 24 hours.';
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  noindex={false}
+>
+  <!-- Contact Hero Section -->
+  <ContactHero />
+
+  <!-- Contact Content Section -->
+  <section class="relative py-16 md:py-20 bg-background overflow-hidden">
+    <!-- Cyber Grid Background -->
+    <div class="cyber-grid-light"></div>
+
+    <div class="container-custom relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-7xl mx-auto">
+        <!-- Contact Form -->
+        <ContactForm />
+
+        <!-- Contact Info -->
+        <ContactInfo />
+      </div>
+    </div>
+  </section>
+
+  <!-- Initialize scroll animations -->
+  <script>
+    import '@scripts/scroll-animations.ts';
+  </script>
+</BaseLayout>

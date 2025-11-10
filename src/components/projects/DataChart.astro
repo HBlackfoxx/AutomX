@@ -1,0 +1,257 @@
+---
+interface Props {
+  type?: 'bar' | 'line' | 'donut';
+  variant?: 'purple' | 'cyan' | 'green';
+  title?: string;
+  data?: number[];
+}
+
+const { type = 'bar', variant = 'purple', title, data = [65, 88, 52, 95, 73, 82, 90] } = Astro.props;
+
+const variantColors = {
+  purple: {
+    primary: '#06b6d4',
+    secondary: '#8b5cf6',
+    gradient: 'from-cyan-500 to-cyan-500/40'
+  },
+  cyan: {
+    primary: '#0ea5e9',
+    secondary: '#06b6d4',
+    gradient: 'from-cyan-500 to-cyan-500/40'
+  },
+  green: {
+    primary: '#06b6d4',
+    secondary: '#10b981',
+    gradient: 'from-cyan-500 to-cyan-500/40'
+  }
+};
+
+const colors = variantColors[variant];
+
+// Normalize data for visualization (0-100 scale)
+const normalizedData = data.map(val => Math.min(Math.max(val, 0), 100));
+---
+
+<div class="data-chart-container" data-type={type} data-variant={variant}>
+  {title && (
+    <div class="chart-title text-center text-xs font-mono uppercase tracking-wider mb-4" style={`color: ${colors.primary}`}>
+      {title}
+    </div>
+  )}
+
+  {type === 'bar' && (
+    <div class="bar-chart">
+      {normalizedData.map((value) => (
+        <div class="bar-wrapper">
+          <div
+            class={`bar bg-gradient-to-t ${colors.gradient}`}
+            style={`height: ${value}%`}
+            data-value={value}
+          >
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+
+  {type === 'line' && (
+    <div class="line-chart">
+      <svg viewBox="0 0 400 100" class="w-full h-full" preserveAspectRatio="none">
+        {/* Grid lines */}
+        <line x1="0" y1="25" x2="400" y2="25" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        <line x1="0" y1="50" x2="400" y2="50" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        <line x1="0" y1="75" x2="400" y2="75" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+
+        {/* Area under line */}
+        <path
+          d={`M 0 100 L ${normalizedData.map((v, i) => `${(i / (normalizedData.length - 1)) * 400} ${100 - v}`).join(' L ')} L 400 100 Z`}
+          fill={`url(#gradient-${variant})`}
+          opacity="0.2"
+        />
+
+        {/* Line */}
+        <path
+          d={`M ${normalizedData.map((v, i) => `${(i / (normalizedData.length - 1)) * 400},${100 - v}`).join(' L ')}`}
+          fill="none"
+          stroke={colors.primary}
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="line-path"
+        />
+
+        {/* Dots */}
+        {normalizedData.map((v, i) => (
+          <circle
+            cx={(i / (normalizedData.length - 1)) * 400}
+            cy={100 - v}
+            r="4"
+            fill={colors.primary}
+            class="line-dot"
+          />
+        ))}
+
+        {/* Gradient Definition */}
+        <defs>
+          <linearGradient id={`gradient-${variant}`} x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style={`stop-color:${colors.primary};stop-opacity:1`} />
+            <stop offset="100%" style={`stop-color:${colors.primary};stop-opacity:0`} />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  )}
+
+  {type === 'donut' && (
+    <div class="donut-chart">
+      <svg viewBox="0 0 100 100" class="w-full h-full">
+        {/* Background Circle */}
+        <circle
+          cx="50"
+          cy="50"
+          r="40"
+          fill="none"
+          stroke="rgba(255,255,255,0.05)"
+          stroke-width="12"
+        />
+
+        {/* Animated Progress Circle */}
+        <circle
+          cx="50"
+          cy="50"
+          r="40"
+          fill="none"
+          stroke={colors.primary}
+          stroke-width="12"
+          stroke-linecap="round"
+          stroke-dasharray="251.2"
+          stroke-dashoffset={251.2 - ((normalizedData[0] || 0) / 100) * 251.2}
+          transform="rotate(-90 50 50)"
+          class="donut-progress"
+        />
+
+        {/* Center Text */}
+        <text
+          x="50"
+          y="50"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          class="donut-text font-mono font-bold"
+          fill={colors.primary}
+          font-size="20"
+        >
+          {normalizedData[0]}%
+        </text>
+      </svg>
+    </div>
+  )}
+</div>
+
+<style>
+  .data-chart-container {
+    width: 100%;
+    height: 100%;
+    min-height: 140px;
+  }
+
+  /* Bar Chart */
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.5rem;
+    height: 140px;
+    padding: 0.5rem;
+  }
+
+  .bar-wrapper {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .bar {
+    width: 100%;
+    border-radius: 0.25rem 0.25rem 0 0;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: bar-grow 1s ease-out forwards;
+    transform-origin: bottom;
+  }
+
+  @keyframes bar-grow {
+    from {
+      transform: scaleY(0);
+      opacity: 0;
+    }
+    to {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+  }
+
+  .bar:hover {
+    opacity: 1;
+    filter: brightness(1.2);
+  }
+
+  /* Line Chart */
+  .line-chart {
+    width: 100%;
+    height: 140px;
+  }
+
+  .line-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: line-draw 2s ease-out forwards;
+  }
+
+  @keyframes line-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .line-dot {
+    animation: dot-appear 0.5s ease-out forwards;
+    animation-delay: 2s;
+    opacity: 0;
+  }
+
+  @keyframes dot-appear {
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Donut Chart */
+  .donut-chart {
+    width: 100%;
+    max-width: 140px;
+    height: 140px;
+    margin: 0 auto;
+  }
+
+  .donut-progress {
+    transition: stroke-dashoffset 1.5s ease-out;
+    animation: donut-spin 1.5s ease-out;
+  }
+
+  @keyframes donut-spin {
+    from {
+      stroke-dashoffset: 251.2;
+    }
+  }
+
+  .donut-text {
+    animation: text-fade-in 0.5s ease-out 1s forwards;
+    opacity: 0;
+  }
+
+  @keyframes text-fade-in {
+    to {
+      opacity: 1;
+    }
+  }
+</style>

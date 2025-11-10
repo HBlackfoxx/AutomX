@@ -1,0 +1,32 @@
+---
+export interface Props {
+  variant?: 'default' | 'glass' | 'gradient';
+  class?: string;
+  hover?: boolean;
+}
+
+const {
+  variant = 'default',
+  class: className = '',
+  hover = false,
+  ...rest
+} = Astro.props;
+
+const baseClasses = 'rounded-lg border transition-all duration-300';
+
+const variantClasses = {
+  default: 'bg-card text-card-foreground border-border shadow-sm',
+  glass: 'glass-card',
+  gradient: 'bg-gradient-to-br from-card via-card to-primary/10 border-primary/20',
+};
+
+const hoverClasses = hover
+  ? 'hover:shadow-lg hover:border-primary/50 hover:-translate-y-1 cyan-glow-hover cursor-pointer'
+  : '';
+
+const classes = `${baseClasses} ${variantClasses[variant]} ${hoverClasses} ${className}`;
+---
+
+<div class={classes} {...rest}>
+  <slot />
+</div>

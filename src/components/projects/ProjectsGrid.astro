@@ -1,0 +1,498 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectCard from './ProjectCard.astro';
+import type { Language } from '@i18n/utils';
+
+const lang = (Astro.currentLocale || 'fr') as Language;
+
+// Get all projects for current language
+const collectionName = lang === 'fr' ? 'projects-fr' : 'projects-en';
+const allProjects = await getCollection(collectionName, ({ data }) => data.published === true);
+
+// Sort projects: featured first, then by date
+const sortedProjects = allProjects.sort((a, b) => {
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+});
+
+// Helper to format date
+const formatDate = (date: Date | undefined): string => {
+  const isoString = date ? date.toISOString() : new Date().toISOString();
+  return isoString.split('T')[0] as string;
+};
+---
+
+<section class="projects-grid-section relative py-12 md:py-16 bg-background">
+  <div class="cyber-grid-light"></div>
+
+  <div class="container-custom relative z-10">
+    <!-- Projects Grid -->
+    <div id="projects-grid" class="projects-grid">
+      {sortedProjects.map((project, index) => (
+        <div
+          class="project-card-wrapper"
+          style={`animation-delay: ${index * 0.05}s`}
+          data-index={index}
+        >
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            client={project.data.client}
+            category={project.data.category as 'web-development' | 'process-automation' | 'data-analysis'}
+            date={formatDate(project.data.date)}
+            technologies={project.data.technologies}
+            featured={project.data.featured}
+            featuredImage={project.data.featuredImage}
+            slug={project.slug}
+            lang={lang}
+            results={project.data.results}
+          />
+        </div>
+      ))}
+    </div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="empty-state hidden">
+      <div class="empty-state-content">
+        <svg class="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h3 class="empty-title">
+          {lang === 'en' ? 'No projects found' : 'Aucun projet trouvé'}
+        </h3>
+        <p class="empty-description">
+          {lang === 'en'
+            ? 'Try adjusting your filters or search query'
+            : 'Essayez d\'ajuster vos filtres ou votre recherche'}
+        </p>
+        <button type="button" id="reset-filters" class="reset-button">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          {lang === 'en' ? 'Reset filters' : 'Réinitialiser les filtres'}
+        </button>
+      </div>
+    </div>
+
+    <!-- Load More Button (for pagination in future) -->
+    <div class="text-center mt-12 hidden" id="load-more-section">
+      <button type="button" class="load-more-button">
+        <span class="font-mono text-sm font-semibold">
+          {lang === 'en' ? 'Load more projects' : 'Charger plus de projets'}
+        </span>
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Projects Grid - Masonry-style with CSS Grid */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+    position: relative;
+  }
+
+  @media (min-width: 768px) {
+    .projects-grid {
+      gap: 32px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .projects-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Project Card Wrapper */
+  .project-card-wrapper {
+    opacity: 0;
+    animation: cardSlideIn 0.6s ease-out forwards;
+  }
+
+  @keyframes cardSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(40px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Hide cards with CSS class for filtering */
+  .project-card-wrapper.hidden {
+    display: none;
+  }
+
+  /* Fade out animation */
+  .project-card-wrapper.fade-out {
+    animation: cardFadeOut 0.3s ease-out forwards;
+  }
+
+  @keyframes cardFadeOut {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+  }
+
+  /* Fade in animation */
+  .project-card-wrapper.fade-in {
+    animation: cardFadeIn 0.4s ease-out forwards;
+  }
+
+  @keyframes cardFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Empty State */
+  .empty-state {
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+  }
+
+  .empty-state.hidden {
+    display: none;
+  }
+
+  .empty-state-content {
+    text-align: center;
+    max-width: 400px;
+  }
+
+  .empty-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 24px;
+    color: #4C4C4C;
+  }
+
+  .empty-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 12px;
+  }
+
+  .empty-description {
+    font-size: 0.875rem;
+    font-family: 'JetBrains Mono Variable', monospace;
+    color: #999999;
+    margin-bottom: 24px;
+  }
+
+  .reset-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 8px;
+    color: #06b6d4;
+    font-family: 'JetBrains Mono Variable', monospace;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .reset-button:hover {
+    background: rgba(6, 182, 212, 0.2);
+    border-color: #06b6d4;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
+  }
+
+  /* Load More Button */
+  .load-more-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid rgba(76, 76, 76, 0.3);
+    border-radius: 12px;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .load-more-button:hover {
+    background: rgba(6, 182, 212, 0.1);
+    border-color: #06b6d4;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(6, 182, 212, 0.2);
+  }
+
+  /* Smooth transitions for grid layout changes */
+  .projects-grid {
+    transition: all 0.3s ease;
+  }
+</style>
+
+<script>
+  // Filter & Search Logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-pill');
+    const searchInput = document.getElementById('project-search') as HTMLInputElement;
+    const clearSearchBtn = document.getElementById('clear-search');
+    const sortSelect = document.getElementById('project-sort') as HTMLSelectElement;
+    const projectCards = document.querySelectorAll('.project-card-wrapper');
+    const resultsCount = document.querySelector('.results-count');
+    const emptyState = document.getElementById('empty-state');
+    const projectsGrid = document.getElementById('projects-grid');
+    const filterSlider = document.querySelector('.filter-slider') as HTMLElement;
+    const resetFiltersBtn = document.getElementById('reset-filters');
+
+    let currentCategory = 'all';
+    let currentSearch = '';
+    let currentSort = 'featured';
+
+    // Initialize slider position
+    if (filterButtons.length > 0 && filterSlider) {
+      const activeButton = filterButtons[0] as HTMLElement;
+      updateSliderPosition(activeButton);
+    }
+
+    // Initialize the display on page load
+    filterProjects();
+
+    // Update slider position
+    function updateSliderPosition(button: HTMLElement) {
+      if (!filterSlider) return;
+
+      const rect = button.getBoundingClientRect();
+      const parentRect = button.parentElement?.getBoundingClientRect();
+
+      if (parentRect) {
+        const left = rect.left - parentRect.left;
+        const width = rect.width;
+
+        filterSlider.style.left = `${left}px`;
+        filterSlider.style.width = `${width}px`;
+
+        // Update slider color based on category
+        const color = button.getAttribute('data-color');
+        if (color === 'cyan') {
+          filterSlider.style.background = 'linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%)';
+        } else if (color === 'green') {
+          filterSlider.style.background = 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)';
+        } else if (color === 'purple') {
+          filterSlider.style.background = 'linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%)';
+        }
+      }
+    }
+
+    // Filter by category
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const category = button.getAttribute('data-category') || 'all';
+
+        // Update active state
+        filterButtons.forEach((btn) => {
+          btn.classList.remove('active');
+          btn.setAttribute('aria-selected', 'false');
+        });
+        button.classList.add('active');
+        button.setAttribute('aria-selected', 'true');
+
+        // Update slider position
+        updateSliderPosition(button as HTMLElement);
+
+        currentCategory = category;
+        filterProjects();
+      });
+    });
+
+    // Search functionality
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        currentSearch = (e.target as HTMLInputElement).value.toLowerCase();
+
+        // Show/hide clear button
+        if (clearSearchBtn) {
+          if (currentSearch) {
+            clearSearchBtn.classList.remove('hidden');
+          } else {
+            clearSearchBtn.classList.add('hidden');
+          }
+        }
+
+        filterProjects();
+      });
+    }
+
+    // Clear search
+    if (clearSearchBtn) {
+      clearSearchBtn.addEventListener('click', () => {
+        if (searchInput) {
+          searchInput.value = '';
+          currentSearch = '';
+          clearSearchBtn.classList.add('hidden');
+          filterProjects();
+        }
+      });
+    }
+
+    // Sort functionality
+    if (sortSelect) {
+      sortSelect.addEventListener('change', (e) => {
+        currentSort = (e.target as HTMLSelectElement).value;
+        sortProjects();
+      });
+    }
+
+    // Reset filters
+    if (resetFiltersBtn) {
+      resetFiltersBtn.addEventListener('click', () => {
+        // Reset category
+        currentCategory = 'all';
+        filterButtons.forEach((btn, index) => {
+          if (index === 0) {
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+            updateSliderPosition(btn as HTMLElement);
+          } else {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
+          }
+        });
+
+        // Reset search
+        if (searchInput) {
+          searchInput.value = '';
+          currentSearch = '';
+        }
+        if (clearSearchBtn) {
+          clearSearchBtn.classList.add('hidden');
+        }
+
+        // Reset sort
+        if (sortSelect) {
+          sortSelect.value = 'featured';
+          currentSort = 'featured';
+        }
+
+        filterProjects();
+      });
+    }
+
+    // Filter projects
+    function filterProjects() {
+      let visibleCount = 0;
+
+      projectCards.forEach((card) => {
+        const cardElement = card as HTMLElement;
+        const projectCard = cardElement.querySelector('.project-card') as HTMLElement;
+
+        if (!projectCard) return;
+
+        const category = projectCard.getAttribute('data-category');
+        const client = projectCard.getAttribute('data-client') || '';
+        const technologies = projectCard.getAttribute('data-technologies') || '';
+        const title = projectCard.querySelector('.card-title')?.textContent?.toLowerCase() || '';
+
+        // Check category filter
+        const categoryMatch = currentCategory === 'all' || category === currentCategory;
+
+        // Check search filter
+        const searchMatch =
+          !currentSearch ||
+          title.includes(currentSearch) ||
+          client.includes(currentSearch) ||
+          technologies.includes(currentSearch);
+
+        // Show/hide card
+        if (categoryMatch && searchMatch) {
+          cardElement.classList.remove('hidden', 'fade-out');
+          cardElement.classList.add('fade-in');
+          visibleCount++;
+        } else {
+          cardElement.classList.add('fade-out');
+          setTimeout(() => {
+            cardElement.classList.add('hidden');
+            cardElement.classList.remove('fade-out');
+          }, 300);
+        }
+      });
+
+      // Update results count
+      if (resultsCount) {
+        resultsCount.textContent = visibleCount.toString();
+      }
+
+      // Show/hide empty state
+      if (emptyState && projectsGrid) {
+        if (visibleCount === 0) {
+          projectsGrid.classList.add('hidden');
+          emptyState.classList.remove('hidden');
+        } else {
+          projectsGrid.classList.remove('hidden');
+          emptyState.classList.add('hidden');
+        }
+      }
+    }
+
+    // Sort projects
+    function sortProjects() {
+      const cardsArray = Array.from(projectCards) as HTMLElement[];
+
+      cardsArray.sort((a, b) => {
+        const cardA = a.querySelector('.project-card') as HTMLElement;
+        const cardB = b.querySelector('.project-card') as HTMLElement;
+
+        if (!cardA || !cardB) return 0;
+
+        if (currentSort === 'featured') {
+          const featuredA = cardA.getAttribute('data-featured') === 'true';
+          const featuredB = cardB.getAttribute('data-featured') === 'true';
+          if (featuredA && !featuredB) return -1;
+          if (!featuredA && featuredB) return 1;
+          return 0;
+        } else if (currentSort === 'date-desc' || currentSort === 'date-asc') {
+          const indexA = parseInt(a.getAttribute('data-index') || '0');
+          const indexB = parseInt(b.getAttribute('data-index') || '0');
+          return currentSort === 'date-desc' ? indexA - indexB : indexB - indexA;
+        } else if (currentSort === 'client') {
+          const clientA = cardA.getAttribute('data-client') || '';
+          const clientB = cardB.getAttribute('data-client') || '';
+          return clientA.localeCompare(clientB);
+        }
+
+        return 0;
+      });
+
+      // Re-append cards in sorted order
+      const grid = document.getElementById('projects-grid');
+      if (grid) {
+        cardsArray.forEach((card, index) => {
+          card.style.animationDelay = `${index * 0.05}s`;
+          grid.appendChild(card);
+        });
+      }
+    }
+  });
+</script>

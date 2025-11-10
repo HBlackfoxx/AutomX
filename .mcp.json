@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ],
+      "env": {
+        "PLAYWRIGHT_PROJECT_CONTEXT": "{\"name\":\"AutomX Portfolio\",\"framework\":\"Astro 4.x\",\"baseUrl\":\"http://localhost:4321\",\"pages\":{\"homepage\":{\"path\":\"/\",\"title\":\"AutomX - Solutions Digitales Innovantes\",\"sections\":[\"Hero\",\"ValuePropositions\",\"ServicesOverview\",\"FeaturedProjects\",\"FAQ\",\"FinalCTA\"],\"testScenarios\":[\"Verify all sections load\",\"Test smooth scroll to featured projects\",\"Verify CTA buttons navigate correctly\",\"Test scroll animations trigger\",\"Verify responsive design (390px, 1440px, 1920px)\"]},\"contact\":{\"path\":\"/contact\",\"title\":\"Contact - AutomX\",\"sections\":[\"ContactHero\",\"ContactInfo\",\"ContactForm\",\"PrivacyAssurance\",\"ResponseInfo\"],\"testScenarios\":[\"Test form validation (required fields)\",\"Test email format validation\",\"Test phone number validation\",\"Test GDPR checkbox requirement\",\"Test form submission with n8n webhook\",\"Test success/error message display\",\"Test retry functionality\"]},\"projects\":{\"path\":\"/projets\",\"title\":\"Nos Projets - AutomX\",\"sections\":[\"ProjectsHero\",\"KeyFeatures\",\"ProjectsGrid\"],\"testScenarios\":[\"Verify all 4 projects display\",\"Test project card hover effects\",\"Test navigation to project details\",\"Verify responsive grid layout\"]},\"projectDetail\":{\"path\":\"/projets/ecommerce-platform\",\"title\":\"Project Detail - AutomX\",\"sections\":[\"ProjectHero\",\"ProjectMeta\",\"ChallengeSection\",\"SolutionSection\",\"ResultsSection\"],\"testScenarios\":[\"Verify project data displays correctly\",\"Test sidebar sticky behavior\",\"Test back to projects navigation\",\"Verify markdown content renders\"]}},\"accessibility\":{\"standard\":\"WCAG 2.1 AA\",\"requirements\":[\"Keyboard navigation support\",\"Focus indicators visible\",\"ARIA attributes present\",\"Alt text on all images\",\"Form labels associated correctly\",\"Color contrast ratios meet AA standard\"]},\"performance\":{\"targets\":{\"lighthouse\":\"95+\",\"fcp\":\"<1.2s\",\"lcp\":\"<2.5s\",\"bundleSize\":\"<100KB gzipped\"}},\"technologies\":{\"framework\":\"Astro 4.16.19\",\"styling\":\"Tailwind CSS 3.4.18\",\"language\":\"TypeScript (strict mode)\",\"i18n\":\"French (default), English (secondary)\",\"forms\":\"Vanilla JS validation + n8n webhook\"},\"buildCommands\":{\"dev\":\"npm run dev\",\"build\":\"npm run build\",\"preview\":\"npm run preview\"},\"testPriorities\":[\"User Story 1: French lead generation flow (P1)\",\"Homepage → Contact form submission\",\"Projects listing → Project detail navigation\",\"Form validation (client-side)\",\"Responsive design validation\",\"Accessibility compliance\"]}"
+      }
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": [
+        "shadcn@latest",
+        "mcp"
+      ]
+    }
+  }
+}

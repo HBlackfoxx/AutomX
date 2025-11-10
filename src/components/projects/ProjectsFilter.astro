@@ -1,0 +1,413 @@
+---
+import { useTranslations } from '@i18n/utils';
+
+interface Props {
+  counts: {
+    all: number;
+    'web-development': number;
+    'process-automation': number;
+    'data-analysis': number;
+  };
+}
+
+const { counts } = Astro.props;
+const lang = Astro.currentLocale || 'fr';
+const { t } = useTranslations(lang as 'fr' | 'en');
+
+const categories = [
+  {
+    id: 'all',
+    label: lang === 'en' ? 'All Projects' : 'Tous les projets',
+    count: counts.all,
+    icon: 'grid',
+    color: 'cyan'
+  },
+  {
+    id: 'web-development',
+    label: lang === 'en' ? 'Web Development' : 'Développement Web',
+    count: counts['web-development'],
+    icon: 'code',
+    color: 'cyan'
+  },
+  {
+    id: 'process-automation',
+    label: lang === 'en' ? 'Automation' : 'Automatisation',
+    count: counts['process-automation'],
+    icon: 'bolt',
+    color: 'green'
+  },
+  {
+    id: 'data-analysis',
+    label: lang === 'en' ? 'Data Analysis' : 'Analyse de Données',
+    count: counts['data-analysis'],
+    icon: 'chart',
+    color: 'purple'
+  }
+];
+
+const iconPaths = {
+  grid: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z',
+  code: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+  bolt: 'M13 10V3L4 14h7v7l9-11h-7z',
+  chart: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'
+};
+---
+
+<div class="filter-section relative py-8 md:py-10">
+  <div class="container-custom">
+    <!-- Filter Header -->
+    <div class="text-center mb-8 fade-in-scroll">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-3">
+        {lang === 'en' ? 'Explore Our Work' : 'Explorez Nos Réalisations'}
+      </h2>
+      <p class="text-sm md:text-base text-muted-foreground font-mono">
+        {lang === 'en' ? 'Filter by category to discover our expertise' : 'Filtrez par catégorie pour découvrir notre expertise'}
+      </p>
+    </div>
+
+    <!-- Premium Filter Pills -->
+    <div class="filter-container fade-in-scroll">
+      <div class="filter-pills-wrapper">
+        <div class="filter-pills" role="tablist" aria-label="Project categories">
+          {categories.map((category) => (
+            <button
+              type="button"
+              role="tab"
+              data-category={category.id}
+              aria-selected={category.id === 'all' ? 'true' : 'false'}
+              class={`filter-pill ${category.id === 'all' ? 'active' : ''}`}
+              data-color={category.color}
+            >
+              <!-- Icon -->
+              <svg class="filter-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={iconPaths[category.icon as keyof typeof iconPaths]} />
+              </svg>
+
+              <!-- Label -->
+              <span class="filter-label">{category.label}</span>
+
+              <!-- Count Badge -->
+              <span class="filter-count">{category.count}</span>
+
+              <!-- Glow Effect -->
+              <span class="filter-glow"></span>
+            </button>
+          ))}
+        </div>
+
+        <!-- Animated Slider Background -->
+        <div class="filter-slider" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <!-- Search & Sort Bar -->
+    <div class="flex flex-col md:flex-row gap-4 mt-6 fade-in-scroll">
+      <!-- Search Box -->
+      <div class="search-box flex-1">
+        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input
+          type="text"
+          id="project-search"
+          placeholder={lang === 'en' ? 'Search projects, clients, technologies...' : 'Rechercher des projets, clients, technologies...'}
+          class="search-input"
+        />
+        <button type="button" id="clear-search" class="clear-search hidden" aria-label="Clear search">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Sort Dropdown -->
+      <div class="sort-dropdown">
+        <select id="project-sort" class="sort-select">
+          <option value="featured">{lang === 'en' ? 'Featured First' : 'Projets vedettes'}</option>
+          <option value="date-desc">{lang === 'en' ? 'Newest First' : 'Plus récents'}</option>
+          <option value="date-asc">{lang === 'en' ? 'Oldest First' : 'Plus anciens'}</option>
+          <option value="client">{lang === 'en' ? 'Client A-Z' : 'Client A-Z'}</option>
+        </select>
+        <svg class="sort-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Results Counter -->
+    <div class="results-counter mt-6 fade-in-scroll">
+      <span class="font-mono text-sm text-muted-foreground">
+        <span class="results-count text-cyan-500 font-bold">{counts.all}</span>
+        {lang === 'en' ? ' projects found' : ' projets trouvés'}
+      </span>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Filter Container */
+  .filter-pills-wrapper {
+    position: relative;
+    display: inline-flex;
+    padding: 6px;
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid rgba(76, 76, 76, 0.3);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .filter-pills {
+    display: flex;
+    gap: 4px;
+    position: relative;
+    z-index: 2;
+    flex-wrap: wrap;
+  }
+
+  /* Filter Pills */
+  .filter-pill {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    border-radius: 12px;
+    color: #999999;
+    font-family: 'JetBrains Mono Variable', monospace;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .filter-pill:hover {
+    color: #FFFFFF;
+    transform: translateY(-1px);
+  }
+
+  .filter-pill.active {
+    color: #000000;
+    font-weight: 600;
+  }
+
+  /* Filter Icon */
+  .filter-icon {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s ease;
+  }
+
+  .filter-pill:hover .filter-icon {
+    transform: scale(1.1);
+  }
+
+  .filter-pill.active .filter-icon {
+    transform: scale(1.15);
+  }
+
+  /* Filter Label */
+  .filter-label {
+    transition: all 0.3s ease;
+  }
+
+  /* Count Badge */
+  .filter-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 20px;
+    padding: 0 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .filter-pill.active .filter-count {
+    background: rgba(0, 0, 0, 0.2);
+    color: #000000;
+  }
+
+  /* Glow Effect */
+  .filter-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .filter-pill[data-color="cyan"] .filter-glow {
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, transparent 70%);
+  }
+
+  .filter-pill[data-color="green"] .filter-glow {
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.3) 0%, transparent 70%);
+  }
+
+  .filter-pill[data-color="purple"] .filter-glow {
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+  }
+
+  .filter-pill:hover .filter-glow {
+    opacity: 1;
+  }
+
+  /* Animated Slider */
+  .filter-slider {
+    position: absolute;
+    height: calc(100% - 12px);
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+    box-shadow: 0 4px 16px rgba(6, 182, 212, 0.4);
+  }
+
+  .filter-slider {
+    background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
+  }
+
+  /* Search Box */
+  .search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    width: 20px;
+    height: 20px;
+    color: #666666;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 14px 48px 14px 48px;
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid rgba(76, 76, 76, 0.3);
+    border-radius: 12px;
+    color: #FFFFFF;
+    font-family: 'JetBrains Mono Variable', monospace;
+    font-size: 0.875rem;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  .search-input::placeholder {
+    color: #666666;
+  }
+
+  .search-input:focus {
+    border-color: #06b6d4;
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+  }
+
+  .clear-search {
+    position: absolute;
+    right: 16px;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    background: none;
+    border: none;
+    color: #666666;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .clear-search:hover {
+    color: #FFFFFF;
+  }
+
+  /* Sort Dropdown */
+  .sort-dropdown {
+    position: relative;
+    min-width: 200px;
+  }
+
+  .sort-select {
+    width: 100%;
+    padding: 14px 48px 14px 16px;
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid rgba(76, 76, 76, 0.3);
+    border-radius: 12px;
+    color: #FFFFFF;
+    font-family: 'JetBrains Mono Variable', monospace;
+    font-size: 0.875rem;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    transition: all 0.3s ease;
+  }
+
+  .sort-select:focus {
+    border-color: #06b6d4;
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+  }
+
+  .sort-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: #666666;
+    pointer-events: none;
+  }
+
+  /* Results Counter */
+  .results-counter {
+    text-align: center;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .filter-pills-wrapper {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .filter-pills {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .filter-pill {
+      padding: 10px 16px;
+      font-size: 0.8125rem;
+    }
+
+    .filter-label {
+      display: none;
+    }
+
+    .filter-pill.active .filter-label {
+      display: inline;
+    }
+
+    .sort-dropdown {
+      min-width: 100%;
+    }
+  }
+
+  /* Center filter container */
+  .filter-container {
+    display: flex;
+    justify-content: center;
+  }
+</style>

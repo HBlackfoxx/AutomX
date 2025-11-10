@@ -1,0 +1,26 @@
+---
+import ProjectWebDevLayout from '@layouts/ProjectWebDevLayout.astro';
+
+const testFrontmatter = {
+  title: "Test Project",
+  description: "Testing layout duplication issue",
+  client: "Test Client",
+  date: new Date('2024-01-01'),
+  technologies: ['React', 'TypeScript'],
+  featuredImage: '/images/project-placeholder.jpg',
+  mobileImage: '/images/project-placeholder.jpg',
+  results: [
+    { metric: "Load Time", value: "1.8s" },
+    { metric: "Conversion", value: "+285%" }
+  ],
+  features: [
+    { title: "Feature 1", description: "Test feature" }
+  ]
+};
+---
+
+<ProjectWebDevLayout frontmatter={testFrontmatter} lang="en">
+  <h1>Test Content</h1>
+  <p>If you see this content duplicated, the issue is in ProjectWebDevLayout.</p>
+  <p>If you see the header/footer duplicated, the issue is in BaseLayout.</p>
+</ProjectWebDevLayout>

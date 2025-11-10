@@ -1,0 +1,114 @@
+---
+import { useTranslations } from '@i18n/utils';
+
+const lang = Astro.currentLocale || 'fr';
+const { t } = useTranslations(lang as 'fr' | 'en');
+---
+
+<!-- Key Features Section -->
+<section class="relative py-12 md:py-16 overflow-hidden bg-background border-b border-border/30" style="scroll-snap-align: start;">
+  <div class="container-custom relative z-10">
+    <!-- Section Header -->
+    <div class="text-center mb-8 fade-in-scroll">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-3">
+        {t('projects.key_features')}
+      </h2>
+      <p class="text-sm md:text-base text-muted-foreground font-mono">
+        {lang === 'en' ? 'Concrete solutions bringing measurable impact in web development, automation, and data analysis' : 'Solutions concrètes apportant un impact mesurable en développement web, automatisation et analyse de données'}
+      </p>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
+      <!-- Feature 1: Technical Excellence -->
+      <div class="card-border-glow-hover card-hover-glow relative p-[1px] overflow-hidden rounded-lg fade-in-scroll">
+        <div class="absolute inset-0 rounded-lg bg-gradient-to-b from-grey-30/60 via-grey-25/30 to-transparent"></div>
+        <div class="relative rounded-lg bg-background p-6 h-full flex flex-col items-center text-center">
+          <div class="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/30 mb-4">
+            <svg class="w-6 h-6 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+            </svg>
+          </div>
+          <h3 class="font-mono font-bold text-sm uppercase tracking-wider mb-2 text-foreground">
+            {t('projects.feature1')}
+          </h3>
+          <p class="text-xs text-muted-foreground font-mono">
+            {lang === 'en' ? 'Clean, maintainable code' : 'Code propre et maintenable'}
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature 2: UX -->
+      <div class="card-border-glow-hover card-hover-glow relative p-[1px] overflow-hidden rounded-lg fade-in-scroll">
+        <div class="absolute inset-0 rounded-lg bg-gradient-to-b from-grey-30/60 via-grey-25/30 to-transparent"></div>
+        <div class="relative rounded-lg bg-background p-6 h-full flex flex-col items-center text-center">
+          <div class="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/30 mb-4">
+            <svg class="w-6 h-6 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="font-mono font-bold text-sm uppercase tracking-wider mb-2 text-foreground">
+            {t('projects.feature2')}
+          </h3>
+          <p class="text-xs text-muted-foreground font-mono">
+            {lang === 'en' ? 'User-centered design' : 'Design centré utilisateur'}
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature 3: Performance -->
+      <div class="card-border-glow-hover card-hover-glow relative p-[1px] overflow-hidden rounded-lg fade-in-scroll">
+        <div class="absolute inset-0 rounded-lg bg-gradient-to-b from-grey-30/60 via-grey-25/30 to-transparent"></div>
+        <div class="relative rounded-lg bg-background p-6 h-full flex flex-col items-center text-center">
+          <div class="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/30 mb-4">
+            <svg class="w-6 h-6 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3 class="font-mono font-bold text-sm uppercase tracking-wider mb-2 text-foreground">
+            {t('projects.feature3')}
+          </h3>
+          <p class="text-xs text-muted-foreground font-mono">
+            {lang === 'en' ? 'Lightning fast' : 'Ultra-rapide'}
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature 4: Maintainability -->
+      <div class="card-border-glow-hover card-hover-glow relative p-[1px] overflow-hidden rounded-lg fade-in-scroll">
+        <div class="absolute inset-0 rounded-lg bg-gradient-to-b from-grey-30/60 via-grey-25/30 to-transparent"></div>
+        <div class="relative rounded-lg bg-background p-6 h-full flex flex-col items-center text-center">
+          <div class="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/30 mb-4">
+            <svg class="w-6 h-6 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <h3 class="font-mono font-bold text-sm uppercase tracking-wider mb-2 text-foreground">
+            {t('projects.feature4')}
+          </h3>
+          <p class="text-xs text-muted-foreground font-mono">
+            {lang === 'en' ? 'Easy to evolve' : 'Facile à faire évoluer'}
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature 5: Security -->
+      <div class="card-border-glow-hover card-hover-glow relative p-[1px] overflow-hidden rounded-lg fade-in-scroll">
+        <div class="absolute inset-0 rounded-lg bg-gradient-to-b from-grey-30/60 via-grey-25/30 to-transparent"></div>
+        <div class="relative rounded-lg bg-background p-6 h-full flex flex-col items-center text-center">
+          <div class="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center border border-cyan-500/30 mb-4">
+            <svg class="w-6 h-6 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+          </div>
+          <h3 class="font-mono font-bold text-sm uppercase tracking-wider mb-2 text-foreground">
+            {t('projects.feature5')}
+          </h3>
+          <p class="text-xs text-muted-foreground font-mono">
+            {lang === 'en' ? 'Built-in security' : 'Sécurité intégrée'}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

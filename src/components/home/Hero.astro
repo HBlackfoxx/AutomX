@@ -1,0 +1,333 @@
+---
+import { useTranslations } from '@i18n/utils';
+
+const lang = Astro.currentLocale || 'fr';
+const { t } = useTranslations(lang as 'fr' | 'en');
+---
+
+<section class="relative h-screen flex items-center justify-center overflow-hidden bg-background">
+  <!-- Cyber Grid Background -->
+  <div class="cyber-grid"></div>
+
+  <!-- Scan Lines -->
+  <div class="scan-lines"></div>
+
+  <!-- Content Container -->
+  <div class="container-custom relative z-10 h-full flex items-center">
+    <div class="max-w-6xl mx-auto w-full">
+      <!-- Main Headline -->
+      <div class="text-center space-y-3 md:space-y-5">
+        <!-- Glitch Badge -->
+        <div class="glitch-badge inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-500/30 backdrop-blur-sm">
+          <span class="pulse-dot"></span>
+          <span class="text-xs md:text-sm font-mono text-cyan-500 uppercase tracking-widest">{t('hero.badge')}</span>
+        </div>
+
+        <!-- Hero Title -->
+        <h1 class="text-shimmer text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight mx-auto text-center" id="hero-title" data-text={t('hero.headline')} style="max-width: 850px;">
+          {t('hero.headline')}
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto font-mono leading-relaxed text-center">
+          {t('hero.subheadline')}
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center pt-3 md:pt-5">
+          <a href="/contact" class="cyber-button-primary group relative px-8 py-4 font-mono font-bold uppercase tracking-wider overflow-hidden scramble-btn">
+            <span class="relative z-10 flex items-center gap-2">
+              <span class="scramble-text" data-text={t('hero.cta_primary')}>{t('hero.cta_primary')}</span>
+              <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+              </svg>
+            </span>
+            <span class="cyber-button-primary-bg"></span>
+            <span class="cyber-button-primary-border"></span>
+          </a>
+
+          <button class="cyber-button-secondary group relative px-8 py-4 font-mono font-bold uppercase tracking-wider border-2 border-border hover:border-cyan-500 transition-colors scramble-btn" id="viewWorkBtn">
+            <span class="relative z-10 flex items-center gap-2">
+              <span class="scramble-text" data-text={t('hero.cta_secondary')}>{t('hero.cta_secondary')}</span>
+              <svg class="w-5 h-5 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </span>
+          </button>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid grid grid-cols-3 gap-3 sm:gap-4 md:gap-8 max-w-3xl mx-auto pt-4 md:pt-6 border-t border-border/30">
+          <div class="stat-item text-center">
+            <div class="stat-number glow-cyan text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold font-mono text-cyan-500 mb-1 md:mb-2" data-target="150">
+              <span class="counter">0</span>
+              <span class="plus">+</span>
+            </div>
+            <div class="text-[10px] sm:text-xs md:text-sm text-muted-foreground font-mono uppercase tracking-wider">Projects</div>
+          </div>
+          <div class="stat-item text-center">
+            <div class="stat-number glow-cyan text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold font-mono text-cyan-500 mb-1 md:mb-2" data-target="98">
+              <span class="counter">0</span>
+              <span class="percent">%</span>
+            </div>
+            <div class="text-[10px] sm:text-xs md:text-sm text-muted-foreground font-mono uppercase tracking-wider">Success</div>
+          </div>
+          <div class="stat-item text-center">
+            <div class="stat-number glow-cyan text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold font-mono text-cyan-500 mb-1 md:mb-2" data-target="24">
+              <span class="counter">0</span>
+              <span class="suffix">/7</span>
+            </div>
+            <div class="text-[10px] sm:text-xs md:text-sm text-muted-foreground font-mono uppercase tracking-wider">Support</div>
+          </div>
+        </div>
+
+        <!-- Terminal-style tagline -->
+        <div class="terminal-line font-mono text-xs md:text-sm text-muted-foreground/60 pt-3 md:pt-4">
+          <span class="terminal-prompt">$</span>
+          <span class="terminal-cursor">unlock_digital_potential --mode=premium</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Down Button -->
+  <div class="scroll-down-container absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-20">
+    <button
+      class="scroll-down-button group flex flex-col items-center gap-2 transition-all duration-300 hover:scale-110"
+      aria-label="Scroll to next section"
+      id="scrollDownBtn"
+    >
+      <span class="scroll-text text-xs font-mono text-cyan-500 uppercase tracking-widest opacity-80 group-hover:opacity-100 transition-opacity">
+        Scroll
+      </span>
+      <div class="mouse-icon relative w-6 h-10 border-2 border-cyan-500/50 rounded-full group-hover:border-cyan-500 transition-colors">
+        <div class="mouse-wheel absolute left-1/2 -translate-x-1/2 top-2 w-1 h-2 bg-cyan-500 rounded-full animate-scroll-wheel"></div>
+        <div class="mouse-glow absolute inset-0 rounded-full bg-cyan-500/20 blur-sm opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      </div>
+      <svg class="chevron-icon w-4 h-4 text-cyan-500 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Floating Particles -->
+  <div class="particles-container">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+</section>
+
+<style>
+
+  .stat-item {
+    position: relative;
+  }
+
+  .stat-item::before {
+    content: '';
+    position: absolute;
+    top: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #0ea5e9, transparent);
+  }
+
+  .particles-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #0ea5e9;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #0ea5e9;
+    opacity: 0;
+    animation: particleFloat 8s ease-in-out infinite;
+  }
+
+  .particle:nth-child(1) {
+    left: 10%;
+    animation-delay: 0s;
+    animation-duration: 6s;
+  }
+
+  .particle:nth-child(2) {
+    left: 30%;
+    animation-delay: 1s;
+    animation-duration: 8s;
+  }
+
+  .particle:nth-child(3) {
+    left: 50%;
+    animation-delay: 2s;
+    animation-duration: 7s;
+  }
+
+  .particle:nth-child(4) {
+    left: 70%;
+    animation-delay: 3s;
+    animation-duration: 9s;
+  }
+
+  .particle:nth-child(5) {
+    left: 90%;
+    animation-delay: 4s;
+    animation-duration: 6.5s;
+  }
+
+  .scroll-down-button {
+    cursor: pointer;
+  }
+
+  .scroll-down-button:active {
+    transform: scale(0.95);
+  }
+
+  .mouse-icon {
+    box-shadow: 0 0 15px rgba(14, 165, 233, 0.3);
+  }
+
+  .animate-scroll-wheel {
+    animation: scroll-wheel 2s ease-in-out infinite;
+  }
+
+  .animate-bounce-slow {
+    animation: bounce-slow 2s ease-in-out infinite;
+  }
+
+  @media (max-width: 768px) {
+    .stat-item::before {
+      width: 80%;
+    }
+  }
+</style>
+
+<script>
+  // Smooth scroll to next section
+  function scrollToNextSection() {
+    const heroSection = document.querySelector('section') as HTMLElement;
+    if (heroSection) {
+      const nextSection = heroSection.nextElementSibling;
+      if (nextSection) {
+        nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }
+
+  // Counter animation
+  function animateCounter(element: HTMLElement, target: number) {
+    const counter = element.querySelector('.counter') as HTMLElement;
+    const duration = 2000;
+    const start = 0;
+    const startTime = Date.now();
+
+    function update() {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const current = Math.floor(start + (target - start) * progress);
+
+      counter.textContent = current.toString();
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
+    }
+
+    update();
+  }
+
+  // Simple scramble effect
+  function scrambleText(element: HTMLElement, finalText: string) {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    const duration = 1000; // 1 second
+    const startTime = Date.now();
+
+    // Force text wrapping behavior
+    element.style.whiteSpace = 'normal';
+    element.style.overflowWrap = 'break-word';
+    element.style.overflowWrap = 'break-word';
+
+    function update() {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      let result = '';
+      for (let i = 0; i < finalText.length; i++) {
+        if (progress * (finalText.length + 1) > i) {
+          result += finalText[i];
+        } else {
+          result += chars[Math.floor(Math.random() * chars.length)];
+        }
+      }
+
+      element.textContent = result;
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        element.textContent = finalText;
+      }
+    }
+
+    update();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Scramble title on load
+    const heroTitle = document.getElementById('hero-title') as HTMLElement;
+    if (heroTitle) {
+      const text = heroTitle.getAttribute('data-text') || '';
+      scrambleText(heroTitle, text);
+    }
+
+    // Scramble CTA buttons on load (after title finishes)
+    const ctaButtons = document.querySelectorAll('.scramble-text');
+    ctaButtons.forEach((btn, index) => {
+      const text = btn.getAttribute('data-text') || '';
+      setTimeout(() => {
+        scrambleText(btn as HTMLElement, text);
+      }, 1200 + (index * 200));
+    });
+
+    // Re-scramble CTA buttons on hover
+    document.querySelectorAll('.scramble-btn').forEach(button => {
+      button.addEventListener('mouseenter', () => {
+        const textEl = button.querySelector('.scramble-text') as HTMLElement;
+        if (textEl) {
+          const text = textEl.getAttribute('data-text') || '';
+          scrambleText(textEl, text);
+        }
+      });
+    });
+
+    // Scroll down button
+    const scrollDownBtn = document.getElementById('scrollDownBtn');
+    if (scrollDownBtn) {
+      scrollDownBtn.addEventListener('click', scrollToNextSection);
+    }
+
+    // Counter animations with intersection observer
+    const statNumbers = document.querySelectorAll('.stat-number');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const target = parseInt(entry.target.getAttribute('data-target') || '0');
+          animateCounter(entry.target as HTMLElement, target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    statNumbers.forEach(stat => observer.observe(stat));
+  });
+</script>

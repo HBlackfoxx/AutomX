@@ -1,0 +1,1348 @@
+---
+import { getCollection } from 'astro:content';
+import { useTranslations } from '@i18n/utils';
+
+const lang = Astro.currentLocale || 'fr';
+const { t } = useTranslations(lang as 'fr' | 'en');
+
+// Fetch featured projects from Content Collections
+const collectionName = lang === 'en' ? 'projects-en' : 'projects-fr';
+const allProjects = await getCollection(collectionName);
+const featuredProjects = allProjects
+  .filter(project => project.data.featured && project.data.published)
+  .sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
+  .slice(0, 3);
+
+// Category icons and colors
+const categoryConfig: Record<string, { icon: string; color: string; label: string }> = {
+  'web-development': {
+    icon: 'code',
+    color: '#0ea5e9',
+    label: lang === 'en' ? 'Web Dev' : 'Dév Web'
+  },
+  'process-automation': {
+    icon: 'zap',
+    color: '#8b5cf6',
+    label: lang === 'en' ? 'Automation' : 'Automatisation'
+  },
+  'data-analysis': {
+    icon: 'chart',
+    color: '#06b6d4',
+    label: lang === 'en' ? 'Data Analysis' : 'Analyse Données'
+  },
+  'mobile-app': {
+    icon: 'mobile',
+    color: '#10b981',
+    label: lang === 'en' ? 'Mobile App' : 'App Mobile'
+  }
+};
+
+// SVG Icons for categories
+const categoryIcons: Record<string, string> = {
+  'code': 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+  'zap': 'M13 2L3 14h8l-1 8 10-12h-8l1-8z',
+  'chart': 'M3 3v18h18M7 16l4-4 4 4 6-6',
+  'mobile': 'M12 18h.01M8 2h8a2 2 0 012 2v16a2 2 0 01-2 2H8a2 2 0 01-2-2V4a2 2 0 012-2z'
+};
+---
+
+<section class="relative min-h-screen bg-background overflow-hidden flex flex-col" id="featured-projects">
+  <!-- Premium Full-Screen Background Effects -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <!-- Animated Cyber Grid -->
+    <div class="cyber-grid-fullscreen"></div>
+
+    <!-- Animated Particles -->
+    <div class="particles-container"></div>
+  </div>
+
+  <div class="container-custom relative z-10 flex flex-col min-h-screen py-8 md:py-12">
+    <!-- Section Header (10-15% of viewport) -->
+    <div class="text-center max-w-3xl mx-auto mb-8 md:mb-12 fade-in-scroll flex-shrink-0">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-500/30 backdrop-blur-sm mb-4">
+        <span class="pulse-dot"></span>
+        <span class="text-xs font-mono text-cyan-500 uppercase tracking-widest">{t('projects.badge')}</span>
+      </div>
+      <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-foreground font-mono">
+        {t('projects.featured_title')}
+      </h2>
+      <p class="text-xs md:text-sm text-muted-foreground font-mono leading-relaxed max-w-2xl mx-auto">
+        Real-world solutions delivering measurable impact across web development, automation, and data analytics
+      </p>
+    </div>
+
+    <!-- Premium Carousel Container (70-75% of viewport) -->
+    <div class="carousel-container-fullscreen relative flex-grow flex flex-col justify-center" id="projects-carousel">
+      <!-- Carousel Track -->
+      <div class="carousel-track-wrapper overflow-hidden">
+        <div class="carousel-track flex transition-transform duration-700 ease-out">
+          {featuredProjects.map((project, index) => {
+        const projectUrl = lang === 'en' ? `/en/project/${project.slug}` : `/projet/${project.slug}`;
+        const config = categoryConfig[project.data.category] || categoryConfig['web-development'];
+        const categoryIcon = categoryIcons[config?.icon || 'code'] || categoryIcons['code'];
+
+        // Determine visualization type based on category
+        const isWebProject = ['web-development', 'mobile-app'].includes(project.data.category);
+        const isDataProject = project.data.category === 'data-analysis';
+        const isAutomationProject = project.data.category === 'process-automation';
+
+        return (
+          <div
+            class="carousel-slide flex-shrink-0 w-full px-4 md:px-8"
+            data-slide-index={index}
+            data-project-id={project.slug}
+          >
+            <div class="project-card-compact">
+            {isWebProject ? (
+              <!-- WEB/MOBILE PROJECT LAYOUT -->
+              <div class="card-hover-glow card-border-glow-hover relative h-full rounded-xl p-[1px] overflow-hidden group">
+                <!-- Gradient Border -->
+                <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-grey-30/60 via-grey-25/30 to-transparent"></div>
+
+                <!-- Card Content -->
+                <div class="relative h-full rounded-xl bg-background overflow-hidden">
+                  <!-- Header -->
+                <div class="p-6 border-b border-border/30">
+                  <div class="flex items-start justify-between gap-4 mb-4">
+                    <div class="cyber-badge inline-flex items-center gap-2 px-3 py-1.5 rounded border border-cyan-500/30 bg-cyan-500/10">
+                      <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path d={categoryIcon} stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{config?.label || 'Project'}</span>
+                    </div>
+                    <div class="px-2 py-1 rounded border border-border/30 bg-background/50">
+                      <span class="text-xs font-mono text-muted-foreground uppercase">Live</span>
+                    </div>
+                  </div>
+                  <h3 class="text-xl md:text-2xl font-bold text-foreground mb-2 font-mono group-hover:text-cyan-500 transition-colors line-clamp-2">
+                    {project.data.title}
+                  </h3>
+                  <p class="text-sm text-cyan-500/70 font-mono">
+                    <span class="text-muted-foreground">client://</span>{project.data.client}
+                  </p>
+                </div>
+
+                <!-- Dual Device Preview -->
+                <div class="preview-section relative bg-background py-3 px-4">
+                  <div class="devices-showcase relative">
+                    <!-- Desktop Browser (larger, in back) -->
+                    <div class="browser-showcase rounded-lg border border-border overflow-hidden bg-grey-20 shadow-lg">
+                      <div class="browser-bar flex items-center gap-2 px-3 py-2 border-b border-border/50 bg-grey-25">
+                        <div class="flex gap-1.5">
+                          <div class="w-2 h-2 rounded-full bg-red-500/80"></div>
+                          <div class="w-2 h-2 rounded-full bg-yellow-500/80"></div>
+                          <div class="w-2 h-2 rounded-full bg-cyan-500/80"></div>
+                        </div>
+                      </div>
+                      <div class="aspect-[16/7] overflow-hidden">
+                        <img src={project.data.image || '/images/project-placeholder.jpg'} alt={project.data.title} class="w-full h-full object-cover object-top"/>
+                      </div>
+                    </div>
+
+                    <!-- Mobile Phone (smaller, overlapping on right) -->
+                    <div class="phone-showcase absolute -bottom-3 -right-2 w-36 z-10">
+                      <div class="bg-grey-20 rounded-[2rem] p-2 border-2 border-grey-25 shadow-2xl">
+                        <div class="relative bg-grey-10 rounded-[1.5rem] overflow-hidden aspect-[9/19]">
+                          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-4 bg-grey-20 rounded-b-xl z-10"></div>
+                          <img src={project.data.mobileImage || project.data.image || '/images/project-placeholder.jpg'} alt={`${project.data.title} mobile`} class="w-full h-full object-cover object-top"/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-6">
+                  <p class="text-sm text-muted-foreground font-mono leading-relaxed mb-4 line-clamp-2">
+                    {project.data.description}
+                  </p>
+                  {project.data.results && project.data.results.length > 0 && (
+                    <div class="flex gap-4 mb-4 pb-4 border-b border-border/30">
+                      {project.data.results.slice(0, 2).map((result: any) => (
+                        <div class="flex-1">
+                          <div class="text-lg font-bold font-mono text-cyan-500">{result.value}</div>
+                          <div class="text-xs text-muted-foreground font-mono uppercase tracking-wider line-clamp-1">{result.metric}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div class="mb-4">
+                    <div class="flex flex-wrap gap-1.5">
+                      {project.data.technologies.slice(0, 4).map((tech: string) => (
+                        <span class="tech-tag-mini px-2 py-1 text-xs font-mono rounded border border-border/30 bg-background/30 text-muted-foreground">
+                          {tech}
+                        </span>
+                      ))}
+                      {project.data.technologies.length > 4 && (
+                        <span class="tech-tag-mini px-2 py-1 text-xs font-mono rounded border border-border/30 bg-background/30 text-muted-foreground/80">
+                          +{project.data.technologies.length - 4}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <a href={projectUrl} class="scramble-btn inline-flex items-center gap-2 px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-white text-sm font-bold font-mono uppercase tracking-wider transition-all duration-300 clip-corner-btn-sm group/btn w-full justify-center">
+                    <span class="scramble-text" data-text={t('projects.view_case_study')}>{t('projects.view_case_study')}</span>
+                    <svg class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                  </a>
+                </div>
+                </div>
+              </div>
+            ) : isDataProject ? (
+              <!-- DATA ANALYSIS PROJECT LAYOUT -->
+              <div class="card-hover-glow card-border-glow-hover relative h-full rounded-xl p-[1px] overflow-hidden group">
+                <!-- Gradient Border -->
+                <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-grey-30/60 via-grey-25/30 to-transparent"></div>
+
+                <!-- Card Content -->
+                <div class="relative h-full rounded-xl bg-background overflow-hidden">
+                  <!-- Horizontal Layout: Info Left, Viz Right -->
+                  <div class="flex flex-col md:flex-row h-full">
+                  <!-- Left: Info -->
+                  <div class="flex-1 p-6 flex flex-col">
+                    <div class="cyber-badge inline-flex items-center gap-2 px-3 py-1.5 rounded border border-cyan-500/30 bg-cyan-500/10 w-fit mb-4">
+                      <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path d={categoryIcon} stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{config?.label || 'Project'}</span>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-foreground mb-2 font-mono group-hover:text-cyan-500 transition-colors">
+                      {project.data.title}
+                    </h3>
+                    <p class="text-sm text-cyan-500/70 font-mono mb-4">
+                      <span class="text-muted-foreground">client://</span>{project.data.client}
+                    </p>
+
+                    <p class="text-sm text-muted-foreground font-mono leading-relaxed mb-4 flex-grow">
+                      {project.data.description}
+                    </p>
+
+                    {project.data.results && project.data.results.length > 0 && (
+                      <div class="grid grid-cols-2 gap-3 mb-4 p-4 rounded-lg border border-border/30 bg-grey-20/50">
+                        {project.data.results.slice(0, 4).map((result: any) => (
+                          <div class="text-center">
+                            <div class="text-xl font-bold font-mono text-cyan-500 mb-1">{result.value}</div>
+                            <div class="text-[10px] text-muted-foreground font-mono uppercase tracking-wider line-clamp-1">{result.metric}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <a href={projectUrl} class="scramble-btn inline-flex items-center gap-2 px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-white text-sm font-bold font-mono uppercase tracking-wider transition-all duration-300 clip-corner-btn-sm group/btn w-full justify-center mt-auto">
+                      <span class="scramble-text" data-text={t('projects.view_analysis')}>{t('projects.view_analysis')}</span>
+                      <svg class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                      </svg>
+                    </a>
+                  </div>
+
+                  <!-- Right: Data Visualization -->
+                  <div class="flex-1 bg-background p-6 flex items-center justify-center border-l border-border/30">
+                    <div class="w-full space-y-4">
+                      <!-- Chart Title -->
+                      <div class="text-center text-xs font-mono text-cyan-500 uppercase tracking-wider">Performance Metrics</div>
+
+                      <!-- Bar Chart -->
+                      <div class="flex items-end justify-between gap-3 h-28">
+                        <div class="flex-1 bg-gradient-to-t from-cyan-500 to-cyan-500/40 rounded-t transition-all duration-500 hover:from-cyan-400" style="height: 65%"></div>
+                        <div class="flex-1 bg-gradient-to-t from-cyan-500 to-cyan-500/40 rounded-t transition-all duration-500 hover:from-cyan-400" style="height: 88%"></div>
+                        <div class="flex-1 bg-gradient-to-t from-cyan-500 to-cyan-500/40 rounded-t transition-all duration-500 hover:from-cyan-400" style="height: 52%"></div>
+                        <div class="flex-1 bg-gradient-to-t from-cyan-500 to-cyan-500/40 rounded-t transition-all duration-500 hover:from-cyan-400" style="height: 95%"></div>
+                        <div class="flex-1 bg-gradient-to-t from-cyan-500 to-cyan-500/40 rounded-t transition-all duration-500 hover:from-cyan-400" style="height: 73%"></div>
+                      </div>
+
+                      <!-- Tech Stack Below -->
+                      <div class="flex flex-wrap gap-1.5 justify-center pt-4 border-t border-border/30">
+                        {project.data.technologies.slice(0, 3).map((tech: string) => (
+                          <span class="tech-tag-mini px-2 py-1 text-xs font-mono rounded border border-border/30 bg-background/30 text-muted-foreground">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            ) : isAutomationProject ? (
+              <!-- AUTOMATION PROJECT LAYOUT -->
+              <div class="card-hover-glow card-border-glow-hover relative h-full rounded-xl p-[1px] overflow-hidden group">
+                <!-- Gradient Border -->
+                <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-grey-30/60 via-grey-25/30 to-transparent"></div>
+
+                <!-- Card Content -->
+                <div class="relative h-full rounded-xl bg-background overflow-hidden">
+                  <!-- Horizontal Layout: Info Left, Process Flow Right -->
+                  <div class="flex flex-col md:flex-row h-full">
+                  <!-- Left: Info -->
+                  <div class="flex-1 p-6 flex flex-col">
+                    <div class="cyber-badge inline-flex items-center gap-2 px-3 py-1.5 rounded border border-cyan-500/30 bg-cyan-500/10 w-fit mb-4">
+                      <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path d={categoryIcon} stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{config?.label || 'Project'}</span>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-foreground mb-2 font-mono group-hover:text-cyan-500 transition-colors">
+                      {project.data.title}
+                    </h3>
+                    <p class="text-sm text-cyan-500/70 font-mono mb-4">
+                      <span class="text-muted-foreground">client://</span>{project.data.client}
+                    </p>
+
+                    <p class="text-sm text-muted-foreground font-mono leading-relaxed mb-4 flex-grow">
+                      {project.data.description}
+                    </p>
+
+                    {project.data.results && project.data.results.length > 0 && (
+                      <div class="grid grid-cols-2 gap-3 mb-4 p-4 rounded-lg border border-border/30 bg-grey-20/50">
+                        {project.data.results.slice(0, 4).map((result: any) => (
+                          <div class="text-center">
+                            <div class="text-xl font-bold font-mono text-cyan-500 mb-1">{result.value}</div>
+                            <div class="text-[10px] text-muted-foreground font-mono uppercase tracking-wider line-clamp-1">{result.metric}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <a href={projectUrl} class="scramble-btn inline-flex items-center gap-2 px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-white text-sm font-bold font-mono uppercase tracking-wider transition-all duration-300 clip-corner-btn-sm group/btn w-full justify-center mt-auto">
+                      <span class="scramble-text" data-text={t('projects.view_solution')}>{t('projects.view_solution')}</span>
+                      <svg class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                      </svg>
+                    </a>
+                  </div>
+
+                  <!-- Right: Process Flow Diagram -->
+                  <div class="flex-1 bg-background p-6 flex items-center justify-center border-l border-border/30">
+                    <div class="w-full space-y-4">
+                      <!-- Flow Title -->
+                      <div class="text-center text-xs font-mono text-cyan-500 uppercase tracking-wider mb-4">Our Approach</div>
+
+                      <!-- Process Flow Boxes -->
+                      <div class="space-y-3">
+                        <!-- Analysis -->
+                        <div class="process-box p-3 rounded-lg border border-border bg-grey-20/50 transition-all duration-300 hover:border-cyan-500/50">
+                          <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                              </svg>
+                            </div>
+                            <div class="flex-1">
+                              <div class="text-xs font-mono text-foreground font-semibold">Analysis</div>
+                              <div class="text-xs text-muted-foreground/70">Process Discovery</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div class="flex justify-center">
+                          <svg class="w-4 h-4 text-cyan-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                          </svg>
+                        </div>
+
+                        <!-- Workflow Design -->
+                        <div class="process-box p-3 rounded-lg border border-border bg-grey-20/50 transition-all duration-300 hover:border-cyan-500/50">
+                          <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/>
+                              </svg>
+                            </div>
+                            <div class="flex-1">
+                              <div class="text-xs font-mono text-foreground font-semibold">Design</div>
+                              <div class="text-xs text-muted-foreground/70">Workflow Creation</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div class="flex justify-center">
+                          <svg class="w-4 h-4 text-cyan-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                          </svg>
+                        </div>
+
+                        <!-- Implementation -->
+                        <div class="process-box p-3 rounded-lg border border-border bg-grey-20/50 transition-all duration-300 hover:border-cyan-500/50">
+                          <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                              </svg>
+                            </div>
+                            <div class="flex-1">
+                              <div class="text-xs font-mono text-foreground font-semibold">Implementation</div>
+                              <div class="text-xs text-muted-foreground/70">Deployment & Testing</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Tech Stack Below -->
+                      <div class="flex flex-wrap gap-1.5 justify-center pt-4 border-t border-border/30">
+                        {project.data.technologies.slice(0, 3).map((tech: string) => (
+                          <span class="tech-tag-mini px-2 py-1 text-xs font-mono rounded border border-border/30 bg-background/30 text-muted-foreground">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+            </div>
+          </div>
+        );
+      })}
+        </div>
+      </div>
+
+      <!-- Navigation Controls -->
+      <div class="carousel-controls">
+        <!-- Previous Button -->
+        <button
+          class="carousel-nav carousel-prev absolute left-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-background/80 backdrop-blur-sm border-2 border-cyan-500/30 flex items-center justify-center transition-all duration-300 hover:border-cyan-500 hover:bg-cyan-500/10 hover:scale-110 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
+          aria-label="Previous project"
+        >
+          <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+
+        <!-- Next Button -->
+        <button
+          class="carousel-nav carousel-next absolute right-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-background/80 backdrop-blur-sm border-2 border-cyan-500/30 flex items-center justify-center transition-all duration-300 hover:border-cyan-500 hover:bg-cyan-500/10 hover:scale-110 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
+          aria-label="Next project"
+        >
+          <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Progress Indicators -->
+      <div class="carousel-indicators flex justify-center items-center gap-3 mt-6 md:mt-8">
+        <!-- Slide Counter -->
+        <div class="slide-counter font-mono text-xs md:text-sm text-muted-foreground">
+          <span class="current-slide font-bold text-cyan-500">1</span>
+          <span class="mx-1">/</span>
+          <span class="total-slides">{featuredProjects.length}</span>
+        </div>
+
+        <!-- Dot Indicators -->
+        <div class="flex gap-2 ml-4">
+          {featuredProjects.map((_, index) => (
+            <button
+              class="carousel-dot w-2 h-2 rounded-full bg-border transition-all duration-300 hover:bg-cyan-500/50"
+              data-slide={index}
+              aria-label={`Go to project ${index + 1}`}
+            ></button>
+          ))}
+        </div>
+
+        <!-- Auto-play Toggle -->
+        <button
+          class="autoplay-toggle ml-4 p-2 rounded-full bg-background/50 backdrop-blur-sm border border-cyan-500/30 transition-all duration-300 hover:bg-cyan-500/10 hover:border-cyan-500"
+          aria-label="Toggle auto-play"
+        >
+          <svg class="play-icon w-4 h-4 text-cyan-400 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <svg class="pause-icon w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="carousel-progress-bar w-full h-1 bg-grey-25 rounded-full mt-4 md:mt-6 overflow-hidden">
+        <div class="progress-fill h-full bg-gradient-to-r from-cyan-500 to-cyan-400 transition-all duration-300 ease-linear rounded-full" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- View All Projects CTA (Bottom 10-15%) -->
+    <div class="text-center fade-in-scroll mt-8 md:mt-12 flex-shrink-0">
+      <a href={lang === 'en' ? '/en/projects' : '/projets'} class="scramble-btn cyber-button-secondary clip-corner-lg group relative inline-flex items-center gap-3 px-6 md:px-8 py-3 md:py-4 font-mono font-bold uppercase tracking-wider border-2 border-border hover:border-cyan-500 transition-all duration-300 text-xs md:text-sm">
+        <span class="relative z-10 flex items-center gap-2">
+          <span class="scramble-text" data-text={t('projects.all_projects')}>{t('projects.all_projects')}</span>
+          <svg class="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ============================================
+     FULL-SCREEN BACKGROUND EFFECTS
+     ============================================ */
+  .cyber-grid-fullscreen {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(6, 182, 212, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(6, 182, 212, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: grid-pulse 8s ease-in-out infinite;
+  }
+
+  @keyframes grid-pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+  }
+
+  .bg-gradient-radial {
+    background: radial-gradient(circle at center, var(--tw-gradient-stops));
+  }
+
+  /* Animated Particles */
+  .particles-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .particles-container::before,
+  .particles-container::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(6, 182, 212, 0.4);
+    border-radius: 50%;
+    animation: float 15s infinite ease-in-out;
+  }
+
+  .particles-container::before {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+
+  .particles-container::after {
+    top: 60%;
+    right: 15%;
+    animation-delay: 7s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+    25% { transform: translate(100px, -100px) scale(1.5); opacity: 0.6; }
+    50% { transform: translate(-50px, -200px) scale(1); opacity: 0.4; }
+    75% { transform: translate(150px, -50px) scale(1.2); opacity: 0.5; }
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+  }
+
+  @keyframes pulse-slow-delayed {
+    0%, 100% { opacity: 0.4; transform: scale(1.05); }
+    50% { opacity: 0.7; transform: scale(1.15); }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 8s ease-in-out infinite;
+  }
+
+  .animate-pulse-slow-delayed {
+    animation: pulse-slow-delayed 10s ease-in-out infinite;
+    animation-delay: 4s;
+  }
+
+  /* ============================================
+     FULL-SCREEN CAROUSEL CONTAINER
+     ============================================ */
+  .carousel-container-fullscreen {
+    position: relative;
+    padding: 0;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .carousel-container-fullscreen {
+      max-width: 100%;
+      padding: 0 1rem;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1440px) {
+    .carousel-container-fullscreen {
+      padding: 0 2rem;
+    }
+  }
+
+  @media (min-width: 1441px) {
+    .carousel-container-fullscreen {
+      padding: 0 3rem;
+    }
+  }
+
+  /* ============================================
+     CAROUSEL TRACK
+     ============================================ */
+  .carousel-track-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.5rem;
+  }
+
+  .carousel-track {
+    display: flex;
+    transition: transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  .carousel-track.dragging {
+    transition: none;
+    cursor: grabbing;
+  }
+
+  .carousel-slide {
+    flex-shrink: 0;
+    width: 100%;
+    opacity: 1;
+    transition: opacity 500ms ease;
+    padding: 0 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .carousel-slide {
+      padding: 0 2rem;
+    }
+  }
+
+  /* ============================================
+     CAROUSEL NAVIGATION - Full Screen Optimized
+     ============================================ */
+  .carousel-nav {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+  }
+
+  .carousel-nav:not(:disabled):hover {
+    box-shadow: 0 8px 32px rgba(6, 182, 212, 0.5);
+    transform: translateY(-50%) scale(1.15);
+  }
+
+  .carousel-nav:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: translateY(-50%) scale(0.9);
+  }
+
+  /* Position controls on sides for full-screen layout */
+  @media (min-width: 768px) {
+    .carousel-prev {
+      left: -1.5rem;
+    }
+
+    .carousel-next {
+      right: -1.5rem;
+    }
+  }
+
+  @media (min-width: 1441px) {
+    .carousel-prev {
+      left: -2rem;
+    }
+
+    .carousel-next {
+      right: -2rem;
+    }
+  }
+
+  /* ============================================
+     CAROUSEL INDICATORS
+     ============================================ */
+  .carousel-dot {
+    cursor: pointer;
+  }
+
+  .carousel-dot.active {
+    width: 2rem;
+    background: linear-gradient(90deg, #06b6d4, #0ea5e9);
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.6);
+  }
+
+  .carousel-dot:not(.active):hover {
+    transform: scale(1.3);
+  }
+
+  /* Auto-play toggle */
+  .autoplay-toggle.playing .play-icon {
+    display: block;
+  }
+
+  .autoplay-toggle.playing .pause-icon {
+    display: none;
+  }
+
+  /* ============================================
+     PROGRESS BAR
+     ============================================ */
+  .carousel-progress-bar {
+    position: relative;
+  }
+
+  .progress-fill {
+    transform-origin: left;
+  }
+
+  /* ============================================
+     FULL-SCREEN PROJECT CARDS
+     ============================================ */
+  .project-card-compact {
+    height: 100%;
+    max-height: 70vh; /* Ensure cards don't overflow viewport */
+    overflow: hidden;
+  }
+
+  /* Responsive card heights for optimal full-screen display */
+  @media (max-width: 768px) {
+    .project-card-compact {
+      max-height: 65vh;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1440px) {
+    .project-card-compact {
+      max-height: 68vh;
+    }
+  }
+
+  @media (min-width: 1441px) {
+    .project-card-compact {
+      max-height: 70vh;
+    }
+  }
+
+  /* ============================================
+     WEB PROJECT - DUAL DEVICE SHOWCASE
+     ============================================ */
+  .devices-showcase {
+    position: relative;
+    padding-bottom: 1rem;
+  }
+
+  .browser-showcase {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .browser-showcase:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(6, 182, 212, 0.2);
+  }
+
+  .phone-showcase {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease;
+  }
+
+  .phone-showcase:hover {
+    transform: translateY(-4px) scale(1.05);
+  }
+
+  /* ============================================
+     DATA ANALYSIS PROJECT - HORIZONTAL LAYOUT
+     ============================================ */
+  .data-analysis-layout {
+    min-height: 400px;
+  }
+
+  @media (min-width: 1441px) {
+    .data-analysis-layout {
+      min-height: 500px;
+    }
+  }
+
+  /* ============================================
+     AUTOMATION PROJECT - PROCESS FLOW LAYOUT
+     ============================================ */
+  .automation-layout {
+    min-height: 450px;
+  }
+
+  @media (min-width: 1441px) {
+    .automation-layout {
+      min-height: 550px;
+    }
+  }
+
+  /* ============================================
+     TECH TAGS
+     ============================================ */
+  .tech-tag-mini {
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+  }
+
+  .tech-tag-mini:hover {
+    border-color: rgba(14, 165, 233, 0.5);
+    background: rgba(14, 165, 233, 0.1);
+    color: rgba(14, 165, 233, 1);
+  }
+
+  /* ============================================
+     CYBER BADGE
+     ============================================ */
+  .cyber-badge {
+    backdrop-filter: blur(10px);
+  }
+
+  /* ============================================
+     CLIP CORNER BUTTONS
+     ============================================ */
+  .clip-corner-btn-sm {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 8px) 0,
+      100% 8px,
+      100% 100%,
+      0 100%
+    );
+  }
+
+  .clip-corner-lg {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 12px) 0,
+      100% 12px,
+      100% 100%,
+      0 100%
+    );
+  }
+
+  /* ============================================
+     PREVIEW SECTION - Full Screen Optimized
+     ============================================ */
+  .preview-section {
+    min-height: 220px;
+  }
+
+  @media (min-width: 768px) {
+    .preview-section {
+      min-height: 260px;
+    }
+  }
+
+  @media (min-width: 1441px) {
+    .preview-section {
+      min-height: 300px;
+    }
+  }
+
+  /* ============================================
+     RESPONSIVE FULL-SCREEN OPTIMIZATIONS
+     ============================================ */
+
+  /* Mobile (375px - 768px) */
+  @media (max-width: 768px) {
+    .preview-section {
+      min-height: 180px;
+    }
+
+    .phone-showcase {
+      width: 6rem !important;
+      bottom: -1rem !important;
+      right: -0.5rem !important;
+    }
+
+    /* Stack data analysis layout vertically on mobile */
+    .data-analysis-layout .flex-col {
+      flex-direction: column !important;
+    }
+
+    .data-analysis-layout .border-l {
+      border-left: none !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Reduce card text sizes for mobile full-screen */
+    .project-card-compact h3 {
+      font-size: 1.125rem !important;
+    }
+
+    .project-card-compact p {
+      font-size: 0.75rem !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .devices-showcase {
+      padding-bottom: 0.75rem;
+    }
+
+    .phone-showcase {
+      width: 5rem !important;
+      bottom: -0.75rem !important;
+      right: -0.25rem !important;
+    }
+  }
+
+  /* Tablet (768px - 1440px) */
+  @media (min-width: 768px) and (max-width: 1440px) {
+    .preview-section {
+      min-height: 240px;
+    }
+
+    .phone-showcase {
+      width: 8rem !important;
+    }
+  }
+
+  /* Desktop/Laptop 1440p+ (1441px+) */
+  @media (min-width: 1441px) {
+    .phone-showcase {
+      width: 9rem !important;
+    }
+
+    .browser-showcase {
+      border-radius: 0.75rem;
+    }
+
+    /* Scale up cards for large screens */
+    .project-card-compact h3 {
+      font-size: 1.75rem !important;
+    }
+
+    .project-card-compact p {
+      font-size: 1rem !important;
+    }
+  }
+
+</style>
+
+<script>
+  // Scroll animations handled by shared scroll-observer.ts
+  import '@scripts/scroll-observer';
+
+  // ============================================
+  // PREMIUM CAROUSEL FUNCTIONALITY
+  // ============================================
+
+  interface CarouselState {
+    currentSlide: number;
+    totalSlides: number;
+    isAutoPlaying: boolean;
+    autoPlayInterval: number | null;
+    progressInterval: number | null;
+    isDragging: boolean;
+    startPos: number;
+    currentTranslate: number;
+    prevTranslate: number;
+    animationID: number;
+  }
+
+  class PremiumCarousel {
+    private container!: HTMLElement;
+    private track!: HTMLElement;
+    private slides!: NodeListOf<HTMLElement>;
+    private prevBtn!: HTMLButtonElement;
+    private nextBtn!: HTMLButtonElement;
+    private dots!: NodeListOf<HTMLButtonElement>;
+    private currentSlideEl!: HTMLElement;
+    private autoPlayToggle!: HTMLButtonElement;
+    private progressBar!: HTMLElement;
+    private state!: CarouselState;
+
+    // Configuration
+    private readonly AUTO_PLAY_DURATION = 7000; // 7 seconds
+    private readonly SWIPE_THRESHOLD = 50; // pixels
+    private readonly PROGRESS_UPDATE_INTERVAL = 50; // ms
+
+    constructor(containerId: string) {
+      this.container = document.getElementById(containerId) as HTMLElement;
+      if (!this.container) return;
+
+      // Get DOM elements
+      this.track = this.container.querySelector('.carousel-track') as HTMLElement;
+      this.slides = this.container.querySelectorAll('.carousel-slide');
+      this.prevBtn = this.container.querySelector('.carousel-prev') as HTMLButtonElement;
+      this.nextBtn = this.container.querySelector('.carousel-next') as HTMLButtonElement;
+      this.dots = this.container.querySelectorAll('.carousel-dot');
+      this.currentSlideEl = this.container.querySelector('.current-slide') as HTMLElement;
+      this.autoPlayToggle = this.container.querySelector('.autoplay-toggle') as HTMLButtonElement;
+      this.progressBar = this.container.querySelector('.progress-fill') as HTMLElement;
+
+      // Initialize state
+      this.state = {
+        currentSlide: 0,
+        totalSlides: this.slides.length,
+        isAutoPlaying: true,
+        autoPlayInterval: null,
+        progressInterval: null,
+        isDragging: false,
+        startPos: 0,
+        currentTranslate: 0,
+        prevTranslate: 0,
+        animationID: 0
+      };
+
+      this.init();
+    }
+
+    private init(): void {
+      // Set up event listeners
+      this.prevBtn?.addEventListener('click', () => this.prevSlide());
+      this.nextBtn?.addEventListener('click', () => this.nextSlide());
+
+      this.dots?.forEach((dot, index) => {
+        dot.addEventListener('click', () => this.goToSlide(index));
+      });
+
+      this.autoPlayToggle?.addEventListener('click', () => this.toggleAutoPlay());
+
+      // Touch/Mouse events for swipe
+      this.setupSwipeEvents();
+
+      // Keyboard navigation
+      this.setupKeyboardNavigation();
+
+      // Pause on hover
+      this.container.addEventListener('mouseenter', () => {
+        if (this.state.isAutoPlaying) {
+          this.pauseAutoPlay();
+        }
+      });
+
+      this.container.addEventListener('mouseleave', () => {
+        if (this.state.isAutoPlaying) {
+          this.startAutoPlay();
+        }
+      });
+
+      // Initialize first slide
+      this.updateCarousel(false);
+
+      // Start auto-play
+      this.startAutoPlay();
+
+      // Visibility API - pause when tab is hidden
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          this.pauseAutoPlay();
+        } else if (this.state.isAutoPlaying) {
+          this.startAutoPlay();
+        }
+      });
+    }
+
+    private setupSwipeEvents(): void {
+      // Touch events
+      this.track.addEventListener('touchstart', (e) => this.touchStart(e), { passive: true });
+      this.track.addEventListener('touchmove', (e) => this.touchMove(e), { passive: false });
+      this.track.addEventListener('touchend', () => this.touchEnd());
+
+      // Mouse events
+      this.track.addEventListener('mousedown', (e) => this.touchStart(e));
+      this.track.addEventListener('mousemove', (e) => this.touchMove(e));
+      this.track.addEventListener('mouseup', () => this.touchEnd());
+      this.track.addEventListener('mouseleave', () => this.touchEnd());
+
+      // Prevent context menu on long press
+      this.track.addEventListener('contextmenu', (e) => {
+        if (this.state.isDragging) e.preventDefault();
+      });
+    }
+
+    private setupKeyboardNavigation(): void {
+      document.addEventListener('keydown', (e) => {
+        // Only respond if carousel is in viewport
+        const rect = this.container.getBoundingClientRect();
+        const isInViewport = rect.top < window.innerHeight && rect.bottom >= 0;
+
+        if (!isInViewport) return;
+
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          this.prevSlide();
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          this.nextSlide();
+        }
+      });
+    }
+
+    private touchStart(event: TouchEvent | MouseEvent): void {
+      if (this.state.isAutoPlaying) {
+        this.pauseAutoPlay();
+      }
+
+      this.state.isDragging = true;
+      this.state.startPos = this.getPositionX(event);
+      this.state.prevTranslate = this.state.currentSlide * -100;
+
+      this.track.classList.add('dragging');
+      this.track.style.cursor = 'grabbing';
+    }
+
+    private touchMove(event: TouchEvent | MouseEvent): void {
+      if (!this.state.isDragging) return;
+
+      const currentPosition = this.getPositionX(event);
+      const diff = currentPosition - this.state.startPos;
+      const slideWidth = this.track.offsetWidth;
+      const movePercent = (diff / slideWidth) * 100;
+
+      this.state.currentTranslate = this.state.prevTranslate + movePercent;
+
+      // Add resistance at boundaries
+      if (this.state.currentSlide === 0 && movePercent > 0) {
+        this.state.currentTranslate = this.state.prevTranslate + (movePercent * 0.3);
+      } else if (this.state.currentSlide === this.state.totalSlides - 1 && movePercent < 0) {
+        this.state.currentTranslate = this.state.prevTranslate + (movePercent * 0.3);
+      }
+
+      this.track.style.transform = `translateX(${this.state.currentTranslate}%)`;
+
+      // Prevent default for touch to avoid scrolling
+      if (event.cancelable) {
+        event.preventDefault();
+      }
+    }
+
+    private touchEnd(): void {
+      if (!this.state.isDragging) return;
+
+      this.state.isDragging = false;
+      this.track.classList.remove('dragging');
+      this.track.style.cursor = 'grab';
+
+      const movedBy = this.state.currentTranslate - this.state.prevTranslate;
+      const slideWidth = this.track.offsetWidth;
+      const movedPixels = Math.abs(movedBy * slideWidth / 100);
+
+      // Determine if swipe was significant enough
+      if (movedPixels > this.SWIPE_THRESHOLD) {
+        if (movedBy > 0 && this.state.currentSlide > 0) {
+          this.prevSlide();
+        } else if (movedBy < 0 && this.state.currentSlide < this.state.totalSlides - 1) {
+          this.nextSlide();
+        } else {
+          this.updateCarousel(true);
+        }
+      } else {
+        this.updateCarousel(true);
+      }
+
+      // Resume auto-play if it was active
+      if (this.state.isAutoPlaying) {
+        this.startAutoPlay();
+      }
+    }
+
+    private getPositionX(event: TouchEvent | MouseEvent): number {
+      return event instanceof TouchEvent ? (event.touches[0]?.clientX ?? 0) : event.clientX;
+    }
+
+    private nextSlide(): void {
+      if (this.state.currentSlide < this.state.totalSlides - 1) {
+        this.state.currentSlide++;
+      } else {
+        this.state.currentSlide = 0; // Loop to first
+      }
+      this.updateCarousel(true);
+      this.resetAutoPlay();
+    }
+
+    private prevSlide(): void {
+      if (this.state.currentSlide > 0) {
+        this.state.currentSlide--;
+      } else {
+        this.state.currentSlide = this.state.totalSlides - 1; // Loop to last
+      }
+      this.updateCarousel(true);
+      this.resetAutoPlay();
+    }
+
+    private goToSlide(index: number): void {
+      this.state.currentSlide = index;
+      this.updateCarousel(true);
+      this.resetAutoPlay();
+    }
+
+    private updateCarousel(animate: boolean = true): void {
+      const offset = -this.state.currentSlide * 100;
+
+      if (animate) {
+        this.track.style.transition = 'transform 700ms cubic-bezier(0.4, 0, 0.2, 1)';
+      } else {
+        this.track.style.transition = 'none';
+      }
+
+      this.track.style.transform = `translateX(${offset}%)`;
+
+      // Update indicators
+      this.updateIndicators();
+
+      // Update navigation buttons
+      this.updateNavigationButtons();
+
+      // Update ARIA
+      this.updateAria();
+    }
+
+    private updateIndicators(): void {
+      // Update dots
+      this.dots.forEach((dot, index) => {
+        if (index === this.state.currentSlide) {
+          dot.classList.add('active');
+          dot.setAttribute('aria-current', 'true');
+        } else {
+          dot.classList.remove('active');
+          dot.removeAttribute('aria-current');
+        }
+      });
+
+      // Update counter
+      if (this.currentSlideEl) {
+        this.currentSlideEl.textContent = String(this.state.currentSlide + 1);
+      }
+    }
+
+    private updateNavigationButtons(): void {
+      // Enable/disable buttons at boundaries (if not looping)
+      // Since we're looping, buttons are always enabled
+      this.prevBtn.disabled = false;
+      this.nextBtn.disabled = false;
+    }
+
+    private updateAria(): void {
+      this.slides.forEach((slide, index) => {
+        if (index === this.state.currentSlide) {
+          slide.setAttribute('aria-hidden', 'false');
+        } else {
+          slide.setAttribute('aria-hidden', 'true');
+        }
+      });
+    }
+
+    private startAutoPlay(): void {
+      this.pauseAutoPlay(); // Clear existing intervals
+
+      // Start slide advancement
+      this.state.autoPlayInterval = window.setInterval(() => {
+        this.nextSlide();
+      }, this.AUTO_PLAY_DURATION);
+
+      // Start progress bar animation
+      let progress = 0;
+      this.state.progressInterval = window.setInterval(() => {
+        progress += (this.PROGRESS_UPDATE_INTERVAL / this.AUTO_PLAY_DURATION) * 100;
+        if (progress >= 100) {
+          progress = 0;
+        }
+        if (this.progressBar) {
+          this.progressBar.style.width = `${progress}%`;
+        }
+      }, this.PROGRESS_UPDATE_INTERVAL);
+    }
+
+    private pauseAutoPlay(): void {
+      if (this.state.autoPlayInterval) {
+        clearInterval(this.state.autoPlayInterval);
+        this.state.autoPlayInterval = null;
+      }
+      if (this.state.progressInterval) {
+        clearInterval(this.state.progressInterval);
+        this.state.progressInterval = null;
+      }
+    }
+
+    private resetAutoPlay(): void {
+      if (this.state.isAutoPlaying) {
+        this.pauseAutoPlay();
+        this.startAutoPlay();
+      }
+    }
+
+    private toggleAutoPlay(): void {
+      this.state.isAutoPlaying = !this.state.isAutoPlaying;
+
+      if (this.state.isAutoPlaying) {
+        this.autoPlayToggle.classList.remove('playing');
+        this.startAutoPlay();
+      } else {
+        this.autoPlayToggle.classList.add('playing');
+        this.pauseAutoPlay();
+        if (this.progressBar) {
+          this.progressBar.style.width = '0%';
+        }
+      }
+
+      // Update ARIA
+      this.autoPlayToggle.setAttribute(
+        'aria-label',
+        this.state.isAutoPlaying ? 'Pause auto-play' : 'Resume auto-play'
+      );
+    }
+  }
+
+  // ============================================
+  // SCRAMBLE TEXT EFFECT
+  // ============================================
+  function scrambleText(element: HTMLElement, finalText: string) {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    const duration = 600;
+    const startTime = Date.now();
+
+    function update() {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      let result = '';
+      for (let i = 0; i < finalText.length; i++) {
+        if (progress * finalText.length > i) {
+          result += finalText[i];
+        } else {
+          result += chars[Math.floor(Math.random() * chars.length)];
+        }
+      }
+
+      element.textContent = result;
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        element.textContent = finalText;
+      }
+    }
+
+    update();
+  }
+
+  // ============================================
+  // INITIALIZE ON DOM READY
+  // ============================================
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize carousel
+    new PremiumCarousel('projects-carousel');
+
+    // Add scramble effect on hover to all buttons
+    document.querySelectorAll('.scramble-btn').forEach(button => {
+      button.addEventListener('mouseenter', () => {
+        const textEl = button.querySelector('.scramble-text') as HTMLElement;
+        if (textEl) {
+          const text = textEl.getAttribute('data-text') || '';
+          scrambleText(textEl, text);
+        }
+      });
+    });
+  });
+</script>

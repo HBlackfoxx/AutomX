@@ -1,0 +1,526 @@
+{
+  "automation": {
+    "id": "automation",
+    "slug": {
+      "fr": "automatisation",
+      "en": "automation"
+    },
+    "icon": "git-branch",
+    "color": "cyan",
+    "titleKey": "servicesPage.automation.hero_title",
+    "technologies": [
+      { "name": "n8n", "category": "automation" },
+      { "name": "Make", "category": "automation" },
+      { "name": "Zapier", "category": "automation" },
+      { "name": "Python", "category": "development" },
+      { "name": "Node.js", "category": "development" },
+      { "name": "API", "category": "integration" },
+      { "name": "Webhooks", "category": "integration" }
+    ],
+    "processSteps": [
+      {
+        "icon": "capture",
+        "titleKey": "servicesPage.automation.process_step1_title",
+        "descKey": "servicesPage.automation.process_step1_desc"
+      },
+      {
+        "icon": "analysis",
+        "titleKey": "servicesPage.automation.process_step2_title",
+        "descKey": "servicesPage.automation.process_step2_desc"
+      },
+      {
+        "icon": "automation",
+        "titleKey": "servicesPage.automation.process_step3_title",
+        "descKey": "servicesPage.automation.process_step3_desc"
+      },
+      {
+        "icon": "integration",
+        "titleKey": "servicesPage.automation.process_step4_title",
+        "descKey": "servicesPage.automation.process_step4_desc"
+      },
+      {
+        "icon": "delivery",
+        "titleKey": "servicesPage.automation.process_step5_title",
+        "descKey": "servicesPage.automation.process_step5_desc"
+      },
+      {
+        "icon": "notification",
+        "titleKey": "servicesPage.automation.process_step6_title",
+        "descKey": "servicesPage.automation.process_step6_desc"
+      }
+    ],
+    "benefits": [
+      {
+        "icon": "clock",
+        "titleKey": "servicesPage.automation.benefit1_title",
+        "descKey": "servicesPage.automation.benefit1_desc"
+      },
+      {
+        "icon": "shield-check",
+        "titleKey": "servicesPage.automation.benefit2_title",
+        "descKey": "servicesPage.automation.benefit2_desc"
+      },
+      {
+        "icon": "trending-up",
+        "titleKey": "servicesPage.automation.benefit3_title",
+        "descKey": "servicesPage.automation.benefit3_desc"
+      },
+      {
+        "icon": "clock-24",
+        "titleKey": "servicesPage.automation.benefit4_title",
+        "descKey": "servicesPage.automation.benefit4_desc"
+      },
+      {
+        "icon": "chart",
+        "titleKey": "servicesPage.automation.benefit5_title",
+        "descKey": "servicesPage.automation.benefit5_desc"
+      },
+      {
+        "icon": "scale",
+        "titleKey": "servicesPage.automation.benefit6_title",
+        "descKey": "servicesPage.automation.benefit6_desc"
+      }
+    ],
+    "deliverables": [
+      "servicesPage.automation.deliverable1",
+      "servicesPage.automation.deliverable2",
+      "servicesPage.automation.deliverable3",
+      "servicesPage.automation.deliverable4",
+      "servicesPage.automation.deliverable5",
+      "servicesPage.automation.deliverable6"
+    ],
+    "pricingTiers": [
+      {
+        "name": "servicesPage.automation.pricing_starter",
+        "description": "servicesPage.automation.pricing_starter_desc",
+        "price": "servicesPage.automation.pricing_starter_price"
+      },
+      {
+        "name": "servicesPage.automation.pricing_pro",
+        "description": "servicesPage.automation.pricing_pro_desc",
+        "price": "servicesPage.automation.pricing_pro_price"
+      },
+      {
+        "name": "servicesPage.automation.pricing_enterprise",
+        "description": "servicesPage.automation.pricing_enterprise_desc",
+        "price": "servicesPage.automation.pricing_enterprise_price"
+      }
+    ],
+    "faqs": [
+      {
+        "questionKey": "servicesPage.automation.faq_q1",
+        "answerKey": "servicesPage.automation.faq_a1"
+      },
+      {
+        "questionKey": "servicesPage.automation.faq_q2",
+        "answerKey": "servicesPage.automation.faq_a2"
+      },
+      {
+        "questionKey": "servicesPage.automation.faq_q3",
+        "answerKey": "servicesPage.automation.faq_a3"
+      },
+      {
+        "questionKey": "servicesPage.automation.faq_q4",
+        "answerKey": "servicesPage.automation.faq_a4"
+      },
+      {
+        "questionKey": "servicesPage.automation.faq_q5",
+        "answerKey": "servicesPage.automation.faq_a5"
+      }
+    ],
+    "relatedProjects": ["automation-crm-sync", "workflow-automation", "data-pipeline"]
+  },
+  "web": {
+    "id": "web",
+    "slug": {
+      "fr": "developpement-web",
+      "en": "web-development"
+    },
+    "icon": "globe",
+    "color": "cyan",
+    "titleKey": "servicesPage.web.hero_title",
+    "technologies": [
+      { "name": "React", "category": "frontend" },
+      { "name": "Next.js", "category": "frontend" },
+      { "name": "Astro", "category": "frontend" },
+      { "name": "TypeScript", "category": "language" },
+      { "name": "Tailwind CSS", "category": "styling" },
+      { "name": "Node.js", "category": "backend" },
+      { "name": "Vercel", "category": "hosting" }
+    ],
+    "processSteps": [
+      {
+        "icon": "capture",
+        "titleKey": "servicesPage.web.process_step1_title",
+        "descKey": "servicesPage.web.process_step1_desc"
+      },
+      {
+        "icon": "analysis",
+        "titleKey": "servicesPage.web.process_step2_title",
+        "descKey": "servicesPage.web.process_step2_desc"
+      },
+      {
+        "icon": "automation",
+        "titleKey": "servicesPage.web.process_step3_title",
+        "descKey": "servicesPage.web.process_step3_desc"
+      },
+      {
+        "icon": "integration",
+        "titleKey": "servicesPage.web.process_step4_title",
+        "descKey": "servicesPage.web.process_step4_desc"
+      },
+      {
+        "icon": "delivery",
+        "titleKey": "servicesPage.web.process_step5_title",
+        "descKey": "servicesPage.web.process_step5_desc"
+      },
+      {
+        "icon": "notification",
+        "titleKey": "servicesPage.web.process_step6_title",
+        "descKey": "servicesPage.web.process_step6_desc"
+      }
+    ],
+    "benefits": [
+      {
+        "icon": "zap",
+        "titleKey": "servicesPage.web.benefit1_title",
+        "descKey": "servicesPage.web.benefit1_desc"
+      },
+      {
+        "icon": "search",
+        "titleKey": "servicesPage.web.benefit2_title",
+        "descKey": "servicesPage.web.benefit2_desc"
+      },
+      {
+        "icon": "smartphone",
+        "titleKey": "servicesPage.web.benefit3_title",
+        "descKey": "servicesPage.web.benefit3_desc"
+      },
+      {
+        "icon": "target",
+        "titleKey": "servicesPage.web.benefit4_title",
+        "descKey": "servicesPage.web.benefit4_desc"
+      },
+      {
+        "icon": "code",
+        "titleKey": "servicesPage.web.benefit5_title",
+        "descKey": "servicesPage.web.benefit5_desc"
+      },
+      {
+        "icon": "shield",
+        "titleKey": "servicesPage.web.benefit6_title",
+        "descKey": "servicesPage.web.benefit6_desc"
+      }
+    ],
+    "deliverables": [
+      "servicesPage.web.deliverable1",
+      "servicesPage.web.deliverable2",
+      "servicesPage.web.deliverable3",
+      "servicesPage.web.deliverable4",
+      "servicesPage.web.deliverable5",
+      "servicesPage.web.deliverable6"
+    ],
+    "pricingTiers": [
+      {
+        "name": "servicesPage.web.pricing_starter",
+        "description": "servicesPage.web.pricing_starter_desc",
+        "price": "servicesPage.web.pricing_starter_price"
+      },
+      {
+        "name": "servicesPage.web.pricing_pro",
+        "description": "servicesPage.web.pricing_pro_desc",
+        "price": "servicesPage.web.pricing_pro_price"
+      },
+      {
+        "name": "servicesPage.web.pricing_enterprise",
+        "description": "servicesPage.web.pricing_enterprise_desc",
+        "price": "servicesPage.web.pricing_enterprise_price"
+      }
+    ],
+    "faqs": [
+      {
+        "questionKey": "servicesPage.web.faq_q1",
+        "answerKey": "servicesPage.web.faq_a1"
+      },
+      {
+        "questionKey": "servicesPage.web.faq_q2",
+        "answerKey": "servicesPage.web.faq_a2"
+      },
+      {
+        "questionKey": "servicesPage.web.faq_q3",
+        "answerKey": "servicesPage.web.faq_a3"
+      },
+      {
+        "questionKey": "servicesPage.web.faq_q4",
+        "answerKey": "servicesPage.web.faq_a4"
+      },
+      {
+        "questionKey": "servicesPage.web.faq_q5",
+        "answerKey": "servicesPage.web.faq_a5"
+      }
+    ],
+    "relatedProjects": ["portfolio-redesign", "ecommerce-platform", "saas-dashboard"]
+  },
+  "data": {
+    "id": "data",
+    "slug": {
+      "fr": "analyse-donnees",
+      "en": "data-analysis"
+    },
+    "icon": "database",
+    "color": "cyan",
+    "titleKey": "servicesPage.data.hero_title",
+    "technologies": [
+      { "name": "Python", "category": "language" },
+      { "name": "PostgreSQL", "category": "database" },
+      { "name": "MongoDB", "category": "database" },
+      { "name": "Power BI", "category": "visualization" },
+      { "name": "Tableau", "category": "visualization" },
+      { "name": "Pandas", "category": "analytics" },
+      { "name": "SQL", "category": "query" }
+    ],
+    "processSteps": [
+      {
+        "icon": "capture",
+        "titleKey": "servicesPage.data.process_step1_title",
+        "descKey": "servicesPage.data.process_step1_desc"
+      },
+      {
+        "icon": "analysis",
+        "titleKey": "servicesPage.data.process_step2_title",
+        "descKey": "servicesPage.data.process_step2_desc"
+      },
+      {
+        "icon": "automation",
+        "titleKey": "servicesPage.data.process_step3_title",
+        "descKey": "servicesPage.data.process_step3_desc"
+      },
+      {
+        "icon": "integration",
+        "titleKey": "servicesPage.data.process_step4_title",
+        "descKey": "servicesPage.data.process_step4_desc"
+      },
+      {
+        "icon": "delivery",
+        "titleKey": "servicesPage.data.process_step5_title",
+        "descKey": "servicesPage.data.process_step5_desc"
+      },
+      {
+        "icon": "monitoring",
+        "titleKey": "servicesPage.data.process_step6_title",
+        "descKey": "servicesPage.data.process_step6_desc"
+      }
+    ],
+    "benefits": [
+      {
+        "icon": "lightbulb",
+        "titleKey": "servicesPage.data.benefit1_title",
+        "descKey": "servicesPage.data.benefit1_desc"
+      },
+      {
+        "icon": "trending-up",
+        "titleKey": "servicesPage.data.benefit2_title",
+        "descKey": "servicesPage.data.benefit2_desc"
+      },
+      {
+        "icon": "activity",
+        "titleKey": "servicesPage.data.benefit3_title",
+        "descKey": "servicesPage.data.benefit3_desc"
+      },
+      {
+        "icon": "chart",
+        "titleKey": "servicesPage.data.benefit4_title",
+        "descKey": "servicesPage.data.benefit4_desc"
+      },
+      {
+        "icon": "eye",
+        "titleKey": "servicesPage.data.benefit5_title",
+        "descKey": "servicesPage.data.benefit5_desc"
+      },
+      {
+        "icon": "file-text",
+        "titleKey": "servicesPage.data.benefit6_title",
+        "descKey": "servicesPage.data.benefit6_desc"
+      }
+    ],
+    "deliverables": [
+      "servicesPage.data.deliverable1",
+      "servicesPage.data.deliverable2",
+      "servicesPage.data.deliverable3",
+      "servicesPage.data.deliverable4",
+      "servicesPage.data.deliverable5",
+      "servicesPage.data.deliverable6"
+    ],
+    "pricingTiers": [
+      {
+        "name": "servicesPage.data.pricing_starter",
+        "description": "servicesPage.data.pricing_starter_desc",
+        "price": "servicesPage.data.pricing_starter_price"
+      },
+      {
+        "name": "servicesPage.data.pricing_pro",
+        "description": "servicesPage.data.pricing_pro_desc",
+        "price": "servicesPage.data.pricing_pro_price"
+      },
+      {
+        "name": "servicesPage.data.pricing_enterprise",
+        "description": "servicesPage.data.pricing_enterprise_desc",
+        "price": "servicesPage.data.pricing_enterprise_price"
+      }
+    ],
+    "faqs": [
+      {
+        "questionKey": "servicesPage.data.faq_q1",
+        "answerKey": "servicesPage.data.faq_a1"
+      },
+      {
+        "questionKey": "servicesPage.data.faq_q2",
+        "answerKey": "servicesPage.data.faq_a2"
+      },
+      {
+        "questionKey": "servicesPage.data.faq_q3",
+        "answerKey": "servicesPage.data.faq_a3"
+      },
+      {
+        "questionKey": "servicesPage.data.faq_q4",
+        "answerKey": "servicesPage.data.faq_a4"
+      },
+      {
+        "questionKey": "servicesPage.data.faq_q5",
+        "answerKey": "servicesPage.data.faq_a5"
+      }
+    ],
+    "relatedProjects": ["sales-dashboard", "analytics-platform", "predictive-model"]
+  },
+  "integration": {
+    "id": "integration",
+    "slug": {
+      "fr": "integration-systemes",
+      "en": "system-integration"
+    },
+    "icon": "settings",
+    "color": "cyan",
+    "titleKey": "servicesPage.integration.hero_title",
+    "technologies": [
+      { "name": "API", "category": "integration" },
+      { "name": "Webhooks", "category": "integration" },
+      { "name": "REST", "category": "protocol" },
+      { "name": "GraphQL", "category": "protocol" },
+      { "name": "OAuth", "category": "auth" },
+      { "name": "Node.js", "category": "backend" },
+      { "name": "Python", "category": "backend" }
+    ],
+    "processSteps": [
+      {
+        "icon": "capture",
+        "titleKey": "servicesPage.integration.process_step1_title",
+        "descKey": "servicesPage.integration.process_step1_desc"
+      },
+      {
+        "icon": "analysis",
+        "titleKey": "servicesPage.integration.process_step2_title",
+        "descKey": "servicesPage.integration.process_step2_desc"
+      },
+      {
+        "icon": "automation",
+        "titleKey": "servicesPage.integration.process_step3_title",
+        "descKey": "servicesPage.integration.process_step3_desc"
+      },
+      {
+        "icon": "integration",
+        "titleKey": "servicesPage.integration.process_step4_title",
+        "descKey": "servicesPage.integration.process_step4_desc"
+      },
+      {
+        "icon": "delivery",
+        "titleKey": "servicesPage.integration.process_step5_title",
+        "descKey": "servicesPage.integration.process_step5_desc"
+      },
+      {
+        "icon": "notification",
+        "titleKey": "servicesPage.integration.process_step6_title",
+        "descKey": "servicesPage.integration.process_step6_desc"
+      }
+    ],
+    "benefits": [
+      {
+        "icon": "database",
+        "titleKey": "servicesPage.integration.benefit1_title",
+        "descKey": "servicesPage.integration.benefit1_desc"
+      },
+      {
+        "icon": "copy",
+        "titleKey": "servicesPage.integration.benefit2_title",
+        "descKey": "servicesPage.integration.benefit2_desc"
+      },
+      {
+        "icon": "zap",
+        "titleKey": "servicesPage.integration.benefit3_title",
+        "descKey": "servicesPage.integration.benefit3_desc"
+      },
+      {
+        "icon": "scale",
+        "titleKey": "servicesPage.integration.benefit4_title",
+        "descKey": "servicesPage.integration.benefit4_desc"
+      },
+      {
+        "icon": "eye",
+        "titleKey": "servicesPage.integration.benefit5_title",
+        "descKey": "servicesPage.integration.benefit5_desc"
+      },
+      {
+        "icon": "shield-check",
+        "titleKey": "servicesPage.integration.benefit6_title",
+        "descKey": "servicesPage.integration.benefit6_desc"
+      }
+    ],
+    "deliverables": [
+      "servicesPage.integration.deliverable1",
+      "servicesPage.integration.deliverable2",
+      "servicesPage.integration.deliverable3",
+      "servicesPage.integration.deliverable4",
+      "servicesPage.integration.deliverable5",
+      "servicesPage.integration.deliverable6"
+    ],
+    "pricingTiers": [
+      {
+        "name": "servicesPage.integration.pricing_starter",
+        "description": "servicesPage.integration.pricing_starter_desc",
+        "price": "servicesPage.integration.pricing_starter_price"
+      },
+      {
+        "name": "servicesPage.integration.pricing_pro",
+        "description": "servicesPage.integration.pricing_pro_desc",
+        "price": "servicesPage.integration.pricing_pro_price"
+      },
+      {
+        "name": "servicesPage.integration.pricing_enterprise",
+        "description": "servicesPage.integration.pricing_enterprise_desc",
+        "price": "servicesPage.integration.pricing_enterprise_price"
+      }
+    ],
+    "faqs": [
+      {
+        "questionKey": "servicesPage.integration.faq_q1",
+        "answerKey": "servicesPage.integration.faq_a1"
+      },
+      {
+        "questionKey": "servicesPage.integration.faq_q2",
+        "answerKey": "servicesPage.integration.faq_a2"
+      },
+      {
+        "questionKey": "servicesPage.integration.faq_q3",
+        "answerKey": "servicesPage.integration.faq_a3"
+      },
+      {
+        "questionKey": "servicesPage.integration.faq_q4",
+        "answerKey": "servicesPage.integration.faq_a4"
+      },
+      {
+        "questionKey": "servicesPage.integration.faq_q5",
+        "answerKey": "servicesPage.integration.faq_a5"
+      }
+    ],
+    "relatedProjects": ["crm-erp-integration", "api-gateway", "middleware-solution"]
+  }
+}

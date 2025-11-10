@@ -1,0 +1,34 @@
+[
+  {
+    "id": "automation",
+    "icon": "git-branch",
+    "titleKey": "services.automation_title",
+    "descKey": "services.automation_desc",
+    "technologies": ["n8n", "Make", "Zapier", "Python", "Node.js"],
+    "featured": true
+  },
+  {
+    "id": "web",
+    "icon": "globe",
+    "titleKey": "services.web_title",
+    "descKey": "services.web_desc",
+    "technologies": ["React", "Next.js", "Astro", "TypeScript", "Tailwind CSS"],
+    "featured": true
+  },
+  {
+    "id": "data",
+    "icon": "database",
+    "titleKey": "services.data_title",
+    "descKey": "services.data_desc",
+    "technologies": ["Python", "PostgreSQL", "MongoDB", "Power BI", "Tableau"],
+    "featured": true
+  },
+  {
+    "id": "integration",
+    "icon": "settings",
+    "titleKey": "services.integration_title",
+    "descKey": "services.integration_desc",
+    "technologies": ["API", "Webhooks", "REST", "GraphQL", "OAuth"],
+    "featured": true
+  }
+]

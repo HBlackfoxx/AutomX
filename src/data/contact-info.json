@@ -1,0 +1,50 @@
+{
+  "emails": [
+    {
+      "type": "general",
+      "address": "contact@automx.com",
+      "label": "Contact général"
+    },
+    {
+      "type": "sales",
+      "address": "ventes@automx.com",
+      "label": "Ventes et devis"
+    },
+    {
+      "type": "support",
+      "address": "support@automx.com",
+      "label": "Support technique"
+    }
+  ],
+  "phones": [
+    {
+      "type": "france",
+      "number": "+33 1 23 45 67 89",
+      "label": "France"
+    },
+    {
+      "type": "canada",
+      "number": "+1 514 123 4567",
+      "label": "Canada"
+    },
+    {
+      "type": "international",
+      "number": "+33 6 12 34 56 78",
+      "label": "International"
+    }
+  ],
+  "addresses": [
+    {
+      "country": "France",
+      "city": "Paris",
+      "street": "123 Avenue des Champs-Élysées",
+      "postalCode": "75008",
+      "mapUrl": "https://maps.google.com/?q=Paris+France"
+    }
+  ],
+  "social": {
+    "linkedin": "https://linkedin.com/company/automx",
+    "github": "https://github.com/automx",
+    "twitter": "https://twitter.com/automx"
+  }
+}

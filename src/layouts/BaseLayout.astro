@@ -1,0 +1,149 @@
+---
+import '../styles/global.css';
+import '../styles/animations.css';
+import '../styles/components.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { type Language, getAlternateLang, getLocalePath } from '../i18n/utils';
+import { getOrganizationSchema, getWebsiteSchema, injectSchema } from '@data/structured-data';
+
+export interface Props {
+  title: string;
+  description: string;
+  lang?: Language;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  canonicalUrl?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  lang = 'fr',
+  ogImage = '/images/og-default.jpg',
+  ogType = 'website',
+  canonicalUrl,
+  noindex = false,
+} = Astro.props;
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://automx.com';
+const currentPath = Astro.url.pathname;
+const alternateLang = getAlternateLang(lang);
+
+// Construct full URLs for canonical and alternate
+const fullCanonicalUrl = canonicalUrl || `${siteUrl}${currentPath}`;
+
+// Construct alternate URL by replacing language prefix
+let alternateUrl = currentPath;
+if (lang === 'en') {
+  // Remove /en prefix for French version
+  alternateUrl = currentPath.replace('/en', '') || '/';
+} else {
+  // Add /en prefix for English version
+  alternateUrl = `/en${currentPath}`;
+}
+const fullAlternateUrl = `${siteUrl}${alternateUrl}`;
+
+const fullTitle = `${title} | AutomX`;
+const fullOgImage = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+---
+
+<!doctype html>
+<html lang={lang} class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    {/* Primary Meta Tags */}
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    {/* Canonical URL */}
+    <link rel="canonical" href={fullCanonicalUrl} />
+
+    {/* Alternate Language Links (hreflang) */}
+    <link rel="alternate" hreflang={lang} href={fullCanonicalUrl} />
+    <link rel="alternate" hreflang={alternateLang} href={fullAlternateUrl} />
+    <link rel="alternate" hreflang="x-default" href={`${siteUrl}/`} />
+
+    {/* Open Graph / Facebook */}
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={fullCanonicalUrl} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={fullOgImage} />
+    <meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'en_US'} />
+    <meta property="og:locale:alternate" content={alternateLang === 'fr' ? 'fr_FR' : 'en_US'} />
+
+    {/* Twitter */}
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={fullCanonicalUrl} />
+    <meta property="twitter:title" content={fullTitle} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={fullOgImage} />
+
+    {/* Favicon */}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    {/* Fonts - Inter is loaded via CSS @import in global.css */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    {/* Theme Color */}
+    <meta name="theme-color" content="#0ea5e9" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0A0A0A" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF" />
+
+    {/* Additional Meta Tags */}
+    <meta name="author" content="AutomX" />
+    <meta name="keywords" content="web development, mobile apps, automation, data analysis, digital transformation, React, Next.js, Astro" />
+
+    {/* Preload critical assets */}
+    <link rel="preload" href="/images/logo.svg" as="image" />
+
+    {/* Structured Data - Organization & Website */}
+    <script type="application/ld+json" set:html={injectSchema(getOrganizationSchema(lang))} />
+    <script type="application/ld+json" set:html={injectSchema(getWebsiteSchema(lang))} />
+
+    {/* Initialize theme before page renders to prevent flash */}
+    <script is:inline>
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        return 'light';
+      })();
+
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    {/* Skip to main content link for accessibility */}
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md"
+    >
+      Skip to main content
+    </a>
+
+    <Header lang={lang} currentPath={currentPath} />
+
+    <main id="main-content" class="flex-1 pt-20">
+      <slot />
+    </main>
+
+    <Footer lang={lang} />
+  </body>
+</html>

@@ -1,0 +1,465 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { useTranslations, type Language } from '@i18n/utils';
+
+const lang = (Astro.currentLocale || 'fr') as Language;
+const { t } = useTranslations(lang);
+
+const title = lang === 'en' ? 'Terms of Service' : 'Conditions d\'Utilisation & Mentions Légales';
+const description = lang === 'en'
+  ? 'Terms of service and legal notices'
+  : 'Conditions d\'utilisation et mentions légales';
+---
+
+<BaseLayout title={title} description={description} lang={lang}>
+  <main class="min-h-screen bg-background">
+    <!-- Header Section -->
+    <section class="relative py-20 md:py-32 overflow-hidden bg-background border-b border-border/40">
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent opacity-30"></div>
+        <div class="cyber-grid"></div>
+      </div>
+
+      <div class="container-custom relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground font-mono">
+            {lang === 'en' ? 'Terms of Service' : 'Conditions d\'Utilisation'}
+          </h1>
+          <p class="text-lg text-muted-foreground">
+            {lang === 'en'
+              ? 'Last updated: January 2025'
+              : 'Dernière mise à jour : Janvier 2025'}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="py-16 md:py-20">
+      <div class="container-custom">
+        <div class="max-w-4xl mx-auto prose prose-invert">
+          {lang === 'en' ? (
+            <div class="space-y-8 text-muted-foreground">
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">Legal Notices</h2>
+                <p>
+                  In accordance with French law, particularly Articles 6-III and 19 of Law No. 2004-575 of
+                  June 21, 2004 on confidence in the digital economy, the following information is provided:
+                </p>
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold text-foreground font-mono mb-3">Publisher</h3>
+                <p>
+                  <strong>Business Name:</strong> AutomX<br />
+                  <strong>Legal Status:</strong> Auto-Entrepreneur (Individual Business)<br />
+                  <strong>SIRET:</strong> [To be completed]<br />
+                  <strong>VAT Number:</strong> Not applicable (auto-entrepreneur)<br />
+                  <strong>Business Address:</strong> [To be completed]<br />
+                  <strong>Email:</strong> contact@automx.com<br />
+                  <strong>Phone:</strong> [To be completed]
+                </p>
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold text-foreground font-mono mb-3">Hosting</h3>
+                <p>
+                  This website is hosted by:<br />
+                  <strong>Provider:</strong> [Hosting provider name]<br />
+                  <strong>Address:</strong> [Provider address]<br />
+                  <strong>Phone:</strong> [Provider phone]
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">1. Acceptance of Terms</h2>
+                <p>
+                  By accessing and using this website, you accept and agree to be bound by these Terms of Service
+                  and our Privacy Policy. If you do not agree to these terms, please do not use our website.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">2. Services Description</h2>
+                <p>
+                  AutomX provides the following professional services:
+                </p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>Web development and custom software solutions</li>
+                  <li>Process automation and workflow optimization</li>
+                  <li>Data analysis and business intelligence</li>
+                  <li>Systems integration and API development</li>
+                </ul>
+                <p class="mt-4">
+                  Services are provided to businesses and organizations. Specific terms for each service
+                  are defined in individual contracts or proposals.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">3. Use of Website</h2>
+                <p>You agree to use this website only for lawful purposes and in a way that does not:</p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>Infringe on the rights of others</li>
+                  <li>Restrict or inhibit anyone's use of the website</li>
+                  <li>Attempt to gain unauthorized access to any portion of the website</li>
+                  <li>Transmit any harmful code, viruses, or malicious software</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">4. Intellectual Property</h2>
+                <p>
+                  All content on this website, including but not limited to text, graphics, logos, images,
+                  code, and design, is the property of AutomX and is protected by French and international
+                  copyright laws.
+                </p>
+                <p class="mt-4">
+                  You may not reproduce, distribute, modify, or create derivative works from any content
+                  without prior written permission.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">5. Client Projects</h2>
+                <p>
+                  For services provided to clients:
+                </p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>Specific terms and deliverables are defined in written contracts or proposals</li>
+                  <li>Payment terms and schedules are agreed upon before work begins</li>
+                  <li>Intellectual property rights for custom work are transferred upon full payment, unless otherwise specified</li>
+                  <li>Clients are responsible for providing necessary access, information, and approvals in a timely manner</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">6. Pricing and Payment</h2>
+                <p>
+                  All prices are quoted in Euros (€) and exclude taxes unless otherwise stated. As an
+                  auto-entrepreneur under the micro-enterprise regime, we benefit from VAT exemption
+                  (Article 293 B of the French General Tax Code).
+                </p>
+                <p class="mt-4">
+                  Payment terms are specified in individual contracts. Late payments may incur penalties
+                  as provided by French law (Articles L441-6 and D441-5 of the Commercial Code).
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">7. Warranties and Liability</h2>
+                <p>
+                  We strive to provide high-quality services and maintain our website in good working order.
+                  However:
+                </p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>The website is provided "as is" without warranties of any kind</li>
+                  <li>We do not guarantee uninterrupted or error-free operation</li>
+                  <li>Our liability is limited to the amount paid for services, except in cases of gross negligence or intentional misconduct</li>
+                  <li>We are not liable for indirect damages, loss of profits, or consequential losses</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">8. Professional Insurance</h2>
+                <p>
+                  In accordance with French law, we maintain professional liability insurance appropriate
+                  for our business activities.
+                </p>
+                <p>
+                  <strong>Insurance Provider:</strong> [To be completed]<br />
+                  <strong>Coverage:</strong> Professional Civil Liability<br />
+                  <strong>Geographic Scope:</strong> European Union
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">9. Dispute Resolution</h2>
+                <p>
+                  In case of dispute, we encourage clients to first contact us to seek an amicable resolution.
+                </p>
+                <p class="mt-4">
+                  <strong>Mediation:</strong> In accordance with Articles L611-1 and R612-1 et seq. of the
+                  French Consumer Code, you have the right to use a consumer mediation service. You can
+                  contact the mediation service designated for our sector of activity.
+                </p>
+                <p class="mt-4">
+                  <strong>Applicable Law:</strong> These terms are governed by French law.
+                </p>
+                <p>
+                  <strong>Jurisdiction:</strong> In the event of litigation, the competent courts shall be
+                  those of our registered business address, unless mandatory consumer protection laws
+                  require otherwise.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">10. Personal Data</h2>
+                <p>
+                  Processing of personal data is governed by our <a href="/privacy-policy" class="text-cyan-500 hover:text-cyan-400">Privacy Policy</a>,
+                  which complies with the General Data Protection Regulation (GDPR) and French data protection laws.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">11. Modification of Terms</h2>
+                <p>
+                  We reserve the right to modify these Terms of Service at any time. Changes will be
+                  effective immediately upon posting on this page. Continued use of the website after
+                  changes constitutes acceptance of the new terms.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">12. Contact</h2>
+                <p>
+                  For any questions regarding these Terms of Service, please contact us:
+                </p>
+                <p>
+                  <strong>Email:</strong> <a href="mailto:contact@automx.com" class="text-cyan-500 hover:text-cyan-400">contact@automx.com</a><br />
+                  <strong>Contact Form:</strong> <a href="/contact" class="text-cyan-500 hover:text-cyan-400">Contact page</a>
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div class="space-y-8 text-muted-foreground">
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">Mentions Légales</h2>
+                <p>
+                  Conformément à la loi française, notamment les articles 6-III et 19 de la loi n° 2004-575
+                  du 21 juin 2004 pour la confiance dans l'économie numérique, les informations suivantes
+                  sont fournies :
+                </p>
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold text-foreground font-mono mb-3">Éditeur du Site</h3>
+                <p>
+                  <strong>Nom commercial :</strong> AutomX<br />
+                  <strong>Statut juridique :</strong> Auto-Entrepreneur (Entreprise Individuelle)<br />
+                  <strong>SIRET :</strong> [À compléter]<br />
+                  <strong>Numéro de TVA :</strong> Non applicable (auto-entrepreneur)<br />
+                  <strong>Adresse :</strong> [À compléter]<br />
+                  <strong>Email :</strong> contact@automx.com<br />
+                  <strong>Téléphone :</strong> [À compléter]
+                </p>
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold text-foreground font-mono mb-3">Hébergement</h3>
+                <p>
+                  Ce site est hébergé par :<br />
+                  <strong>Hébergeur :</strong> [Nom de l'hébergeur]<br />
+                  <strong>Adresse :</strong> [Adresse de l'hébergeur]<br />
+                  <strong>Téléphone :</strong> [Téléphone de l'hébergeur]
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">1. Acceptation des Conditions</h2>
+                <p>
+                  En accédant et en utilisant ce site web, vous acceptez et vous engagez à respecter ces
+                  Conditions d'Utilisation et notre Politique de Confidentialité. Si vous n'acceptez pas
+                  ces conditions, veuillez ne pas utiliser notre site.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">2. Description des Services</h2>
+                <p>
+                  AutomX fournit les services professionnels suivants :
+                </p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>Développement web et solutions logicielles personnalisées</li>
+                  <li>Automatisation des processus et optimisation des flux de travail</li>
+                  <li>Analyse de données et business intelligence</li>
+                  <li>Intégration de systèmes et développement d'API</li>
+                </ul>
+                <p class="mt-4">
+                  Les services sont fournis aux entreprises et organisations. Les conditions spécifiques
+                  pour chaque service sont définies dans des contrats ou propositions individuels.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">3. Utilisation du Site</h2>
+                <p>Vous acceptez d'utiliser ce site uniquement à des fins légales et d'une manière qui ne :</p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>Porte atteinte aux droits d'autrui</li>
+                  <li>Restreint ou empêche l'utilisation du site par d'autres</li>
+                  <li>Tente d'obtenir un accès non autorisé à une partie du site</li>
+                  <li>Transmet du code nuisible, des virus ou des logiciels malveillants</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">4. Propriété Intellectuelle</h2>
+                <p>
+                  Tout le contenu de ce site, y compris mais sans s'y limiter, les textes, graphiques, logos,
+                  images, code et design, est la propriété d'AutomX et est protégé par les lois françaises
+                  et internationales sur le droit d'auteur.
+                </p>
+                <p class="mt-4">
+                  Vous ne pouvez pas reproduire, distribuer, modifier ou créer des œuvres dérivées à partir
+                  de tout contenu sans autorisation écrite préalable.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">5. Projets Clients</h2>
+                <p>
+                  Pour les services fournis aux clients :
+                </p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>Les conditions spécifiques et livrables sont définis dans des contrats ou propositions écrits</li>
+                  <li>Les modalités et échéances de paiement sont convenues avant le début des travaux</li>
+                  <li>Les droits de propriété intellectuelle pour les travaux personnalisés sont transférés après paiement complet, sauf indication contraire</li>
+                  <li>Les clients sont responsables de fournir les accès, informations et validations nécessaires en temps opportun</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">6. Tarification et Paiement</h2>
+                <p>
+                  Tous les prix sont indiqués en Euros (€) et hors taxes sauf mention contraire. En tant
+                  qu'auto-entrepreneur sous le régime de la micro-entreprise, nous bénéficions de la franchise
+                  en base de TVA (Article 293 B du Code Général des Impôts).
+                </p>
+                <p class="mt-4">
+                  Les conditions de paiement sont précisées dans les contrats individuels. Les retards de
+                  paiement peuvent entraîner des pénalités conformément à la loi française (Articles L441-6
+                  et D441-5 du Code de Commerce).
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">7. Garanties et Responsabilité</h2>
+                <p>
+                  Nous nous efforçons de fournir des services de haute qualité et de maintenir notre site
+                  en bon état de fonctionnement. Toutefois :
+                </p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>Le site est fourni "tel quel" sans garantie d'aucune sorte</li>
+                  <li>Nous ne garantissons pas un fonctionnement ininterrompu ou sans erreur</li>
+                  <li>Notre responsabilité est limitée au montant payé pour les services, sauf en cas de négligence grave ou de faute intentionnelle</li>
+                  <li>Nous ne sommes pas responsables des dommages indirects, de la perte de profits ou des pertes consécutives</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">8. Assurance Professionnelle</h2>
+                <p>
+                  Conformément à la loi française, nous maintenons une assurance responsabilité civile
+                  professionnelle appropriée pour nos activités commerciales.
+                </p>
+                <p>
+                  <strong>Assureur :</strong> [À compléter]<br />
+                  <strong>Couverture :</strong> Responsabilité Civile Professionnelle<br />
+                  <strong>Zone géographique :</strong> Union Européenne
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">9. Résolution des Litiges</h2>
+                <p>
+                  En cas de litige, nous encourageons les clients à nous contacter d'abord pour rechercher
+                  une résolution amiable.
+                </p>
+                <p class="mt-4">
+                  <strong>Médiation :</strong> Conformément aux articles L611-1 et R612-1 et suivants du Code
+                  de la consommation, vous avez le droit de recourir à un service de médiation de la consommation.
+                  Vous pouvez contacter le service de médiation désigné pour notre secteur d'activité.
+                </p>
+                <p class="mt-4">
+                  <strong>Droit applicable :</strong> Ces conditions sont régies par le droit français.
+                </p>
+                <p>
+                  <strong>Juridiction :</strong> En cas de litige, les tribunaux compétents seront ceux
+                  de notre siège social, sauf si les lois impératives sur la protection des consommateurs
+                  en disposent autrement.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">10. Données Personnelles</h2>
+                <p>
+                  Le traitement des données personnelles est régi par notre <a href="/privacy-policy" class="text-cyan-500 hover:text-cyan-400">Politique de Confidentialité</a>,
+                  qui est conforme au Règlement Général sur la Protection des Données (RGPD) et aux lois
+                  françaises sur la protection des données.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">11. Modification des Conditions</h2>
+                <p>
+                  Nous nous réservons le droit de modifier ces Conditions d'Utilisation à tout moment.
+                  Les modifications prendront effet immédiatement après leur publication sur cette page.
+                  L'utilisation continue du site après les modifications constitue l'acceptation des
+                  nouvelles conditions.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">12. Contact</h2>
+                <p>
+                  Pour toute question concernant ces Conditions d'Utilisation, veuillez nous contacter :
+                </p>
+                <p>
+                  <strong>Email :</strong> <a href="mailto:contact@automx.com" class="text-cyan-500 hover:text-cyan-400">contact@automx.com</a><br />
+                  <strong>Formulaire de contact :</strong> <a href="/contact" class="text-cyan-500 hover:text-cyan-400">Page de contact</a>
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .cyber-grid {
+    background-image:
+      linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: grid-animation 20s linear infinite;
+  }
+
+  @keyframes grid-animation {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 50px 50px;
+    }
+  }
+
+  .prose {
+    max-width: none;
+  }
+
+  .prose h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .prose p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+
+  .prose ul {
+    margin-bottom: 1rem;
+  }
+
+  .prose a {
+    text-decoration: underline;
+    transition: color 0.3s ease;
+  }
+</style>

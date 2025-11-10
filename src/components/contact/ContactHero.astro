@@ -1,0 +1,150 @@
+---
+import { useTranslations } from '@i18n/utils';
+
+const lang = Astro.currentLocale || 'fr';
+const { t } = useTranslations(lang as 'fr' | 'en');
+---
+
+<section class="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden bg-background">
+  <!-- Cyber Grid Background -->
+  <div class="cyber-grid"></div>
+
+  <!-- Scan Lines -->
+  <div class="scan-lines"></div>
+
+  <!-- Content Container -->
+  <div class="container-custom relative z-10 h-full flex items-center">
+    <div class="max-w-4xl mx-auto w-full text-center">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-500/30 backdrop-blur-sm mb-6 fade-in-scroll">
+        <span class="pulse-dot"></span>
+        <span class="text-xs md:text-sm font-mono text-cyan-500 uppercase tracking-widest">{t('contact.title')}</span>
+      </div>
+
+      <!-- Hero Title -->
+      <h1 id="contact-hero-title" class="text-shimmer text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight mb-6 fade-in-scroll" data-text={t('contact.title')}>
+        {t('contact.title')}
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-mono leading-relaxed fade-in-scroll">
+        {t('contact.hero_text')}
+      </p>
+
+      <!-- Terminal-style tagline -->
+      <div class="terminal-line font-mono text-xs md:text-sm text-muted-foreground/60 pt-6 fade-in-scroll">
+        <span class="terminal-prompt">$</span>
+        <span class="terminal-cursor">connect --to=automx --response-time=24h</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Particles -->
+  <div class="particles-container">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+</section>
+
+<style>
+  .particles-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #0ea5e9;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #0ea5e9;
+    opacity: 0;
+    animation: particleFloat 8s ease-in-out infinite;
+  }
+
+  .particle:nth-child(1) {
+    left: 20%;
+    animation-delay: 0s;
+    animation-duration: 6s;
+  }
+
+  .particle:nth-child(2) {
+    left: 50%;
+    animation-delay: 1.5s;
+    animation-duration: 7s;
+  }
+
+  .particle:nth-child(3) {
+    left: 80%;
+    animation-delay: 3s;
+    animation-duration: 8s;
+  }
+
+  @keyframes particleFloat {
+    0% {
+      opacity: 0;
+      transform: translateY(100vh);
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-20vh);
+    }
+  }
+</style>
+
+<script>
+  // Simple scramble effect
+  function scrambleText(element: HTMLElement, finalText: string) {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    const duration = 1000; // 1 second
+    const startTime = Date.now();
+
+    // Force text wrapping behavior
+    element.style.whiteSpace = 'normal';
+    element.style.overflowWrap = 'break-word';
+    element.style.overflowWrap = 'break-word';
+
+    function update() {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      let result = '';
+      for (let i = 0; i < finalText.length; i++) {
+        if (progress * (finalText.length + 1) > i) {
+          result += finalText[i];
+        } else {
+          result += chars[Math.floor(Math.random() * chars.length)];
+        }
+      }
+
+      element.textContent = result;
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        element.textContent = finalText;
+      }
+    }
+
+    update();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Scramble title on load
+    const contactTitle = document.getElementById('contact-hero-title') as HTMLElement;
+    if (contactTitle) {
+      const text = contactTitle.getAttribute('data-text') || '';
+      scrambleText(contactTitle, text);
+    }
+  });
+</script>

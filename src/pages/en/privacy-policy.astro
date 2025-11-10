@@ -1,0 +1,392 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { useTranslations, type Language } from '@i18n/utils';
+
+const lang = (Astro.currentLocale || 'en') as Language;
+const { t } = useTranslations(lang);
+
+const title = lang === 'en' ? 'Privacy Policy' : 'Politique de Confidentialité';
+const description = lang === 'en'
+  ? 'Privacy policy and personal data protection'
+  : 'Politique de confidentialité et protection des données personnelles';
+---
+
+<BaseLayout title={title} description={description} lang={lang}>
+  <main class="min-h-screen bg-background">
+    <!-- Header Section -->
+    <section class="relative py-20 md:py-32 overflow-hidden bg-background border-b border-border/40">
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent opacity-30"></div>
+        <div class="cyber-grid"></div>
+      </div>
+
+      <div class="container-custom relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground font-mono">
+            {lang === 'en' ? 'Privacy Policy' : 'Politique de Confidentialité'}
+          </h1>
+          <p class="text-lg text-muted-foreground">
+            {lang === 'en'
+              ? 'Last updated: January 2025'
+              : 'Dernière mise à jour : Janvier 2025'}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="py-16 md:py-20">
+      <div class="container-custom">
+        <div class="max-w-4xl mx-auto prose prose-invert">
+          {lang === 'en' ? (
+            <div class="space-y-8 text-muted-foreground">
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">1. Introduction</h2>
+                <p>
+                  This Privacy Policy describes how AutomX ("we", "our", or "us") collects, uses, and protects
+                  your personal information when you use our website and services.
+                </p>
+                <p>
+                  As an auto-entrepreneur registered in France, we comply with the General Data Protection
+                  Regulation (GDPR) and French data protection laws.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">2. Data Controller</h2>
+                <p>
+                  <strong>Business Name:</strong> AutomX<br />
+                  <strong>Legal Status:</strong> Auto-Entrepreneur (France)<br />
+                  <strong>SIRET:</strong> [To be completed]<br />
+                  <strong>Contact:</strong> contact@automx.com
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">3. Information We Collect</h2>
+                <p>We may collect the following types of information:</p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li><strong>Contact Information:</strong> Name, email address, phone number, company name</li>
+                  <li><strong>Technical Data:</strong> IP address, browser type, device information</li>
+                  <li><strong>Usage Data:</strong> Pages visited, time spent on site, navigation patterns</li>
+                  <li><strong>Communication Data:</strong> Messages sent through contact forms</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">4. How We Use Your Information</h2>
+                <p>We use your personal information for the following purposes:</p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>Responding to your inquiries and providing customer support</li>
+                  <li>Processing service requests and project proposals</li>
+                  <li>Sending service-related communications</li>
+                  <li>Improving our website and services</li>
+                  <li>Complying with legal obligations</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">5. Legal Basis for Processing</h2>
+                <p>We process your personal data based on:</p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li><strong>Consent:</strong> When you provide explicit consent</li>
+                  <li><strong>Contract:</strong> When necessary to fulfill a contract with you</li>
+                  <li><strong>Legitimate Interest:</strong> For business operations and service improvement</li>
+                  <li><strong>Legal Obligation:</strong> When required by French or EU law</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">6. Data Sharing and Disclosure</h2>
+                <p>
+                  We do not sell your personal information. We may share your data with:
+                </p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>Service providers who assist in operating our website (hosting, analytics)</li>
+                  <li>Professional advisors (accountants, lawyers) when necessary</li>
+                  <li>Law enforcement or regulatory bodies when legally required</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">7. Your Rights (GDPR)</h2>
+                <p>Under GDPR, you have the following rights:</p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li><strong>Right to Access:</strong> Request a copy of your personal data</li>
+                  <li><strong>Right to Rectification:</strong> Correct inaccurate or incomplete data</li>
+                  <li><strong>Right to Erasure:</strong> Request deletion of your data ("right to be forgotten")</li>
+                  <li><strong>Right to Restriction:</strong> Limit how we use your data</li>
+                  <li><strong>Right to Data Portability:</strong> Receive your data in a structured format</li>
+                  <li><strong>Right to Object:</strong> Object to processing based on legitimate interests</li>
+                  <li><strong>Right to Withdraw Consent:</strong> Withdraw consent at any time</li>
+                </ul>
+                <p class="mt-4">
+                  To exercise these rights, contact us at: <a href="mailto:contact@automx.com" class="text-cyan-500 hover:text-cyan-400">contact@automx.com</a>
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">8. Data Retention</h2>
+                <p>
+                  We retain your personal data only as long as necessary for the purposes outlined in this policy,
+                  or as required by French law. Typically:
+                </p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>Contact form submissions: 3 years</li>
+                  <li>Client project data: Duration of contract + 5 years (legal requirement)</li>
+                  <li>Analytics data: 26 months maximum</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">9. Cookies</h2>
+                <p>
+                  Our website may use cookies to improve user experience and analyze site traffic. You can
+                  control cookie preferences through your browser settings.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">10. Data Security</h2>
+                <p>
+                  We implement appropriate technical and organizational measures to protect your personal data
+                  against unauthorized access, alteration, disclosure, or destruction.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">11. International Transfers</h2>
+                <p>
+                  Your data is primarily stored and processed within the European Union. Any international
+                  transfers comply with GDPR requirements.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">12. Changes to This Policy</h2>
+                <p>
+                  We may update this Privacy Policy from time to time. We will notify you of significant
+                  changes by posting the new policy on this page with an updated "Last updated" date.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">13. Contact & Complaints</h2>
+                <p>
+                  For questions about this Privacy Policy or to exercise your rights, contact us at:
+                </p>
+                <p>
+                  <strong>Email:</strong> <a href="mailto:contact@automx.com" class="text-cyan-500 hover:text-cyan-400">contact@automx.com</a>
+                </p>
+                <p class="mt-4">
+                  You also have the right to lodge a complaint with the French data protection authority (CNIL):
+                </p>
+                <p>
+                  <strong>CNIL</strong><br />
+                  3 Place de Fontenoy - TSA 80715<br />
+                  75334 PARIS CEDEX 07<br />
+                  Website: <a href="https://www.cnil.fr" target="_blank" rel="noopener" class="text-cyan-500 hover:text-cyan-400">www.cnil.fr</a>
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div class="space-y-8 text-muted-foreground">
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">1. Introduction</h2>
+                <p>
+                  Cette Politique de Confidentialité décrit comment AutomX ("nous", "notre", ou "nos") collecte,
+                  utilise et protège vos informations personnelles lorsque vous utilisez notre site web et nos services.
+                </p>
+                <p>
+                  En tant qu'auto-entrepreneur enregistré en France, nous respectons le Règlement Général sur la
+                  Protection des Données (RGPD) et les lois françaises sur la protection des données.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">2. Responsable du Traitement</h2>
+                <p>
+                  <strong>Nom commercial :</strong> AutomX<br />
+                  <strong>Statut juridique :</strong> Auto-Entrepreneur (France)<br />
+                  <strong>SIRET :</strong> [À compléter]<br />
+                  <strong>Contact :</strong> contact@automx.com
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">3. Informations Collectées</h2>
+                <p>Nous pouvons collecter les types d'informations suivants :</p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li><strong>Informations de contact :</strong> Nom, adresse e-mail, numéro de téléphone, nom de l'entreprise</li>
+                  <li><strong>Données techniques :</strong> Adresse IP, type de navigateur, informations sur l'appareil</li>
+                  <li><strong>Données d'utilisation :</strong> Pages visitées, temps passé sur le site, modèles de navigation</li>
+                  <li><strong>Données de communication :</strong> Messages envoyés via les formulaires de contact</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">4. Utilisation de vos Informations</h2>
+                <p>Nous utilisons vos informations personnelles pour les finalités suivantes :</p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>Répondre à vos demandes et fournir un support client</li>
+                  <li>Traiter les demandes de services et les propositions de projets</li>
+                  <li>Envoyer des communications liées aux services</li>
+                  <li>Améliorer notre site web et nos services</li>
+                  <li>Respecter nos obligations légales</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">5. Base Légale du Traitement</h2>
+                <p>Nous traitons vos données personnelles sur la base de :</p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li><strong>Consentement :</strong> Lorsque vous donnez votre consentement explicite</li>
+                  <li><strong>Contrat :</strong> Lorsque nécessaire pour exécuter un contrat avec vous</li>
+                  <li><strong>Intérêt légitime :</strong> Pour les opérations commerciales et l'amélioration des services</li>
+                  <li><strong>Obligation légale :</strong> Lorsque requis par la loi française ou européenne</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">6. Partage et Divulgation des Données</h2>
+                <p>
+                  Nous ne vendons pas vos informations personnelles. Nous pouvons partager vos données avec :
+                </p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>Des prestataires de services qui nous aident à exploiter notre site web (hébergement, analytics)</li>
+                  <li>Des conseillers professionnels (comptables, avocats) si nécessaire</li>
+                  <li>Les autorités de police ou réglementaires lorsque légalement requis</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">7. Vos Droits (RGPD)</h2>
+                <p>En vertu du RGPD, vous disposez des droits suivants :</p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li><strong>Droit d'accès :</strong> Demander une copie de vos données personnelles</li>
+                  <li><strong>Droit de rectification :</strong> Corriger les données inexactes ou incomplètes</li>
+                  <li><strong>Droit à l'effacement :</strong> Demander la suppression de vos données ("droit à l'oubli")</li>
+                  <li><strong>Droit à la limitation :</strong> Limiter la façon dont nous utilisons vos données</li>
+                  <li><strong>Droit à la portabilité :</strong> Recevoir vos données dans un format structuré</li>
+                  <li><strong>Droit d'opposition :</strong> S'opposer au traitement basé sur l'intérêt légitime</li>
+                  <li><strong>Droit de retirer le consentement :</strong> Retirer votre consentement à tout moment</li>
+                </ul>
+                <p class="mt-4">
+                  Pour exercer ces droits, contactez-nous à : <a href="mailto:contact@automx.com" class="text-cyan-500 hover:text-cyan-400">contact@automx.com</a>
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">8. Conservation des Données</h2>
+                <p>
+                  Nous conservons vos données personnelles uniquement aussi longtemps que nécessaire pour les
+                  finalités décrites dans cette politique, ou comme requis par la loi française. Typiquement :
+                </p>
+                <ul class="list-disc pl-6 space-y-2">
+                  <li>Soumissions de formulaires de contact : 3 ans</li>
+                  <li>Données de projets clients : Durée du contrat + 5 ans (obligation légale)</li>
+                  <li>Données d'analytics : 26 mois maximum</li>
+                </ul>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">9. Cookies</h2>
+                <p>
+                  Notre site web peut utiliser des cookies pour améliorer l'expérience utilisateur et analyser
+                  le trafic du site. Vous pouvez contrôler les préférences de cookies via les paramètres de votre navigateur.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">10. Sécurité des Données</h2>
+                <p>
+                  Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour protéger
+                  vos données personnelles contre l'accès non autorisé, la modification, la divulgation ou la destruction.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">11. Transferts Internationaux</h2>
+                <p>
+                  Vos données sont principalement stockées et traitées au sein de l'Union Européenne. Tout
+                  transfert international est conforme aux exigences du RGPD.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">12. Modifications de cette Politique</h2>
+                <p>
+                  Nous pouvons mettre à jour cette Politique de Confidentialité de temps à autre. Nous vous
+                  informerons des changements importants en publiant la nouvelle politique sur cette page avec une
+                  date de "Dernière mise à jour" actualisée.
+                </p>
+              </div>
+
+              <div>
+                <h2 class="text-2xl font-bold text-foreground font-mono mb-4">13. Contact & Réclamations</h2>
+                <p>
+                  Pour toute question sur cette Politique de Confidentialité ou pour exercer vos droits, contactez-nous à :
+                </p>
+                <p>
+                  <strong>Email :</strong> <a href="mailto:contact@automx.com" class="text-cyan-500 hover:text-cyan-400">contact@automx.com</a>
+                </p>
+                <p class="mt-4">
+                  Vous avez également le droit de déposer une plainte auprès de l'autorité française de protection
+                  des données (CNIL) :
+                </p>
+                <p>
+                  <strong>CNIL</strong><br />
+                  3 Place de Fontenoy - TSA 80715<br />
+                  75334 PARIS CEDEX 07<br />
+                  Site web : <a href="https://www.cnil.fr" target="_blank" rel="noopener" class="text-cyan-500 hover:text-cyan-400">www.cnil.fr</a>
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .cyber-grid {
+    background-image:
+      linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: grid-animation 20s linear infinite;
+  }
+
+  @keyframes grid-animation {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 50px 50px;
+    }
+  }
+
+  .prose {
+    max-width: none;
+  }
+
+  .prose h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .prose p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+
+  .prose ul {
+    margin-bottom: 1rem;
+  }
+
+  .prose a {
+    text-decoration: underline;
+    transition: color 0.3s ease;
+  }
+</style>

@@ -1,0 +1,355 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ServiceCard from '@components/services/ServiceCard.astro';
+import WorkflowDiagram from '@components/projects/WorkflowDiagram.astro';
+
+import servicesDetailed from '@data/services-detailed.json';
+import { useTranslations } from '@i18n/utils';
+
+const lang = 'en';
+const { t } = useTranslations(lang as 'fr' | 'en');
+
+const title = 'Our Services | AutomX - Automation, Web Development, Data Analysis';
+const description = 'Complete solutions for your digital transformation: process automation, modern web development, data analysis and system integration.';
+
+// Get all services
+const services = Object.entries(servicesDetailed).map(([key, service]) => ({
+  serviceId: key,
+  ...service,
+  href: `/en/services/${service.slug.en}`
+}));
+
+// High-level process steps for all services
+const generalProcess = [
+  {
+    icon: 'capture',
+    title: t('servicesPage.process_step1_title'),
+    description: t('servicesPage.process_step1_desc')
+  },
+  {
+    icon: 'analysis',
+    title: t('servicesPage.process_step2_title'),
+    description: t('servicesPage.process_step2_desc')
+  },
+  {
+    icon: 'automation',
+    title: t('servicesPage.process_step3_title'),
+    description: t('servicesPage.process_step3_desc')
+  },
+  {
+    icon: 'delivery',
+    title: t('servicesPage.process_step4_title'),
+    description: t('servicesPage.process_step4_desc')
+  }
+];
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  noindex={false}
+>
+  <!-- Hero Section -->
+  <section class="relative min-h-[400px] py-16 md:py-20 flex items-center justify-center overflow-hidden bg-background">
+    <!-- Cyber Grid Background -->
+    <div class="cyber-grid"></div>
+
+    <!-- Scan Lines -->
+    <div class="scan-lines"></div>
+
+    <!-- Content Container -->
+    <div class="container-custom relative z-10 h-full flex items-center">
+      <div class="max-w-5xl mx-auto w-full text-center px-4">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-500/30 backdrop-blur-sm mb-6 fade-in-scroll">
+          <span class="pulse-dot"></span>
+          <span class="text-xs md:text-sm font-mono text-cyan-500 uppercase tracking-widest">{t('servicesPage.hero_badge')}</span>
+        </div>
+
+        <!-- Hero Title -->
+        <h1 id="services-hero-title" class="text-shimmer text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight mb-6 fade-in-scroll" data-text={t('servicesPage.hero_title')}>
+          {t('servicesPage.hero_title')}
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-mono leading-relaxed fade-in-scroll">
+          {t('servicesPage.hero_subtitle')}
+        </p>
+
+        <!-- Terminal-style tagline -->
+        <div class="terminal-line font-mono text-xs md:text-sm text-muted-foreground/60 pt-6 fade-in-scroll">
+          <span class="terminal-prompt">$</span>
+          <span class="terminal-cursor">services --list --category=all</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Particles -->
+    <div class="particles-container">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+  </section>
+
+  <style>
+    .particles-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: #0ea5e9;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #0ea5e9;
+      opacity: 0;
+      animation: particleFloat 8s ease-in-out infinite;
+    }
+
+    .particle:nth-child(1) {
+      left: 20%;
+      animation-delay: 0s;
+      animation-duration: 6s;
+    }
+
+    .particle:nth-child(2) {
+      left: 50%;
+      animation-delay: 1.5s;
+      animation-duration: 7s;
+    }
+
+    .particle:nth-child(3) {
+      left: 80%;
+      animation-delay: 3s;
+      animation-duration: 8s;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        opacity: 0;
+        transform: translateY(100vh);
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-20vh);
+      }
+    }
+  </style>
+
+  <script>
+    // Simple scramble effect
+    function scrambleText(element: HTMLElement, finalText: string) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+      const duration = 1000;
+      const startTime = Date.now();
+
+      element.style.whiteSpace = 'normal';
+      element.style.overflowWrap = 'break-word';
+
+      function update() {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        let result = '';
+        for (let i = 0; i < finalText.length; i++) {
+          if (progress * (finalText.length + 1) > i) {
+            result += finalText[i];
+          } else {
+            result += chars[Math.floor(Math.random() * chars.length)];
+          }
+        }
+
+        element.textContent = result;
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          element.textContent = finalText;
+        }
+      }
+
+      update();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const servicesTitle = document.getElementById('services-hero-title') as HTMLElement;
+      if (servicesTitle) {
+        const text = servicesTitle.getAttribute('data-text') || '';
+        scrambleText(servicesTitle, text);
+      }
+    });
+  </script>
+
+  <!-- Services Grid -->
+  <section class="py-16 md:py-24 bg-background">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {services.map((service) => (
+          <ServiceCard
+            title={t(service.titleKey)}
+            description={t(`servicesPage.${service.serviceId}.hero_subtitle`)}
+            icon={service.icon}
+            href={service.href}
+            color={service.color as 'cyan' | 'purple' | 'green'}
+            technologies={service.technologies.map(t => t.name)}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose AutomX -->
+  <section class="py-16 md:py-24 bg-background">
+    <div class="container-custom">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground font-mono">
+          {t('servicesPage.why_choose_title')}
+        </h2>
+        <p class="text-lg text-muted-foreground">
+          {t('servicesPage.why_choose_subtitle')}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        {[1, 2, 3, 4].map((num, index) => (
+          <div
+            class="why-card p-6 rounded-xl bg-background border border-border hover:border-cyan-500/50 transition-all duration-300 hover:scale-105"
+            style={`animation-delay: ${index * 100}ms`}
+          >
+            <h3 class="text-xl font-bold mb-2 text-cyan-500 font-mono">
+              {t(`servicesPage.why_${num}_title`)}
+            </h3>
+            <p class="text-sm text-muted-foreground">
+              {t(`servicesPage.why_${num}_desc`)}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Process -->
+  <section class="py-16 md:py-24 bg-background">
+    <div class="container-custom">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground font-mono">
+          {t('servicesPage.process_title')}
+        </h2>
+        <p class="text-lg text-muted-foreground">
+          {t('servicesPage.process_subtitle')}
+        </p>
+      </div>
+
+      <div class="max-w-4xl mx-auto">
+        <WorkflowDiagram
+          steps={generalProcess}
+          variant="cyan"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="relative py-20 md:py-28 overflow-hidden bg-background">
+    <!-- Background -->
+    <div class="absolute inset-0">
+      <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent opacity-30"></div>
+      <div class="cyber-grid"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="container-custom relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-foreground font-mono">
+          {t('servicesPage.cta_title')}
+        </h2>
+        <p class="text-lg md:text-xl text-muted-foreground mb-8">
+          {t('servicesPage.cta_subtitle')}
+        </p>
+        <a
+          href="/en/contact"
+          class="inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-semibold font-mono transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-cyan-500/50"
+        >
+          {t('servicesPage.cta_button')}
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scroll Animations -->
+  <script>
+    import '@scripts/scroll-animations.ts';
+  </script>
+</BaseLayout>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #06b6d4;
+    animation: pulse-animation 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulse-animation {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .cyber-grid {
+    background-image:
+      linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: grid-animation 20s linear infinite;
+  }
+
+  @keyframes grid-animation {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 50px 50px;
+    }
+  }
+
+  .why-card {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+</style>

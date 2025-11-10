@@ -1,0 +1,166 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ServiceHero from '@components/services/ServiceHero.astro';
+import ServiceFeatures from '@components/services/ServiceFeatures.astro';
+import WorkflowDiagram from '@components/projects/WorkflowDiagram.astro';
+import TechStack from '@components/services/TechStack.astro';
+import Deliverables from '@components/services/Deliverables.astro';
+import ServiceFAQ from '@components/services/ServiceFAQ.astro';
+import ServiceCTA from '@components/services/ServiceCTA.astro';
+
+import servicesDetailed from '@data/services-detailed.json';
+import { useTranslations } from '@i18n/utils';
+
+export async function getStaticPaths() {
+  const services = Object.keys(servicesDetailed) as Array<keyof typeof servicesDetailed>;
+
+  return services.map(serviceId => ({
+    params: { slug: servicesDetailed[serviceId].slug.en },
+    props: { serviceId, lang: 'en' as const }
+  }));
+}
+
+const { serviceId, lang } = Astro.props as { serviceId: keyof typeof servicesDetailed; lang: 'en' };
+const service = servicesDetailed[serviceId];
+const { t } = useTranslations(lang as 'fr' | 'en');
+
+// SEO Meta
+const title = `${t(service.titleKey)} | AutomX`;
+const description = t(`servicesPage.${serviceId}.overview_p1`).substring(0, 160);
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  noindex={false}
+>
+  <!-- Hero Section -->
+  <ServiceHero
+    title={t(`servicesPage.${serviceId}.hero_title`)}
+    tagline={t(`servicesPage.${serviceId}.hero_tagline`)}
+    subtitle={t(`servicesPage.${serviceId}.hero_subtitle`)}
+    ctaText={t(`servicesPage.${serviceId}.hero_cta`)}
+    color={service.color as 'cyan' | 'purple' | 'green'}
+  />
+
+  <!-- Overview Section -->
+  <section class="py-16 md:py-20 bg-background">
+    <div class="container-custom">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6 text-foreground font-mono">
+          {t(`servicesPage.${serviceId}.overview_title`)}
+        </h2>
+        <div class="space-y-4 text-lg text-muted-foreground leading-relaxed">
+          <p>{t(`servicesPage.${serviceId}.overview_p1`)}</p>
+          <p>{t(`servicesPage.${serviceId}.overview_p2`)}</p>
+        </div>
+
+        <!-- Who is it for? -->
+        <div class="mt-8 p-6 rounded-xl bg-background border border-border">
+          <h3 class="text-xl font-bold mb-3 text-cyan-500 font-mono">
+            {t(`servicesPage.${serviceId}.overview_who_title`)}
+          </h3>
+          <p class="text-muted-foreground">
+            {t(`servicesPage.${serviceId}.overview_who_desc`)}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <ServiceFeatures
+    title={t(`servicesPage.${serviceId}.benefits_title`)}
+    benefits={service.benefits}
+    color={service.color as 'cyan' | 'purple' | 'green'}
+  />
+
+  <!-- Process Section -->
+  <section class="py-16 md:py-24 bg-background">
+    <div class="container-custom">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground font-mono">
+          {t(`servicesPage.${serviceId}.process_title`)}
+        </h2>
+      </div>
+
+      <div class="max-w-4xl mx-auto">
+        <WorkflowDiagram
+          steps={service.processSteps.map((step: any) => ({
+            icon: step.icon,
+            title: t(step.titleKey),
+            description: t(step.descKey)
+          }))}
+          variant={service.color as 'cyan' | 'purple' | 'green'}
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Technologies Section -->
+  <TechStack
+    title={t(`servicesPage.${serviceId}.tools_title`)}
+    technologies={service.technologies}
+    color={service.color as 'cyan' | 'purple' | 'green'}
+  />
+
+  <!-- Deliverables Section -->
+  <Deliverables
+    title={t(`servicesPage.${serviceId}.deliverables_title`)}
+    items={service.deliverables}
+    color={service.color as 'cyan' | 'purple' | 'green'}
+  />
+
+  <!-- Pricing Section (Optional - only show if pricing tiers exist) -->
+  {service.pricingTiers && service.pricingTiers.length > 0 && (
+    <section class="py-16 md:py-20 bg-background">
+      <div class="container-custom">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground font-mono">
+            {t(`servicesPage.${serviceId}.pricing_title`)}
+          </h2>
+          <p class="text-lg text-muted-foreground">
+            {t(`servicesPage.${serviceId}.pricing_subtitle`)}
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {service.pricingTiers.map((tier: any, index: number) => (
+            <div class={`pricing-tier p-8 rounded-xl border ${index === 1 ? 'border-cyan-500 bg-cyan-500/5 scale-105' : 'border-border bg-background'} transition-all duration-300 hover:scale-105`}>
+              <h3 class="text-2xl font-bold mb-2 text-foreground font-mono">
+                {t(tier.name)}
+              </h3>
+              <p class="text-sm text-muted-foreground mb-4">
+                {t(tier.description)}
+              </p>
+              <p class="text-3xl font-bold text-cyan-500 font-mono">
+                {t(tier.price)}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- FAQ Section -->
+  <ServiceFAQ
+    title={t(`servicesPage.${serviceId}.faq_title`)}
+    faqs={service.faqs}
+    color={service.color as 'cyan' | 'purple' | 'green'}
+  />
+
+  <!-- CTA Section -->
+  <ServiceCTA
+    title={t(`servicesPage.${serviceId}.cta_title`)}
+    subtitle={t(`servicesPage.${serviceId}.cta_subtitle`)}
+    buttonText={t(`servicesPage.${serviceId}.cta_button`)}
+    color={service.color as 'cyan' | 'purple' | 'green'}
+  />
+
+  <!-- Scroll Animations -->
+  <script>
+    import '@scripts/scroll-animations.ts';
+  </script>
+</BaseLayout>

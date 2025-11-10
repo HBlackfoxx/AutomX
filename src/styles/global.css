@@ -1,0 +1,234 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* CSS Reset */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-snap-type: y proximity;
+    scroll-padding-top: 80px; /* Account for fixed header */
+  }
+
+  /* Scroll snap enabled globally - sections can opt out with scroll-snap-align: none */
+  section {
+    scroll-snap-align: start;
+  }
+
+  /* Light Mode Variables - Using Design Palette */
+  :root {
+    --background: 0 0% 100%; /* Absolute White */
+    --foreground: 0 0% 6%; /* Grey 06 */
+    --card: 0 0% 100%; /* Absolute White */
+    --card-foreground: 0 0% 6%; /* Grey 06 */
+    --popover: 0 0% 100%; /* Absolute White */
+    --popover-foreground: 0 0% 6%; /* Grey 06 */
+
+    /* Grey/White system - NO cyan in default states */
+    --primary: 0 0% 20%; /* Grey 20 for default states */
+    --primary-foreground: 0 0% 100%; /* Absolute White */
+    --primary-hover: 199 89% 48%; /* Cyan ONLY on hover */
+
+    --secondary: 0 0% 90%; /* White 90 (FIXED from 96%) */
+    --secondary-foreground: 0 0% 10%; /* Grey 10 */
+    --muted: 0 0% 90%; /* White 90 (FIXED from 96%) */
+    --muted-foreground: 0 0% 50%; /* White 50 */
+    --accent: 0 0% 20%; /* Grey 20 - no cyan by default */
+    --accent-foreground: 0 0% 100%; /* Absolute White */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%; /* Absolute White */
+    --border: 0 0% 90%; /* White 90 */
+    --input: 0 0% 90%; /* White 90 */
+
+    /* Cyan ONLY for focus and hover */
+    --ring: 0 0% 30%; /* Grey 30 - NO cyan */
+    --hover-cyan: 199 89% 48%; /* Cyan for hover only */
+
+    --radius: 0.75rem;
+
+    /* Glass-morphism variables */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.18);
+    --glass-shadow: rgba(31, 38, 135, 0.07);
+  }
+
+  /* Dark Mode Variables - Reversed from Light Mode */
+  .dark {
+    /* Reversed: Light White (100%) ↔ Dark Grey-06 (6%) */
+    --background: 0 0% 6%; /* Grey 06 - REVERSED from White */
+    --foreground: 0 0% 100%; /* Absolute White - REVERSED from Grey 06 */
+
+    /* Reversed: Light White (100%) ↔ Dark Grey-10 (10%) */
+    --card: 0 0% 10%; /* Grey 10 - REVERSED from White */
+    --card-foreground: 0 0% 100%; /* Absolute White */
+    --popover: 0 0% 6%; /* Grey 06 */
+    --popover-foreground: 0 0% 100%; /* Absolute White */
+
+    /* Reversed: Light Grey-20 (20%) ↔ Dark White-90 (90%) */
+    --primary: 0 0% 90%; /* White 90 - REVERSED from Grey 20 */
+    --primary-foreground: 0 0% 6%; /* Grey 06 - REVERSED from White */
+    --primary-hover: 199 89% 48%; /* Cyan ONLY on hover */
+
+    /* Reversed: Light White-90 (90%) ↔ Dark Grey-12 (12%) */
+    --secondary: 0 0% 12%; /* Grey 12 - REVERSED from White 90 */
+    --secondary-foreground: 0 0% 100%; /* Absolute White */
+    --muted: 0 0% 15%; /* Grey 15 - REVERSED from White 90 */
+    --muted-foreground: 0 0% 60%; /* White 60 - REVERSED from White 50 */
+
+    /* Reversed: Light Grey-20 (20%) ↔ Dark White-90 (90%) */
+    --accent: 0 0% 90%; /* White 90 - REVERSED from Grey 20 */
+    --accent-foreground: 0 0% 6%; /* Grey 06 - REVERSED from White */
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%; /* Absolute White */
+
+    /* Reversed: Light White-90 (90%) ↔ Dark Grey-15 (15%) */
+    --border: 0 0% 15%; /* Grey 15 - REVERSED from White 90 */
+    --input: 0 0% 15%; /* Grey 15 - REVERSED from White 90 */
+
+    /* Cyan ONLY for focus and hover */
+    --ring: 0 0% 30%; /* Grey 30 - NO cyan */
+    --hover-cyan: 199 89% 48%; /* Cyan for hover only */
+
+    /* Glass-morphism variables (Dark Mode) */
+    --glass-bg: rgba(26, 26, 26, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.125);
+    --glass-shadow: rgba(0, 0, 0, 0.5);
+  }
+
+  /* Base Styles */
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'JetBrains Mono Variable', monospace;
+  }
+
+  /* Apply JetBrains Mono globally to all elements */
+  *,
+  *::before,
+  *::after {
+    font-family: 'JetBrains Mono Variable', monospace;
+  }
+
+  /* Focus Indicators (Grey/White - NO Cyan) */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-grey-30 ring-offset-2 ring-offset-background;
+  }
+
+  /* Smooth Scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Selection Color (Grey/White - NO Cyan) */
+  ::selection {
+    background-color: rgba(51, 51, 51, 0.5); /* Grey 20 with opacity */
+    color: #FFFFFF;
+  }
+
+  /* Glass-morphism Effect Class */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 var(--glass-shadow);
+  }
+
+  /* Hexagonal Grid Pattern */
+  .hexagonal-grid {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hexagonal-grid::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 25px 25px, rgba(255, 255, 255, 0.03) 2%, transparent 0%),
+      radial-gradient(circle at 75px 75px, rgba(255, 255, 255, 0.03) 2%, transparent 0%);
+    background-size: 100px 100px;
+    background-position: 0 0, 50px 50px;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+  }
+
+  .dark .hexagonal-grid::before {
+    background-image:
+      radial-gradient(circle at 25px 25px, rgba(255, 255, 255, 0.05) 2%, transparent 0%),
+      radial-gradient(circle at 75px 75px, rgba(255, 255, 255, 0.05) 2%, transparent 0%);
+  }
+
+  /* Cyan Glow Effect - ONLY on hover */
+  .cyan-glow-hover {
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .cyan-glow-hover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at center, rgba(168, 85, 247, 0.15), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .cyan-glow-hover:hover::after {
+    opacity: 1;
+  }
+
+  .cyan-glow-hover:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 32px rgba(168, 85, 247, 0.3);
+    border-color: rgba(168, 85, 247, 0.5);
+  }
+
+  /* Hexagonal grid glow on hover */
+  .hexagonal-grid-hover:hover::before {
+    background-image:
+      radial-gradient(circle at 25px 25px, rgba(168, 85, 247, 0.2) 2%, transparent 0%),
+      radial-gradient(circle at 75px 75px, rgba(168, 85, 247, 0.2) 2%, transparent 0%);
+    opacity: 1;
+  }
+
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  /* Utility Classes */
+  .container-custom {
+    @apply max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8;
+  }
+
+  /* Note: Animations moved to animations.css to avoid duplication */
+}

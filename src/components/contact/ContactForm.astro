@@ -1,0 +1,388 @@
+---
+import { useTranslations } from '@i18n/utils';
+
+const lang = Astro.currentLocale || 'fr';
+const { t } = useTranslations(lang as 'fr' | 'en');
+
+// N8N Webhook URL - Replace with your actual n8n webhook URL
+const N8N_WEBHOOK_URL = 'https://your-n8n-instance.com/webhook/contact-form';
+
+const services = [
+  'services.automation_title',
+  'services.web_title',
+  'services.data_title',
+  'services.integration_title'
+];
+---
+
+<div class="fade-in-scroll">
+  <!-- Form Card with Cyber Border -->
+  <div class="card-hover-glow card-border-glow-hover relative h-full p-[1px] overflow-hidden rounded-xl">
+    <div class="absolute inset-0 rounded-xl bg-gradient-to-b from-grey-30/60 via-grey-25/30 to-transparent"></div>
+
+    <!-- Card Content -->
+    <div class="relative h-full rounded-xl bg-background overflow-hidden">
+      <!-- Form Content -->
+      <div class="relative z-10 p-6 md:p-8">
+        <!-- Form Header -->
+        <div class="mb-8">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 mb-4">
+            <span class="pulse-dot"></span>
+            <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">{t('contact.form_title')}</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-bold text-foreground font-mono mb-2">
+            {t('contact.form_title')}
+          </h2>
+          <p class="text-sm text-muted-foreground font-mono">
+            {t('contact.response_text')}
+          </p>
+        </div>
+
+        <!-- Contact Form -->
+        <form id="contact-form" class="space-y-6" novalidate>
+          <!-- Name Field -->
+          <div>
+            <label for="name" class="block text-sm font-mono font-medium text-foreground mb-2">
+              {t('contact.name_label')} <span class="text-cyan-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              minlength="2"
+              maxlength="100"
+              placeholder={t('contact.name_placeholder')}
+              class="w-full px-4 py-3 rounded-lg bg-grey-20 border border-border/30 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all font-mono text-sm"
+            />
+            <p class="error-message mt-2 text-sm text-red-500 font-mono hidden"></p>
+          </div>
+
+          <!-- Email Field -->
+          <div>
+            <label for="email" class="block text-sm font-mono font-medium text-foreground mb-2">
+              {t('contact.email_label')} <span class="text-cyan-500">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              placeholder={t('contact.email_placeholder')}
+              class="w-full px-4 py-3 rounded-lg bg-grey-20 border border-border/30 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all font-mono text-sm"
+            />
+            <p class="error-message mt-2 text-sm text-red-500 font-mono hidden"></p>
+          </div>
+
+          <!-- Phone Field -->
+          <div>
+            <label for="phone" class="block text-sm font-mono font-medium text-foreground mb-2">
+              {t('contact.phone_label')}
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder={t('contact.phone_placeholder')}
+              pattern="[0-9+\s\-\(\)]+"
+              class="w-full px-4 py-3 rounded-lg bg-grey-20 border border-border/30 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all font-mono text-sm"
+            />
+            <p class="error-message mt-2 text-sm text-red-500 font-mono hidden"></p>
+          </div>
+
+          <!-- Service Interest Field -->
+          <div>
+            <label for="service_interest" class="block text-sm font-mono font-medium text-foreground mb-2">
+              {t('contact.service_label')} <span class="text-cyan-500">*</span>
+            </label>
+            <select
+              id="service_interest"
+              name="service_interest"
+              required
+              class="w-full px-4 py-3 rounded-lg bg-grey-20 border border-border/30 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all cursor-pointer font-mono text-sm"
+            >
+              <option value="" disabled selected>{t('contact.service_placeholder')}</option>
+              {services.map((service) => (
+                <option value={service}>{t(service)}</option>
+              ))}
+            </select>
+            <p class="error-message mt-2 text-sm text-red-500 font-mono hidden"></p>
+          </div>
+
+          <!-- Company Field -->
+          <div>
+            <label for="company" class="block text-sm font-mono font-medium text-foreground mb-2">
+              {t('contact.company_label')}
+            </label>
+            <input
+              type="text"
+              id="company"
+              name="company"
+              maxlength="100"
+              placeholder={t('contact.company_placeholder')}
+              class="w-full px-4 py-3 rounded-lg bg-grey-20 border border-border/30 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all font-mono text-sm"
+            />
+          </div>
+
+          <!-- Message Field -->
+          <div>
+            <label for="message" class="block text-sm font-mono font-medium text-foreground mb-2">
+              {t('contact.message_label')} <span class="text-cyan-500">*</span>
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              minlength="10"
+              maxlength="1000"
+              rows="6"
+              placeholder={t('contact.message_placeholder')}
+              class="w-full px-4 py-3 rounded-lg bg-grey-20 border border-border/30 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all resize-y font-mono text-sm"
+            ></textarea>
+            <p class="error-message mt-2 text-sm text-red-500 font-mono hidden"></p>
+          </div>
+
+          <!-- GDPR Consent -->
+          <div class="flex items-start gap-3">
+            <input
+              type="checkbox"
+              id="gdpr_consent"
+              name="gdpr_consent"
+              required
+              class="mt-1 w-4 h-4 rounded border-border/30 focus:ring-2 focus:ring-cyan-500/20 text-cyan-500 cursor-pointer"
+            />
+            <label for="gdpr_consent" class="text-sm text-muted-foreground cursor-pointer font-mono">
+              {t('contact.gdpr_label')} <span class="text-cyan-500">*</span>
+            </label>
+          </div>
+          <p id="gdpr-error" class="error-message text-sm text-red-500 font-mono hidden"></p>
+
+          <!-- Submit Button -->
+          <div class="pt-4">
+            <button
+              type="submit"
+              class="w-full px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-black font-bold font-mono uppercase tracking-wider transition-all duration-300 clip-corner-btn disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
+            >
+              <span class="submit-text">{t('contact.submit_button')}</span>
+              <span class="loading-text hidden">{t('contact.submitting_button')}</span>
+              <div class="absolute inset-0 bg-cyan-400/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+            </button>
+          </div>
+
+          <!-- Success Message -->
+          <div id="success-message" class="hidden p-4 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
+            <div class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-cyan-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <div>
+                <p class="font-semibold text-cyan-500 font-mono">{t('contact.success_title')}</p>
+                <p class="text-sm text-muted-foreground mt-1 font-mono">{t('contact.success_message')}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error Message -->
+          <div id="error-message" class="hidden p-4 rounded-lg bg-red-500/10 border border-red-500/30">
+            <div class="flex items-start gap-3">
+              <svg class="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <div>
+                <p class="font-semibold text-red-500 font-mono">{t('contact.error_title')}</p>
+                <p class="text-sm text-muted-foreground mt-1 font-mono">{t('contact.error_message')}</p>
+                <button
+                  type="button"
+                  id="retry-button"
+                  class="mt-3 text-sm font-medium text-red-500 hover:underline font-mono"
+                >
+                  {t('contact.error_retry')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .clip-corner-btn {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 10px) 0,
+      100% 10px,
+      100% 100%,
+      0 100%
+    );
+  }
+
+  input.error,
+  textarea.error,
+  select.error {
+    border-color: rgb(239, 68, 68);
+  }
+</style>
+
+<script is:inline define:vars={{ N8N_WEBHOOK_URL }}>
+  const form = document.getElementById('contact-form');
+  const submitButton = form?.querySelector('button[type="submit"]');
+  const submitText = submitButton?.querySelector('.submit-text');
+  const loadingText = submitButton?.querySelector('.loading-text');
+  const successMessage = document.getElementById('success-message');
+  const errorMessage = document.getElementById('error-message');
+  const retryButton = document.getElementById('retry-button');
+
+  // Form validation
+  function validateField(field) {
+    const errorMessage = field.parentElement.querySelector('.error-message');
+    let isValid = true;
+    let message = '';
+
+    // Required validation
+    if (field.hasAttribute('required') && !field.value.trim()) {
+      isValid = false;
+      message = field.type === 'checkbox'
+        ? 'Vous devez accepter l\'utilisation de vos données'
+        : 'Ce champ est obligatoire';
+    }
+
+    // Email validation
+    if (field.type === 'email' && field.value) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(field.value)) {
+        isValid = false;
+        message = 'Veuillez entrer une adresse email valide';
+      }
+    }
+
+    // Phone validation
+    if (field.type === 'tel' && field.value) {
+      const phoneRegex = /^[0-9+\s\-\(\)]+$/;
+      if (!phoneRegex.test(field.value)) {
+        isValid = false;
+        message = 'Veuillez entrer un numéro de téléphone valide';
+      }
+    }
+
+    // Min length validation
+    if (field.hasAttribute('minlength') && field.value.length < parseInt(field.getAttribute('minlength'))) {
+      isValid = false;
+      message = `Le message doit contenir au moins ${field.getAttribute('minlength')} caractères`;
+    }
+
+    // Show/hide error
+    if (!isValid) {
+      field.classList.add('error');
+      if (errorMessage) {
+        errorMessage.textContent = message;
+        errorMessage.classList.remove('hidden');
+      }
+    } else {
+      field.classList.remove('error');
+      if (errorMessage) {
+        errorMessage.classList.add('hidden');
+      }
+    }
+
+    return isValid;
+  }
+
+  // Add validation listeners
+  form?.querySelectorAll('input, textarea, select').forEach(field => {
+    field.addEventListener('blur', () => validateField(field));
+    field.addEventListener('input', () => {
+      if (field.classList.contains('error')) {
+        validateField(field);
+      }
+    });
+  });
+
+  // GDPR checkbox validation
+  const gdprCheckbox = document.getElementById('gdpr_consent');
+  const gdprError = document.getElementById('gdpr-error');
+
+  gdprCheckbox?.addEventListener('change', () => {
+    if (gdprCheckbox.checked) {
+      gdprError?.classList.add('hidden');
+    }
+  });
+
+  // Form submission
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Validate all fields
+    const fields = form.querySelectorAll('input:not([type="checkbox"]), textarea, select');
+    let isFormValid = true;
+
+    fields.forEach(field => {
+      if (!validateField(field)) {
+        isFormValid = false;
+      }
+    });
+
+    // Validate GDPR
+    if (!gdprCheckbox?.checked) {
+      isFormValid = false;
+      gdprError.textContent = 'Vous devez accepter l\'utilisation de vos données';
+      gdprError.classList.remove('hidden');
+    }
+
+    if (!isFormValid) {
+      return;
+    }
+
+    // Disable submit button and show loading state
+    submitButton.disabled = true;
+    submitText?.classList.add('hidden');
+    loadingText?.classList.remove('hidden');
+
+    // Hide previous messages
+    successMessage?.classList.add('hidden');
+    errorMessage?.classList.add('hidden');
+
+    // Collect form data
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
+
+    try {
+      // Send to n8n webhook - PLACEHOLDER
+      // Replace N8N_WEBHOOK_URL with your actual n8n webhook URL
+      const response = await fetch(N8N_WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        // Show success message
+        successMessage?.classList.remove('hidden');
+        form.reset();
+
+        // Scroll to success message
+        successMessage?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        throw new Error('Failed to submit form');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      errorMessage?.classList.remove('hidden');
+      errorMessage?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } finally {
+      // Re-enable submit button
+      submitButton.disabled = false;
+      submitText?.classList.remove('hidden');
+      loadingText?.classList.add('hidden');
+    }
+  });
+
+  // Retry button
+  retryButton?.addEventListener('click', () => {
+    errorMessage?.classList.add('hidden');
+    form?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+  });
+</script>

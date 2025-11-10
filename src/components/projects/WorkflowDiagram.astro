@@ -1,0 +1,244 @@
+---
+interface WorkflowStep {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  steps: WorkflowStep[];
+  variant?: 'green' | 'cyan' | 'purple';
+}
+
+const { steps = [], variant = 'green' } = Astro.props;
+
+const variantColors = {
+  green: {
+    color: 'text-cyan-500',
+    bg: 'bg-cyan-500',
+    border: 'border-cyan-500',
+    glow: 'rgba(34, 197, 94, 0.3)'
+  },
+  cyan: {
+    color: 'text-cyan-500',
+    bg: 'bg-cyan-500',
+    border: 'border-cyan-500',
+    glow: 'rgba(14, 165, 233, 0.3)'
+  },
+  purple: {
+    color: 'text-cyan-500',
+    bg: 'bg-cyan-500',
+    border: 'border-cyan-500',
+    glow: 'rgba(168, 85, 247, 0.3)'
+  }
+};
+
+const colors = variantColors[variant];
+
+// Icon path mapping
+const iconPaths: Record<string, string> = {
+  'capture': 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
+  'analysis': 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+  'automation': 'M13 10V3L4 14h7v7l9-11h-7z',
+  'integration': 'M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z',
+  'delivery': 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+  'notification': 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9',
+  'monitoring': 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'
+};
+---
+
+<div class="workflow-diagram" data-variant={variant}>
+  {steps.map((step, index) => (
+    <div class="workflow-step-container">
+      {/* Workflow Step */}
+      <div class={`workflow-step group ${index % 2 === 0 ? 'workflow-step-left' : 'workflow-step-right'}`}>
+        <div class="workflow-step-content">
+          {/* Icon */}
+          <div class={`workflow-icon ${colors.bg}/20 ${colors.border}/30`}>
+            <svg class={`w-6 h-6 ${colors.color}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d={iconPaths[step.icon] || iconPaths['automation']} />
+            </svg>
+          </div>
+
+          {/* Content */}
+          <div class="workflow-text">
+            <h3 class="workflow-title">{step.title}</h3>
+            <p class="workflow-description">{step.description}</p>
+          </div>
+
+          {/* Step Number */}
+          <div class={`workflow-number ${colors.color}`}>
+            <span class="font-mono font-bold">{(index + 1).toString().padStart(2, '0')}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Connector Line (not for last item) */}
+      {index < steps.length - 1 && (
+        <div class={`workflow-connector ${colors.bg}/30`}>
+          <div class={`workflow-pulse ${colors.bg}`}></div>
+        </div>
+      )}
+    </div>
+  ))}
+</div>
+
+<style define:vars={{ accentGlow: colors.glow }}>
+  .workflow-diagram {
+    position: relative;
+    padding: 2rem 0;
+  }
+
+  .workflow-step-container {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+
+  .workflow-step {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .workflow-step-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: hsl(var(--grey-20));
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0.75rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .workflow-step:hover .workflow-step-content {
+    transform: translateX(4px);
+    border-color: var(--accentGlow);
+    box-shadow: 0 4px 20px var(--accentGlow);
+  }
+
+  .workflow-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .workflow-step:hover .workflow-icon {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .workflow-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .workflow-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: hsl(var(--foreground));
+    margin-bottom: 0.25rem;
+    font-family: var(--font-mono);
+  }
+
+  .workflow-description {
+    font-size: 0.875rem;
+    color: hsl(var(--muted-foreground));
+    line-height: 1.5;
+  }
+
+  .workflow-number {
+    font-size: 1.5rem;
+    opacity: 0.3;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .workflow-step:hover .workflow-number {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+
+  /* Connector Line */
+  .workflow-connector {
+    position: relative;
+    width: 2px;
+    height: 2rem;
+    margin-left: 1.75rem;
+    margin-top: -0.5rem;
+    margin-bottom: -0.5rem;
+    background: linear-gradient(to bottom, transparent, var(--accentGlow), transparent);
+  }
+
+  .workflow-pulse {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: pulse-down 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-down {
+    0% {
+      top: 0;
+      opacity: 1;
+    }
+    100% {
+      top: 100%;
+      opacity: 0;
+    }
+  }
+
+  /* Alternating layout */
+  .workflow-step-left {
+    /* Default */
+  }
+
+  .workflow-step-right .workflow-step-content {
+    flex-direction: row-reverse;
+  }
+
+  .workflow-step-right:hover .workflow-step-content {
+    transform: translateX(-4px);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .workflow-step-content {
+      padding: 1rem;
+      gap: 0.75rem;
+    }
+
+    .workflow-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    .workflow-title {
+      font-size: 1rem;
+    }
+
+    .workflow-description {
+      font-size: 0.8125rem;
+    }
+
+    .workflow-number {
+      font-size: 1.25rem;
+    }
+
+    .workflow-step-right .workflow-step-content {
+      flex-direction: row;
+    }
+
+    .workflow-step-right:hover .workflow-step-content {
+      transform: translateX(4px);
+    }
+  }
+</style>

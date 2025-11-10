@@ -1,0 +1,72 @@
+---
+interface Technology {
+  name: string;
+  category: string;
+}
+
+interface Props {
+  title: string;
+  technologies: Technology[];
+  color?: 'cyan' | 'purple' | 'green';
+}
+
+const { title, technologies, color = 'cyan' } = Astro.props;
+
+const colorClasses = {
+  cyan: {
+    badge: 'border-cyan-500/30 hover:border-cyan-500 text-cyan-500',
+    bg: 'bg-cyan-500/10'
+  },
+  purple: {
+    badge: 'border-cyan-500/30 hover:border-cyan-500 text-cyan-500',
+    bg: 'bg-cyan-500/10'
+  },
+  green: {
+    badge: 'border-cyan-500/30 hover:border-cyan-500 text-cyan-500',
+    bg: 'bg-cyan-500/10'
+  }
+};
+
+const colors = colorClasses[color];
+---
+
+<section class="py-16 md:py-20 bg-background">
+  <div class="container-custom">
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground font-mono">
+        {title}
+      </h2>
+    </div>
+
+    <!-- Tech Grid -->
+    <div class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+      {technologies.map((tech, index) => (
+        <div
+          class={`tech-badge px-4 py-2 rounded-lg border ${colors.badge} ${colors.bg} backdrop-blur-sm font-mono text-sm font-medium transition-all duration-300 hover:scale-110 cursor-default`}
+          style={`animation-delay: ${index * 50}ms`}
+        >
+          {tech.name}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .tech-badge {
+    opacity: 0;
+    animation: fadeInScale 0.5s ease-out forwards;
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+</style>
