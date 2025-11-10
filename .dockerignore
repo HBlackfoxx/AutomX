@@ -1,0 +1,79 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Dependencies
+node_modules
+package-lock.json
+
+# Build output
+dist
+.astro
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+logs
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Testing
+coverage
+.nyc_output
+
+# Docs and specs
+*.md
+!README.md
+design-docs
+specs
+context
+DARK-MODE-MAPPING.md
+FILES-CREATED.md
+FINAL-SUMMARY.md
+HERO-ANIMATION-GUIDE.md
+HERO-CODE-REFERENCE.md
+HERO-IMPLEMENTATION-COMPLETE.md
+IMPLEMENTATION-STATUS.md
+PREMIUM-HERO-SUMMARY.md
+SERVICES-ARCHITECTURE.md
+STRUCTURE-RECOMMENDATIONS.md
+SEO-OUTREACH-STRATEGY.md
+COOLIFY-DEPLOYMENT.md
+
+# Images (design files, not final images)
+*.png
+*.jpg
+*.jpeg
+!public/**/*.png
+!public/**/*.jpg
+!public/**/*.jpeg
+
+# Project-specific
+.husky
+.specify
+.playwright-mcp
+.mcp.json
+analyze-lighthouse.cjs
+lighthouse-report.json
+lighthouse-report.html
+
+# Temporary files
+tmp
+temp
+*.tmp
